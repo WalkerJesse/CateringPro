@@ -5,6 +5,7 @@
     <RunCommand>dotnet</RunCommand>
     <RazorLangVersion>3.0</RazorLangVersion>
     <StartupObject></StartupObject>
+    <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
