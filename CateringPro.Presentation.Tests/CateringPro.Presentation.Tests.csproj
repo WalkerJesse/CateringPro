@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CateringPro.Presentation\CateringPro.Presentation.csproj" />
+  </ItemGroup>
+
 </Project>
