@@ -1,13 +1,17 @@
+using AutoMapper;
 using CateringPro.Application.Infrastructure.Pipeline;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Infrastructure.Persistence;
+using CateringPro.WebApi.Infrastructure.Configuration;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace CateringPro.WebApi
 {
@@ -19,7 +23,7 @@ namespace CateringPro.WebApi
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         #endregion Constructors
@@ -34,11 +38,17 @@ namespace CateringPro.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //this.ConfigureAppContextSettings(services);
+
+            //services.AddAuthenticationServices();
+            services.AddAutoMapperService();
+            services.AddCommonServices();
             services.AddControllers();
-            services.AddPersistenceContext();
-            services.AddMediatRAndPipelineBehaviour();
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddDomainServices();
+            services.AddMediatRAndPipelineBehaviours();
+            services.AddPersistenceContexts(this.Configuration);
+            services.AddPresentationControllers();
+            services.AddRequestValidationBehaviourServices();
             services.AddSwaggerServices();
         }
 
@@ -46,63 +56,115 @@ namespace CateringPro.WebApi
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(s =>
+                app.UseSwaggerUI(c =>
                 {
-                    s.SwaggerEndpoint("/swagger/v1/swagger.json", "CPAPI v1");
-                    s.RoutePrefix = string.Empty;
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OSCAPI V1");
+                    c.RoutePrefix = string.Empty;
                 });
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
+
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
                 endpoints.MapControllers();
             });
         }
 
         #endregion Methods
 
+        #region - - - - - - Service Registration - - - - - -
+
+        //private void ConfigureAppContextSettings(IServiceCollection services)
+        //{
+        //    services.Configure<DataStorageOptions>(this.Configuration.GetSection("DataStorageSettings"));
+        //}
+
+        #endregion Service Registration
+
     }
 
     internal static class IServiceCollectionExtensions
     {
 
-        #region - - - - - - Methods - - - - - -
+        //public static void AddAuthenticationServices(this IServiceCollection services)
+        //{
+        //    services.AddAuthentication(options =>
+        //    {
+        //        options.DefaultAuthenticateScheme = "Basic";
+        //        options.DefaultChallengeScheme = "Basic";
+        //    })
+        //    .AddScheme<BasicAuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", opts => { });
 
-        public static void AddPersistenceContext(this IServiceCollection services)
+        //    services.AddScoped<IAuthorisationHeaderParser, AuthorisationHeaderParser>();
+        //    services.AddScoped<IAuthorisationHeaderProvider, AuthorisationHeaderProvider>();
+        //}
+
+        public static void AddAutoMapperService(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IPersistenceContext), typeof(PersistenceContext));
+            services.AddAutoMapper(
+                cfg => { },
+                Assembly.GetExecutingAssembly(),
+                Application.Infrastructure.AssemblyUtility.GetAssembly()),
+                Presentation.AssemblyUtility.GetAssembly();
         }
 
-        public static void AddMediatRAndPipelineBehaviour(this IServiceCollection services)
+        public static void AddCommonServices(this IServiceCollection services)
         {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(BusinessRuleValidationBehaviour<,>));
+
+        }
+
+        public static void AddDomainServices(this IServiceCollection services)
+        {
+
+        }
+
+        public static void AddMediatRAndPipelineBehaviours(this IServiceCollection services)
+        {
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(BusinessRuleValidationBehaviour<,>));
             services.AddMediatR(
                 Application.Infrastructure.AssemblyUtility.GetAssembly(),
                 Presentation.AssemblyUtility.GetAssembly());
         }
 
-        public static void AddSwaggerServices(this IServiceCollection services)
+        public static void AddPersistenceContexts(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSwaggerGen(s =>
+            services.AddDbContext<IPersistenceContext, PersistenceContext>(options =>
             {
-                s.SwaggerDoc("v1", new OpenApiInfo { Title = "CPAPI", Version = "v1" });
+                var _DataStorageOptions = configuration.GetSection("DataStorageSettings").Get<DataStorageOptions>();
+                options.UseSqlite(_DataStorageOptions.DatabaseConnectionString);
             });
         }
 
-        #endregion Methods
+        public static void AddPresentationControllers(this IServiceCollection services)
+        {
+
+        }
+
+        public static void AddRequestValidationBehaviourServices(this IServiceCollection services)
+        {
+            services.Scan(scan =>
+            {
+                scan.FromAssemblies(Application.Infrastructure.AssemblyUtility.GetAssembly())
+                    .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
+                    .AsImplementedInterfaces()
+                    .WithTransientLifetime();
+            });
+        }
+
+        public static void AddSwaggerServices(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "OSCAPI", Version = "v1" });
+            });
+        }
 
     }
 
