@@ -6,7 +6,7 @@
 
         #region - - - - - - Properties - - - - - -
 
-        public long ID { get; set; }
+        public long IngredientID { get; set; }
 
         #endregion Properties
 
