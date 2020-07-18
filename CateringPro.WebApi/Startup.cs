@@ -110,8 +110,8 @@ namespace CateringPro.WebApi
             services.AddAutoMapper(
                 cfg => { },
                 Assembly.GetExecutingAssembly(),
-                Application.Infrastructure.AssemblyUtility.GetAssembly()),
-                Presentation.AssemblyUtility.GetAssembly();
+                Application.Infrastructure.AssemblyUtility.GetAssembly(),
+                Presentation.AssemblyUtility.GetAssembly());
         }
 
         public static void AddCommonServices(this IServiceCollection services)
