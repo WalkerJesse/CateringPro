@@ -23,7 +23,7 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
         public CreateIngredientInteractor(IMapper mapper, IPersistenceContext persistenceContext)
         {
-            this.m_Mapper = mapper;
+            this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
             this.m_PersistenceContext = persistenceContext ?? throw CodeContract.ArgumentNullException(nameof(persistenceContext));
         }
 
