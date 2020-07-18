@@ -11,7 +11,7 @@ using Xunit;
 namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients
 {
 
-    public class CreateIngredientsInteractorTests
+    public class CreateIngredientInteractorTests
     {
 
         #region - - - - - - Handle Tests - - - - - -
