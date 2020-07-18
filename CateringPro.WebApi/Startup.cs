@@ -1,3 +1,5 @@
+using CateringPro.Application.Infrastructure.Pipeline;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,12 +33,12 @@ namespace CateringPro.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMediatRAndPipelineBehaviour();
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSwaggerGen(s =>
-            {
-                s.SwaggerDoc("v1", new OpenApiInfo { Title = "CPAPI", Version = "v1" });
-            });
+            services.AddSwaggerServices();
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -65,6 +67,32 @@ namespace CateringPro.WebApi
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
                 endpoints.MapControllers();
+            });
+        }
+
+        #endregion Methods
+
+    }
+
+    internal static class IServiceCollectionExtensions
+    {
+
+        #region - - - - - - Methods - - - - - -
+
+        public static void AddMediatRAndPipelineBehaviour(this IServiceCollection services)
+        {
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(BusinessRuleValidationBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));
+            services.AddMediatR(
+                Application.Infrastructure.AssemblyUtility.GetAssembly(),
+                Presentation.AssemblyUtility.GetAssembly());
+        }
+
+        public static void AddSwaggerServices(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo { Title = "CPAPI", Version = "v1" });
             });
         }
 
