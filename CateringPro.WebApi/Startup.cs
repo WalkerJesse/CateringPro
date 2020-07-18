@@ -1,4 +1,6 @@
 using CateringPro.Application.Infrastructure.Pipeline;
+using CateringPro.Application.Services.Persistence;
+using CateringPro.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,12 +35,11 @@ namespace CateringPro.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddPersistenceContext();
             services.AddMediatRAndPipelineBehaviour();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSwaggerServices();
-
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -78,6 +79,11 @@ namespace CateringPro.WebApi
     {
 
         #region - - - - - - Methods - - - - - -
+
+        public static void AddPersistenceContext(this IServiceCollection services)
+        {
+            services.AddScoped(typeof(IPersistenceContext), typeof(PersistenceContext));
+        }
 
         public static void AddMediatRAndPipelineBehaviour(this IServiceCollection services)
         {
