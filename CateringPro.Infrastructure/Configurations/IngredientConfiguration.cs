@@ -20,7 +20,8 @@ namespace CateringPro.Infrastructure.Configurations
                 .ValueGeneratedOnAdd();
 
             entity.Property(e => e.MeasurementType)
-                .HasConversion(i => i.Value, dbval => dbval);
+                .HasConversion(i => i.Value, dbval => dbval)
+                .IsRequired();
 
             entity.Property(e => e.Name)
                 .IsRequired();

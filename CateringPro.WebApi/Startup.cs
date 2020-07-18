@@ -2,6 +2,7 @@ using AutoMapper;
 using CateringPro.Application.Infrastructure.Pipeline;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Infrastructure.Persistence;
+using CateringPro.Presentation.Controllers;
 using CateringPro.WebApi.Infrastructure.Configuration;
 using FluentValidation;
 using MediatR;
@@ -52,7 +53,7 @@ namespace CateringPro.WebApi
             services.AddSwaggerServices();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IPersistenceContext persistenceContext, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -74,6 +75,9 @@ namespace CateringPro.WebApi
             {
                 endpoints.MapControllers();
             });
+
+            var _PersistenceContext = (PersistenceContext)persistenceContext;
+            _PersistenceContext.Database.Migrate();
         }
 
         #endregion Methods
@@ -135,6 +139,7 @@ namespace CateringPro.WebApi
 
         public static void AddPersistenceContexts(this IServiceCollection services, IConfiguration configuration)
         {
+
             services.AddDbContext<IPersistenceContext, PersistenceContext>(options =>
             {
                 var _DataStorageOptions = configuration.GetSection("DataStorageSettings").Get<DataStorageOptions>();
@@ -144,7 +149,7 @@ namespace CateringPro.WebApi
 
         public static void AddPresentationControllers(this IServiceCollection services)
         {
-
+            services.AddScoped<IngredientController>();
         }
 
         public static void AddRequestValidationBehaviourServices(this IServiceCollection services)

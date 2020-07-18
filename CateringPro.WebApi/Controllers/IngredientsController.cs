@@ -37,7 +37,7 @@ namespace CateringPro.WebApi.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(CreateIngredientViewModel), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> CreateIngredient(CreateIngredientCommand command)
+        public async Task<ActionResult> CreateIngredient([FromBody] CreateIngredientCommand command)
             => this.Created(MISSING_GET_LOCATION, await this.m_IngredientController.CreateIngredientAsync(command, CancellationToken.None));
 
         #endregion Methods
