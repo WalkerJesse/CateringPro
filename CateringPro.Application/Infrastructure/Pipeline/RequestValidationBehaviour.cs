@@ -30,7 +30,7 @@ namespace CateringPro.Application.Infrastructure.Pipeline
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var _ValidationContext = new ValidationContext(request);
+            var _ValidationContext = new ValidationContext<TRequest>(request);
 
             var _Failures = this.m_Validators
                 .Select(v => v.Validate(_ValidationContext))

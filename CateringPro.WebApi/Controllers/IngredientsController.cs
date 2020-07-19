@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using CateringPro.Common.CodeContracts;
+﻿using CateringPro.Common.CodeContracts;
 using CateringPro.Presentation.Controllers;
 using CateringPro.Presentation.Models.Ingredients.CreateIngredient;
 using Microsoft.AspNetCore.Mvc;
@@ -18,16 +17,14 @@ namespace CateringPro.WebApi.Controllers
         private const string MISSING_GET_LOCATION = "";
 
         private readonly IngredientController m_IngredientController;
-        private readonly IMapper m_Mapper;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public IngredientsController(IngredientController ingredientController, IMapper mapper)
+        public IngredientsController(IngredientController ingredientController)
         {
             this.m_IngredientController = ingredientController ?? throw CodeContract.ArgumentNullException(nameof(ingredientController));
-            this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
         }
 
         #endregion Constructors

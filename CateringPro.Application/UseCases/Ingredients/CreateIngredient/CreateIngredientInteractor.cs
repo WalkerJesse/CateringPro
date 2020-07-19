@@ -36,6 +36,7 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
             var _Ingredient = this.m_Mapper.Map<Ingredient>(request);
 
             await this.m_PersistenceContext.AddAsync(_Ingredient, cancellationToken);
+            _ = await this.m_PersistenceContext.SaveChangesAsync(cancellationToken);
 
             return this.m_Mapper.Map<CreateIngredientResponse>(_Ingredient);
         }

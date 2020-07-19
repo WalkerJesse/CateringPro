@@ -39,8 +39,6 @@ namespace CateringPro.Presentation.Controllers
             var _Request = this.m_Mapper.Map<CreateIngredientRequest>(command);
             var _Response = await this.m_Mediator.Send(_Request, cancellationToken);
 
-            await this.m_PersistenceContext.SaveChangesAsync(cancellationToken);
-
             return this.m_Mapper.Map<CreateIngredientViewModel>(_Response);
         }
 

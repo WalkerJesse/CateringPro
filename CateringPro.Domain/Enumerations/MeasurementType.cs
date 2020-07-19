@@ -6,19 +6,19 @@
 
         #region - - - - - - Fields - - - - - -
 
-        public static readonly MeasurementType Gram = new WeightMeasurementType("g", 0);
+        public static readonly MeasurementType Gram = new WeightMeasurementType("Gram", 0);
 
-        public static readonly MeasurementType Kilogram = new WeightMeasurementType("kg", 1);
+        public static readonly MeasurementType Kilogram = new WeightMeasurementType("Kilogram", 1);
 
-        public static readonly MeasurementType Millilitre = new VolumeMeasurementType("mL", 2);
+        public static readonly MeasurementType Millilitre = new VolumeMeasurementType("Millilitre", 2);
 
-        public static readonly MeasurementType Litre = new VolumeMeasurementType("L", 3);
+        public static readonly MeasurementType Litre = new VolumeMeasurementType("Litre", 3);
 
         public static readonly MeasurementType Cup = new VolumeMeasurementType("Cup", 4);
 
-        public static readonly MeasurementType Teaspoon = new VolumeMeasurementType("tsp", 5);
+        public static readonly MeasurementType Teaspoon = new VolumeMeasurementType("Teaspoon", 5);
 
-        public static readonly MeasurementType Tablespoon = new VolumeMeasurementType("tbsp", 6);
+        public static readonly MeasurementType Tablespoon = new VolumeMeasurementType("Tablespoon", 6);
 
         public static readonly MeasurementType Item = new ItemMeasurementType("Item", 7);
 
@@ -55,7 +55,7 @@
 
             #region - - - - - - Methods - - - - - -
 
-            //TODO conversion here from x to weight
+            //TODO conversion here from x to Weight
 
             #endregion Methods
 
@@ -72,7 +72,7 @@
 
             #region - - - - - - Methods - - - - - -
 
-            //TODO conversion here from x to weight
+            //TODO conversion here from x to Volume
 
             #endregion Methods
 
