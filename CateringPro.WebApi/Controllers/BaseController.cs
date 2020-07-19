@@ -6,7 +6,7 @@ namespace CateringPro.WebApi.Controllers
 {
 
     [Produces(MediaTypeNames.Application.Json)]
-    [Route("api/[Cntroller]")]
+    [Route("api/[Controller]")]
     [TypeFilter(typeof(CustomExceptionFilterAttribute))]
     public class BaseController : ControllerBase
     {

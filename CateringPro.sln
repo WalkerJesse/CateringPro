@@ -27,9 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebUI.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebUI", "CateringPro.WebUI\CateringPro.WebUI.csproj", "{026BCB28-78C4-46C4-BF27-56ABC63E931F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CateringPro.WebApi", "CateringPro.WebApi\CateringPro.WebApi.csproj", "{1228A0A4-0DA6-454A-B20A-285BC098244D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebApi", "CateringPro.WebApi\CateringPro.WebApi.csproj", "{1228A0A4-0DA6-454A-B20A-285BC098244D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CateringPro.WebApi.Tests", "CateringPro.WebApi.Tests\CateringPro.WebApi.Tests.csproj", "{A5973CEC-3ECB-4B9F-BEA2-B7B45CE90DD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebApi.Tests", "CateringPro.WebApi.Tests\CateringPro.WebApi.Tests.csproj", "{A5973CEC-3ECB-4B9F-BEA2-B7B45CE90DD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
