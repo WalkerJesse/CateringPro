@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Exceptions;
 using CateringPro.Domain.Exceptions;
 using CateringPro.WebApi.Services;
 using FluentAssertions;
@@ -46,29 +45,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
         }
 
-        [Fact]
-        public void OnException_AggregateExceptionOfBusinessRuleViolationException_HandlesAsBusinessRuleViolationException()
-        {
-            // Arrange
-            var _Exception = new AggregateException(new BusinessRuleViolationException("Message"));
-            var _ExceptionContext = GetExceptionContext(_Exception);
-            var _ProblemDetails = new ValidationProblemDetails() { Detail = "Detail" };
-            var _Expected = new JsonResult(_ProblemDetails);
-
-            var _MockMapper = new Mock<IMapper>();
-            _MockMapper.Setup(mock => mock.Map<ValidationProblemDetails>(_Exception.InnerException)).Returns(_ProblemDetails);
-
-            var _Filter = new CustomExceptionFilterAttribute(_MockMapper.Object);
-
-            // Act
-            _Filter.OnException(_ExceptionContext);
-
-            // Assert
-            _MockMapper.Verify(mock => mock.Map<ValidationProblemDetails>(_Exception.InnerException));
-            _ExceptionContext.HttpContext.Response.ContentType.Should().Be("application/json");
-            _ExceptionContext.HttpContext.Response.StatusCode.Should().Be(400);
-            _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
-        }
 
         [Fact]
         public void OnException_HandleAutoMapperMappingExceptionWrappingInvalidEnumException_HandlesInvalidEnumException()
@@ -94,29 +70,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
         }
 
-        [Fact]
-        public void OnException_BusinessRuleViolationException_HandlesAsBusinessRuleViolationException()
-        {
-            // Arrange
-            var _Exception = new BusinessRuleViolationException("Message");
-            var _ExceptionContext = GetExceptionContext(_Exception);
-            var _ProblemDetails = new ValidationProblemDetails() { Detail = "Detail" };
-            var _Expected = new JsonResult(_ProblemDetails);
-
-            var _MockMapper = new Mock<IMapper>();
-            _MockMapper.Setup(mock => mock.Map<ValidationProblemDetails>(_Exception)).Returns(_ProblemDetails);
-
-            var _Filter = new CustomExceptionFilterAttribute(_MockMapper.Object);
-
-            // Act
-            _Filter.OnException(_ExceptionContext);
-
-            // Assert
-            _MockMapper.Verify(mock => mock.Map<ValidationProblemDetails>(_Exception));
-            _ExceptionContext.HttpContext.Response.ContentType.Should().Be("application/json");
-            _ExceptionContext.HttpContext.Response.StatusCode.Should().Be(400);
-            _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
-        }
 
         [Fact]
         public void OnException_InvalidEnumException_HandlesAsInvalidEnumException()
@@ -139,30 +92,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             _MockMapper.Verify(mock => mock.Map<ValidationProblemDetails>(_Exception));
             _ExceptionContext.HttpContext.Response.ContentType.Should().Be("application/json");
             _ExceptionContext.HttpContext.Response.StatusCode.Should().Be(400);
-            _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
-        }
-
-        [Fact]
-        public void OnException_NotFoundException_HandlesAsNotFoundException()
-        {
-            // Arrange
-            var _Exception = new NotFoundException("resourceName", "key");
-            var _ExceptionContext = GetExceptionContext(_Exception);
-            var _ProblemDetails = new ProblemDetails() { Detail = "Detail" };
-            var _Expected = new JsonResult(_ProblemDetails);
-
-            var _MockMapper = new Mock<IMapper>();
-            _MockMapper.Setup(mock => mock.Map<ProblemDetails>(_Exception)).Returns(_ProblemDetails);
-
-            var _Filter = new CustomExceptionFilterAttribute(_MockMapper.Object);
-
-            // Act
-            _Filter.OnException(_ExceptionContext);
-
-            // Assert
-            _MockMapper.Verify(mock => mock.Map<ProblemDetails>(_Exception));
-            _ExceptionContext.HttpContext.Response.ContentType.Should().Be("application/json");
-            _ExceptionContext.HttpContext.Response.StatusCode.Should().Be(404);
             _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
         }
 

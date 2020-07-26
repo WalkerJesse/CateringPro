@@ -1,6 +1,7 @@
-﻿using CateringPro.Common.CodeContracts;
-using CateringPro.Presentation.Controllers;
+﻿using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
+using CateringPro.Common.CodeContracts;
 using CateringPro.Presentation.Models.Ingredients.CreateIngredient;
+using CateringPro.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading;
@@ -14,17 +15,15 @@ namespace CateringPro.WebApi.Controllers
 
         #region - - - - - - Fields - - - - - -
 
-        private const string MISSING_GET_LOCATION = "";
-
-        private readonly IngredientController m_IngredientController;
+        private readonly ControllerAction m_ControllerAction;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public IngredientsController(IngredientController ingredientController)
+        public IngredientsController(ControllerAction controllerAction)
         {
-            this.m_IngredientController = ingredientController ?? throw CodeContract.ArgumentNullException(nameof(ingredientController));
+            this.m_ControllerAction = controllerAction ?? throw CodeContract.ArgumentNullException(nameof(controllerAction));
         }
 
         #endregion Constructors
@@ -32,10 +31,10 @@ namespace CateringPro.WebApi.Controllers
         #region - - - - - - Methods - - - - - -
 
         [HttpPost]
-        [ProducesResponseType(typeof(CreateIngredientViewModel), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(CreateIngredientViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult> CreateIngredient([FromBody] CreateIngredientCommand command)
-            => this.Created(MISSING_GET_LOCATION, await this.m_IngredientController.CreateIngredientAsync(command, CancellationToken.None));
+        public Task<IActionResult> CreateIngredient([FromBody] CreateIngredientCommand command)
+            => this.m_ControllerAction.CreateAsync<CreateIngredientViewModel, CreateIngredientRequest, CreateIngredientResponse>(command, CancellationToken.None);
 
         #endregion Methods
 

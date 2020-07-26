@@ -15,7 +15,8 @@ namespace CateringPro.Presentation.Models.Ingredients.CreateIngredient
             _ = this.CreateMap<CreateIngredientCommand, CreateIngredientRequest>()
                 .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType.ScreamingSnakeCaseToTitleCase(nameof(src.MeasurementType))));
 
-            _ = this.CreateMap<CreateIngredientResponse, CreateIngredientViewModel>();
+            _ = this.CreateMap<CreateIngredientResponse, CreateIngredientViewModel>()
+                .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType));
         }
 
         #endregion Constructors

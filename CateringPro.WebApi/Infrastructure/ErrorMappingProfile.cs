@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Exceptions;
 using CateringPro.Domain.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +17,7 @@ namespace CateringPro.WebApi.Infrastructure
         public ErrorMappingProfile()
         {
             this.AddAutoMapperMappingExceptionMapping();
-            this.AddBusinessRuleViolationExceptionMapping();
             this.AddInvalidEnumExceptionMapping();
-            this.AddNotFoundExceptionMapping();
             this.AddValidationExceptionMapping();
         }
 
@@ -37,7 +34,7 @@ namespace CateringPro.WebApi.Infrastructure
                     {
                         Status = (int)HttpStatusCode.BadRequest,
                         Title = "One or more validation errors occurred.",
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+                        Type = "https://httpstatuses.com/400"
                     };
 
                     if (amme.InnerException is JsonException jsonException)
@@ -45,24 +42,6 @@ namespace CateringPro.WebApi.Infrastructure
 
                     else
                         _Details.Errors.Add(amme.MemberMap.DestinationName, new string[] { amme.InnerException.Message });
-
-                    return _Details;
-                });
-        }
-
-        private void AddBusinessRuleViolationExceptionMapping()
-        {
-            this.CreateMap<BusinessRuleViolationException, ValidationProblemDetails>()
-                .ConvertUsing((brve, vpd) =>
-                {
-                    var _Details = new ValidationProblemDetails
-                    {
-                        Detail = brve.Message,
-                        Status = (int)HttpStatusCode.BadRequest,
-                        Title = brve.Message,
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-                    };
-                    _Details.Errors.Add(string.Empty, new string[] { brve.Message });
 
                     return _Details;
                 });
@@ -78,22 +57,10 @@ namespace CateringPro.WebApi.Infrastructure
                         Detail = iee.Message,
                         Status = (int)HttpStatusCode.BadRequest,
                         Title = iee.Message,
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+                        Type = "https://httpstatuses.com/400"
                     };
                     _Details.Errors.Add(string.Empty, new string[] { iee.Message });
                     return _Details;
-                });
-        }
-
-        private void AddNotFoundExceptionMapping()
-        {
-            this.CreateMap<NotFoundException, ProblemDetails>()
-                .ConvertUsing((nfe, pd) => new ProblemDetails
-                {
-                    Detail = nfe.Message,
-                    Status = (int)HttpStatusCode.NotFound,
-                    Title = nfe.Message,
-                    Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4"
                 });
         }
 
@@ -107,7 +74,7 @@ namespace CateringPro.WebApi.Infrastructure
                         Detail = ve.Message,
                         Status = (int)HttpStatusCode.BadRequest,
                         Title = ve.Message,
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
+                        Type = "https://httpstatuses.com/400"
                     };
 
                     foreach (var _ErrorsByProperty in ve.Errors.GroupBy(e => e.PropertyName))
