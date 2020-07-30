@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CateringPro.WebApi.Infrastructure;
+using CateringPro.WebApi.Infrastructure.Mappings;
 using Xunit;
 
-namespace CateringPro.WebApi.Tests.Unit.Infrastructure
+namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings
 {
 
-    public class ErrorMappingProfileTests
+    public class PresenterMappingProfileTests
     {
 
         #region - - - - - - Profile Configuration Tests - - - - - -

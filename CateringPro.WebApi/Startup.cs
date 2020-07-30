@@ -148,7 +148,7 @@ namespace CateringPro.WebApi
         }
 
         private static Assembly[] GetAssemblies()
-            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Infrastructure.AssemblyUtility.GetAssembly(), Presentation.AssemblyUtility.GetAssembly() };
+            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Infrastructure.AssemblyUtility.GetAssembly() };
 
     }
 

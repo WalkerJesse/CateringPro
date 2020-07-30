@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text.Json;
 
-namespace CateringPro.WebApi.Infrastructure
+namespace CateringPro.WebApi.Infrastructure.Mappings
 {
 
     public class ErrorMappingProfile : Profile

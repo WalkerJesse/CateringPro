@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
-using CateringPro.Presentation.Extensions;
+using CateringPro.WebApi.Extensions;
+using CateringPro.WebApi.Interface.Models.Ingredients.CreateIngredient;
 
-namespace CateringPro.Presentation.Models.Ingredients.CreateIngredient
+namespace CateringPro.WebApi.Infrastructure.Mappings
 {
 
     public class CreateIngredientProfile : Profile

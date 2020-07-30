@@ -22,7 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CateringPro.Presentation\CateringPro.Presentation.csproj" />
+    <ProjectReference Include="..\CateringPro.Presentation\CateringPro.WebApi.Interface.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Unit\Models\Ingredients\CreateIngredient\" />
   </ItemGroup>
 
 </Project>

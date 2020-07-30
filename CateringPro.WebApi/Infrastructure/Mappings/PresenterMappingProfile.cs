@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net;
 
-namespace CateringPro.WebApi.Infrastructure
+namespace CateringPro.WebApi.Infrastructure.Mappings
 {
 
     public class PresenterMappingProfile : Profile

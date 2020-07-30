@@ -1,6 +1,6 @@
 ﻿using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
 using CateringPro.Common.CodeContracts;
-using CateringPro.Presentation.Models.Ingredients.CreateIngredient;
+using CateringPro.WebApi.Interface.Models.Ingredients.CreateIngredient;
 using CateringPro.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

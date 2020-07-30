@@ -3,7 +3,7 @@ using FluentValidation.Results;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace CateringPro.Presentation.Extensions
+namespace CateringPro.WebApi.Extensions
 {
 
     public static class StringExtensions
