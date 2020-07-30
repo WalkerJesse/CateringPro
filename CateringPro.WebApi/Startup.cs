@@ -1,11 +1,9 @@
 using AutoMapper;
-using CateringPro.Application.Infrastructure.Pipeline;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Infrastructure.Persistence;
-using CateringPro.Presentation.Controllers;
 using CateringPro.WebApi.Infrastructure.Configuration;
+using CateringPro.WebApi.Services;
 using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -43,13 +41,10 @@ namespace CateringPro.WebApi
 
             //services.AddAuthenticationServices();
             services.AddAutoMapperService();
-            services.AddCommonServices();
             services.AddControllers();
-            services.AddDomainServices();
-            services.AddMediatRAndPipelineBehaviours();
-            services.AddPersistenceContexts(this.Configuration);
-            services.AddPresentationControllers();
+            services.AddPersistenceContext(this.Configuration);
             services.AddRequestValidationBehaviourServices();
+            services.AddServices();
             services.AddSwaggerServices();
         }
 
@@ -109,37 +104,23 @@ namespace CateringPro.WebApi
         //    services.AddScoped<IAuthorisationHeaderProvider, AuthorisationHeaderProvider>();
         //}
 
+        public static void AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<ControllerAction>();
+
+            services.Scan(s => s.FromAssemblies(GetAssemblies())
+                                .AddClasses()
+                                .AsImplementedInterfaces()
+                                .WithScopedLifetime());
+        }
+
         public static void AddAutoMapperService(this IServiceCollection services)
         {
-            services.AddAutoMapper(
-                cfg => { },
-                Assembly.GetExecutingAssembly(),
-                Application.Infrastructure.AssemblyUtility.GetAssembly(),
-                Presentation.AssemblyUtility.GetAssembly());
+            services.AddAutoMapper(GetAssemblies());
         }
 
-        public static void AddCommonServices(this IServiceCollection services)
+        public static void AddPersistenceContext(this IServiceCollection services, IConfiguration configuration)
         {
-
-        }
-
-        public static void AddDomainServices(this IServiceCollection services)
-        {
-
-        }
-
-        public static void AddMediatRAndPipelineBehaviours(this IServiceCollection services)
-        {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(BusinessRuleValidationBehaviour<,>));
-            services.AddMediatR(
-                Application.Infrastructure.AssemblyUtility.GetAssembly(),
-                Presentation.AssemblyUtility.GetAssembly());
-        }
-
-        public static void AddPersistenceContexts(this IServiceCollection services, IConfiguration configuration)
-        {
-
             services.AddDbContext<IPersistenceContext, PersistenceContext>(options =>
             {
                 var _DataStorageOptions = configuration.GetSection("DataStorageSettings").Get<DataStorageOptions>();
@@ -147,16 +128,11 @@ namespace CateringPro.WebApi
             });
         }
 
-        public static void AddPresentationControllers(this IServiceCollection services)
-        {
-            services.AddScoped<IngredientController>();
-        }
-
         public static void AddRequestValidationBehaviourServices(this IServiceCollection services)
         {
             services.Scan(scan =>
             {
-                scan.FromAssemblies(Application.Infrastructure.AssemblyUtility.GetAssembly())
+                scan.FromAssemblies(GetAssemblies())
                     .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
@@ -170,6 +146,9 @@ namespace CateringPro.WebApi
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "OSCAPI", Version = "v1" });
             });
         }
+
+        private static Assembly[] GetAssemblies()
+            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Infrastructure.AssemblyUtility.GetAssembly() };
 
     }
 

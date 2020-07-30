@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using CateringPro.Presentation.Models.Ingredients.CreateIngredient;
+using CateringPro.WebApi.Infrastructure.Mappings;
 using Xunit;
 
-namespace CateringPro.Presentation.Tests.Unit.Models.Ingredients.CreateIngredient
+namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings
 {
 
     public class CreateIngredientProfileTests

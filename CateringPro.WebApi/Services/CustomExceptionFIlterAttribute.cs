@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Exceptions;
 using CateringPro.Common.CodeContracts;
 using CateringPro.Domain.Exceptions;
 using FluentValidation;
@@ -41,9 +40,7 @@ namespace CateringPro.WebApi.Services
             {
                 case AggregateException agge: this.HandleAggregateException(agge, context); return;
                 case AutoMapperMappingException amme: this.HandleAutoMapperMappingException(amme, context); return;
-                case BusinessRuleViolationException brve: this.HandleBusinessRuleViolationException(brve, context); return;
                 case InvalidEnumException iee: this.HandleInvalidEnumException(iee, context); return;
-                case NotFoundException nfe: this.HandleNotFoundException(nfe, context); return;
                 case ValidationException ve: this.HandleValidationException(ve, context); return;
                 default: this.HandleUncaughtException(context); return;
             }
@@ -66,14 +63,8 @@ namespace CateringPro.WebApi.Services
         private void HandleAutoMapperMappingException(AutoMapperMappingException amme, ExceptionContext context)
             => this.OnException(amme.InnerException, context);
 
-        private void HandleBusinessRuleViolationException(BusinessRuleViolationException businessRuleViolationException, ExceptionContext context)
-            => SetResponseAsJsonContentReturn(this.m_Mapper.Map<ValidationProblemDetails>(businessRuleViolationException), HttpStatusCode.BadRequest, context);
-
         private void HandleInvalidEnumException(InvalidEnumException invalidEnumExceptionException, ExceptionContext context)
             => SetResponseAsJsonContentReturn(this.m_Mapper.Map<ValidationProblemDetails>(invalidEnumExceptionException), HttpStatusCode.BadRequest, context);
-
-        private void HandleNotFoundException(NotFoundException notFoundException, ExceptionContext context)
-            => SetResponseAsJsonContentReturn(this.m_Mapper.Map<ProblemDetails>(notFoundException), HttpStatusCode.NotFound, context);
 
         private void HandleUncaughtException(ExceptionContext context)
         {

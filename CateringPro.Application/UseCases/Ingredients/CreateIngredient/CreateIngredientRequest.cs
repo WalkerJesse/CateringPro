@@ -1,10 +1,10 @@
-﻿using CateringPro.Domain.Enumerations;
-using MediatR;
+﻿using CateringPro.Application.Services;
+using CateringPro.Domain.Enumerations;
 
 namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 {
 
-    public class CreateIngredientRequest : IRequest<CreateIngredientResponse>
+    public class CreateIngredientRequest : IUseCaseRequest<CreateIngredientResponse>
     {
 
         #region - - - - - - Properties - - - - - -

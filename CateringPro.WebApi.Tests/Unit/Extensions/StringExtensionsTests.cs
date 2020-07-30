@@ -1,9 +1,9 @@
-﻿using CateringPro.Presentation.Extensions;
+﻿using CateringPro.WebApi.Extensions;
 using FluentAssertions;
 using FluentValidation;
 using Xunit;
 
-namespace CateringPro.Presentation.Tests.Unit.Extensions
+namespace CateringPro.WebApi.Tests.Unit.Extensions
 {
 
     public class StringExtensionsTests

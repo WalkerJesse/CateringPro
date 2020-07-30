@@ -17,7 +17,9 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
                 .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Name));
 
             _ = this.CreateMap<Ingredient, CreateIngredientResponse>()
-                .ForMember(dest => dest.IngredientID, opts => opts.MapFrom(src => src.ID));
+                .ForMember(dest => dest.IngredientID, opts => opts.MapFrom(src => src.ID))
+                .ForMember(dest => dest.IngredientName, opts => opts.MapFrom(src => src.Name))
+                .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType));
         }
 
         #endregion Constructors
