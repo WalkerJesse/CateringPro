@@ -19,7 +19,7 @@ namespace CateringPro.WebUI
             _Builder.RootComponents.Add<App>("app");
 
             _Builder.Services.AddScoped<IngredientsApi>();
-            _Builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(_Builder.HostEnvironment.BaseAddress) });
+            _Builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/") });
 
             await _Builder.Build().RunAsync();
         }

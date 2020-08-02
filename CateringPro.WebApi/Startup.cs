@@ -42,6 +42,7 @@ namespace CateringPro.WebApi
             //services.AddAuthenticationServices();
             services.AddAutoMapperService();
             services.AddControllers();
+            services.AddCors();
             services.AddPersistenceContext(this.Configuration);
             services.AddRequestValidationBehaviourServices();
             services.AddServices();
@@ -64,6 +65,7 @@ namespace CateringPro.WebApi
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

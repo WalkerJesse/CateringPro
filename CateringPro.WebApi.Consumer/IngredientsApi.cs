@@ -33,7 +33,7 @@ namespace CateringPro.WebApi.Consumer
         public async Task<ApiResponse<CreateIngredientViewModel>> AddIngredientAsync(CreateIngredientCommand command, CancellationToken cancellationToken)
         {
             var _HttpContent = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json");
-            var _Response = await this.m_HttpClient.PostAsync("/api/Ingredients/", _HttpContent, cancellationToken);
+            var _Response = await this.m_HttpClient.PostAsync("api/Ingredients/", _HttpContent, cancellationToken);
             var _ResponseContent = await _Response.Content.ReadAsStringAsync();
 
             if (_Response.StatusCode == HttpStatusCode.BadRequest)
