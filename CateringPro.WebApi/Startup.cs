@@ -55,7 +55,7 @@ namespace CateringPro.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OSCAPI V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catering Pro V1");
                     c.RoutePrefix = string.Empty;
                 });
 
@@ -143,7 +143,7 @@ namespace CateringPro.WebApi
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "OSCAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Catering Pro", Version = "v1" });
             });
         }
 

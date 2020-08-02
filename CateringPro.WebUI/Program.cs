@@ -1,3 +1,4 @@
+using CateringPro.WebApi.Consumer;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,12 +15,13 @@ namespace CateringPro.WebUI
 
         public static async Task Main(string[] args)
         {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+            var _Builder = WebAssemblyHostBuilder.CreateDefault(args);
+            _Builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            _Builder.Services.AddScoped<IngredientsApi>();
+            _Builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(_Builder.HostEnvironment.BaseAddress) });
 
-            await builder.Build().RunAsync();
+            await _Builder.Build().RunAsync();
         }
 
         #endregion Methods
