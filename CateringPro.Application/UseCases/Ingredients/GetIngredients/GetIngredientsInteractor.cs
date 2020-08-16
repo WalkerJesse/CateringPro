@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Common.CodeContracts;
@@ -34,7 +35,10 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         public async Task HandleAsync(GetIngredientsRequest request, IPresenter<GetIngredientsResponse> presenter, CancellationToken cancellationToken)
         {
-            var _Ingredients = this.m_PersistenceContext.GetEntitiesAsync<Ingredient>().Result;
+            var _Ingredients = this.m_PersistenceContext
+                                .GetEntitiesAsync<Ingredient>()
+                                .Result
+                                .ProjectTo<IngredientDto>(this.m_Mapper.ConfigurationProvider);
 
             var _Response = this.m_Mapper.Map<GetIngredientsResponse>(_Ingredients.ToList());
 

@@ -1,4 +1,5 @@
 ﻿using CateringPro.WebApi.Interface.Ingredients.Commands;
+using CateringPro.WebApi.Interface.Ingredients.Queries;
 using CateringPro.WebApi.Interface.Ingredients.ViewModels;
 using Newtonsoft.Json;
 using System.Net;
@@ -40,6 +41,17 @@ namespace CateringPro.WebApi.Consumer
                 return new ApiResponse<IngredientViewModel>() { ValidationFailure = JsonConvert.DeserializeObject<ValidationFailureResponse>(_ResponseContent) };
 
             return new ApiResponse<IngredientViewModel>() { Response = JsonConvert.DeserializeObject<IngredientViewModel>(_ResponseContent) };
+        }
+
+        public async Task<ApiResponse<IngredientsViewModel>> GetIngredientsAsync(GetIngredientsQuery query, CancellationToken cancellationToken)
+        {
+            var _Response = await this.m_HttpClient.GetAsync("api/Ingredients/", cancellationToken);
+            var _ResponseContent = await _Response.Content.ReadAsStringAsync();
+
+            if (_Response.StatusCode == HttpStatusCode.BadRequest)
+                return new ApiResponse<IngredientsViewModel>() { ValidationFailure = JsonConvert.DeserializeObject<ValidationFailureResponse>(_ResponseContent) };
+
+            return new ApiResponse<IngredientsViewModel>() { Response = JsonConvert.DeserializeObject<IngredientsViewModel>(_ResponseContent) };
         }
 
         #endregion Methods

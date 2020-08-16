@@ -42,7 +42,7 @@ namespace CateringPro.WebApi.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IngredientsViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
-        public Task<IActionResult> GetIngredients([FromBody] GetIngredientsQuery query)
+        public Task<IActionResult> GetIngredients(GetIngredientsQuery query)
             => this.m_ControllerAction.ReadAsync<IngredientsViewModel, GetIngredientsRequest, GetIngredientsResponse>(query, CancellationToken.None);
 
         #endregion Methods
