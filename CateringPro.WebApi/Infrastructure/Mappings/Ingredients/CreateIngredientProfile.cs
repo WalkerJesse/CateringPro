@@ -4,7 +4,7 @@ using CateringPro.WebApi.Extensions;
 using CateringPro.WebApi.Interface.Ingredients.Commands;
 using CateringPro.WebApi.Interface.Ingredients.ViewModels;
 
-namespace CateringPro.WebApi.Infrastructure.Mappings
+namespace CateringPro.WebApi.Infrastructure.Mappings.Ingredients
 {
 
     public class CreateIngredientProfile : Profile
