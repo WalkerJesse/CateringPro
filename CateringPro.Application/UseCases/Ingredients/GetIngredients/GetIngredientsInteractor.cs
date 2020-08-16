@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Common.CodeContracts;
 using CateringPro.Domain.Entities;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,10 +37,11 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
         {
             var _Ingredients = this.m_PersistenceContext
                                 .GetEntitiesAsync<Ingredient>()
-                                .Result
-                                .ProjectTo<IngredientDto>(this.m_Mapper.ConfigurationProvider);
+                                .Result;
 
-            var _Response = this.m_Mapper.Map<GetIngredientsResponse>(_Ingredients.ToList());
+            var _IngredientDtos = this.m_Mapper.Map<List<IngredientDto>>(_Ingredients.ToList());
+
+            var _Response = this.m_Mapper.Map<GetIngredientsResponse>(_IngredientDtos.ToList());
 
             await presenter.PresentAsync(_Response, cancellationToken);
         }
