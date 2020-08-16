@@ -23,9 +23,9 @@ namespace CateringPro.WebApi.Consumer
 
         public string Detail { get; set; }
 
-        public IDictionary<string, string[]> Errors { get; }
+        public IDictionary<string, string[]> Errors { get; set; }
 
-        public IDictionary<string, object> Extensions { get; }
+        public IDictionary<string, object> Extensions { get; set; }
 
         public string Instance { get; set; }
 

@@ -7,7 +7,7 @@ namespace CateringPro.Application.Services.Persistence
 
     public interface IPersistenceContext
     {
-        Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class;
+        Task<TEntity> AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class;
 
         Task<IQueryable<TEntity>> GetEntitiesAsync<TEntity>() where TEntity : class;
 

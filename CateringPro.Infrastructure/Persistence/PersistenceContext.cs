@@ -12,16 +12,14 @@ namespace CateringPro.Infrastructure.Persistence
 
         #region - - - - - - Constructors - - - - - -
 
-        public PersistenceContext(DbContextOptions<PersistenceContext> options) : base(options)
-        {
-        }
+        public PersistenceContext(DbContextOptions<PersistenceContext> options) : base(options) { }
 
         #endregion Constructors
 
         #region - - - - - - IPersistenceContext Implementation - - - - - -
 
-        Task IPersistenceContext.AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class
-            => this.AddAsync(entity, cancellationToken).AsTask();
+        async Task<TEntity> IPersistenceContext.AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken)
+            => (await base.AddAsync(entity, cancellationToken)).Entity;
 
         public Task<IQueryable<TEntity>> GetEntitiesAsync<TEntity>() where TEntity : class
             => Task.FromResult(this.Set<TEntity>().AsQueryable());
