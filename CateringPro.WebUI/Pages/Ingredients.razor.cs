@@ -1,5 +1,6 @@
 ﻿using CateringPro.WebApi.Consumer;
-using CateringPro.WebApi.Interface.Models.Ingredients.CreateIngredient;
+using CateringPro.WebApi.Interface.Ingredients.Commands;
+using CateringPro.WebApi.Interface.Ingredients.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace CateringPro.WebUI.Pages
 
         private CreateIngredientCommand m_CreateIngredientCommand;
 
-        private CreateIngredientViewModel m_CreateIngredientViewModel;
+        private IngredientViewModel m_IngredientViewModel;
 
         #endregion Fields
 
@@ -41,7 +42,7 @@ namespace CateringPro.WebUI.Pages
             var _ApiResponse = await this.m_IngredientsApi.AddIngredientAsync(this.m_CreateIngredientCommand, CancellationToken.None);
             if (_ApiResponse.Response != null)
             {
-                this.m_CreateIngredientViewModel = _ApiResponse.Response;
+                this.m_IngredientViewModel = _ApiResponse.Response;
                 this.InitialiseCreateIngredientCommand();
             }
         }

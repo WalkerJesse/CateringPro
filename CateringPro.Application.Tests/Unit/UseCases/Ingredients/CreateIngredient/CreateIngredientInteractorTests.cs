@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients
+namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.CreateIngredient
 {
 
     public class CreateIngredientInteractorTests
@@ -23,7 +23,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients
             var _CancellationToken = new CancellationToken();
             var _Request = new CreateIngredientRequest();
             var _Response = new CreateIngredientResponse();
-            var _Ingredient = new Ingredient() { Name = "Ingredient" };
+            var _Ingredient = new Ingredient();
 
             var _MockMapper = new Mock<IMapper>();
             _MockMapper

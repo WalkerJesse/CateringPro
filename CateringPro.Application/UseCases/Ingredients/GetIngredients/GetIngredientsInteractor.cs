@@ -3,13 +3,15 @@ using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Common.CodeContracts;
 using CateringPro.Domain.Entities;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
+namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 {
 
-    public class CreateIngredientInteractor : IUseCaseInteractor<CreateIngredientRequest, CreateIngredientResponse>
+    public class GetIngredientsInteractor : IUseCaseInteractor<GetIngredientsRequest, GetIngredientsResponse>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -21,7 +23,7 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
         #region - - - - - - Constructors - - - - - -
 
-        public CreateIngredientInteractor(IMapper mapper, IPersistenceContext persistenceContext)
+        public GetIngredientsInteractor(IMapper mapper, IPersistenceContext persistenceContext)
         {
             this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
             this.m_PersistenceContext = persistenceContext ?? throw CodeContract.ArgumentNullException(nameof(persistenceContext));
@@ -31,13 +33,15 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
         #region - - - - - - IUseCaseInteractor Implementation - - - - - -
 
-        public async Task HandleAsync(CreateIngredientRequest request, IPresenter<CreateIngredientResponse> presenter, CancellationToken cancellationToken)
+        public async Task HandleAsync(GetIngredientsRequest request, IPresenter<GetIngredientsResponse> presenter, CancellationToken cancellationToken)
         {
-            var _Ingredient = this.m_Mapper.Map<Ingredient>(request);
+            var _Ingredients = this.m_PersistenceContext
+                                .GetEntitiesAsync<Ingredient>()
+                                .Result;
 
-            await this.m_PersistenceContext.AddAsync(_Ingredient, cancellationToken);
+            var _IngredientDtos = this.m_Mapper.Map<List<IngredientDto>>(_Ingredients.ToList());
 
-            var _Response = this.m_Mapper.Map<CreateIngredientResponse>(_Ingredient);
+            var _Response = this.m_Mapper.Map<GetIngredientsResponse>(_IngredientDtos.ToList());
 
             await presenter.PresentAsync(_Response, cancellationToken);
         }

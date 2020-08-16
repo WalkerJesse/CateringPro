@@ -1,6 +1,9 @@
 ﻿using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
+using CateringPro.Application.UseCases.Ingredients.GetIngredients;
 using CateringPro.Common.CodeContracts;
-using CateringPro.WebApi.Interface.Models.Ingredients.CreateIngredient;
+using CateringPro.WebApi.Interface.Ingredients.Commands;
+using CateringPro.WebApi.Interface.Ingredients.Queries;
+using CateringPro.WebApi.Interface.Ingredients.ViewModels;
 using CateringPro.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -31,10 +34,16 @@ namespace CateringPro.WebApi.Controllers
         #region - - - - - - Methods - - - - - -
 
         [HttpPost]
-        [ProducesResponseType(typeof(CreateIngredientViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IngredientViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public Task<IActionResult> CreateIngredient([FromBody] CreateIngredientCommand command)
-            => this.m_ControllerAction.CreateAsync<CreateIngredientViewModel, CreateIngredientRequest, CreateIngredientResponse>(command, CancellationToken.None);
+            => this.m_ControllerAction.CreateAsync<IngredientViewModel, CreateIngredientRequest, CreateIngredientResponse>(command, CancellationToken.None);
+
+        [HttpGet]
+        [ProducesResponseType(typeof(IngredientsViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public Task<IActionResult> GetIngredients(GetIngredientsQuery query)
+            => this.m_ControllerAction.ReadAsync<IngredientsViewModel, GetIngredientsRequest, GetIngredientsResponse>(query, CancellationToken.None);
 
         #endregion Methods
 

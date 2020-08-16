@@ -1,7 +1,10 @@
-﻿namespace CateringPro.WebApi.Interface.Models.Ingredients.CreateIngredient
+﻿namespace CateringPro.WebApi.Interface.Ingredients.ViewModels
 {
 
-    public class CreateIngredientViewModel
+    /// <summary>
+    /// The View Model to Create an Ingredient
+    /// </summary>
+    public class IngredientViewModel
     {
 
         #region - - - - - - Properties - - - - - -
