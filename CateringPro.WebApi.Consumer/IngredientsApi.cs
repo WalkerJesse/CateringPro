@@ -1,4 +1,5 @@
-﻿using CateringPro.WebApi.Interface.Models.Ingredients.CreateIngredient;
+﻿using CateringPro.WebApi.Interface.Ingredients.Commands;
+using CateringPro.WebApi.Interface.Ingredients.ViewModels;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
@@ -29,16 +30,16 @@ namespace CateringPro.WebApi.Consumer
 
         #region - - - - - - Methods - - - - - -
 
-        public async Task<ApiResponse<CreateIngredientViewModel>> AddIngredientAsync(CreateIngredientCommand command, CancellationToken cancellationToken)
+        public async Task<ApiResponse<IngredientViewModel>> AddIngredientAsync(CreateIngredientCommand command, CancellationToken cancellationToken)
         {
             var _HttpContent = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json");
             var _Response = await this.m_HttpClient.PostAsync("api/Ingredients/", _HttpContent, cancellationToken);
             var _ResponseContent = await _Response.Content.ReadAsStringAsync();
 
             if (_Response.StatusCode == HttpStatusCode.BadRequest)
-                return new ApiResponse<CreateIngredientViewModel>() { ValidationFailure = JsonConvert.DeserializeObject<ValidationFailureResponse>(_ResponseContent) };
+                return new ApiResponse<IngredientViewModel>() { ValidationFailure = JsonConvert.DeserializeObject<ValidationFailureResponse>(_ResponseContent) };
 
-            return new ApiResponse<CreateIngredientViewModel>() { Response = JsonConvert.DeserializeObject<CreateIngredientViewModel>(_ResponseContent) };
+            return new ApiResponse<IngredientViewModel>() { Response = JsonConvert.DeserializeObject<IngredientViewModel>(_ResponseContent) };
         }
 
         #endregion Methods

@@ -1,6 +1,9 @@
-﻿namespace CateringPro.WebApi.Interface.Models.Ingredients.CreateIngredient
+﻿namespace CateringPro.WebApi.Interface.Ingredients.Commands
 {
 
+    /// <summary>
+    /// The Command to create an Ingredient
+    /// </summary>
     public class CreateIngredientCommand
     {
 
