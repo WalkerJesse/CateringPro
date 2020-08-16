@@ -4,7 +4,7 @@ using CateringPro.Domain.Enumerations;
 using FluentValidation.TestHelper;
 using Xunit;
 
-namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients
+namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.CreateIngredient
 {
 
     public class CreateIngredientRequestValidatorTests

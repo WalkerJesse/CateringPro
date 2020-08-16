@@ -2,7 +2,7 @@
 using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
 using Xunit;
 
-namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients
+namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.CreateIngredient
 {
 
     public class CreateIngredientProfileTests

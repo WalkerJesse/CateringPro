@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients
+namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.CreateIngredient
 {
 
     public class CreateIngredientInteractorTests
