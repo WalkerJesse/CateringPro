@@ -27,7 +27,6 @@ namespace CateringPro.WebApi.Consumer
 
         #endregion Constructors
 
-
         #region - - - - - - Methods - - - - - -
 
         public async Task<ApiResponse<CreateIngredientViewModel>> AddIngredientAsync(CreateIngredientCommand command, CancellationToken cancellationToken)
