@@ -1,5 +1,6 @@
 ﻿using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
 using CateringPro.Application.UseCases.Ingredients.GetIngredients;
+using CateringPro.Application.UseCases.Ingredients.UpdateIngredient;
 using CateringPro.Common.CodeContracts;
 using CateringPro.WebApi.Interface.Ingredients.Commands;
 using CateringPro.WebApi.Interface.Ingredients.Queries;
@@ -44,6 +45,12 @@ namespace CateringPro.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public Task<IActionResult> GetIngredients(GetIngredientsQuery query)
             => this.m_ControllerAction.ReadAsync<IngredientsViewModel, GetIngredientsRequest, GetIngredientsResponse>(query, CancellationToken.None);
+
+        [HttpPost("/{IngredientID:long}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        public Task<IActionResult> UpdateIngredient([FromBody] UpdateIngredientCommand command, [FromRoute] long ingredientID)
+            => this.m_ControllerAction.UpdateAsync<UpdateIngredientRequest, UpdateIngredientResponse>(command, r => r.IngredientID = ingredientID, CancellationToken.None);
 
         #endregion Methods
 

@@ -10,11 +10,6 @@
         #region - - - - - - Properties - - - - - -
 
         /// <summary>
-        /// The ID the Ingredient
-        /// </summary>
-        public string IngredientID { get; set; }
-
-        /// <summary>
         /// The type of Measurement the Ingredient uses
         /// </summary>
         public string MeasurementType { get; set; }
