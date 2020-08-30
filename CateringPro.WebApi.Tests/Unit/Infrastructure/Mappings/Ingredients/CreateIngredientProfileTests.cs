@@ -14,13 +14,13 @@ namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings.Ingredients
         public void ErrorMappingProfile_ConfigurationValidation_Successful()
         {
             // Arrange
-            var configuration = new MapperConfiguration(cfg =>
+            var _Configuration = new MapperConfiguration(cfg =>
                 cfg.AddProfile<CreateIngredientProfile>());
 
             // Act
 
             // Assert
-            configuration.AssertConfigurationIsValid();
+            _Configuration.AssertConfigurationIsValid();
         }
 
         #endregion Profile Configuration Tests

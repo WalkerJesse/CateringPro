@@ -5,7 +5,7 @@ using Xunit;
 namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings.Ingredients
 {
 
-    public class GetIngredientsProfileTests
+    public class UpdateIngredientProfileTests
     {
 
         #region - - - - - - Profile Configuration Tests - - - - - -
@@ -15,7 +15,7 @@ namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings.Ingredients
         {
             // Arrange
             var _Configuration = new MapperConfiguration(cfg =>
-                cfg.AddProfile<GetIngredientsProfile>());
+                cfg.AddProfile<UpdateIngredientProfile>());
 
             // Act
 
