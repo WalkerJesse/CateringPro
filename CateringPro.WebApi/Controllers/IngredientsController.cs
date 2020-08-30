@@ -35,7 +35,7 @@ namespace CateringPro.WebApi.Controllers
         #region - - - - - - Methods - - - - - -
 
         [HttpPost]
-        [ProducesResponseType(typeof(IngredientViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IngredientViewModel), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public Task<IActionResult> CreateIngredient([FromBody] CreateIngredientCommand command)
             => this.m_ControllerAction.CreateAsync<IngredientViewModel, CreateIngredientRequest, CreateIngredientResponse>(command, CancellationToken.None);
@@ -46,9 +46,10 @@ namespace CateringPro.WebApi.Controllers
         public Task<IActionResult> GetIngredients(GetIngredientsQuery query)
             => this.m_ControllerAction.ReadAsync<IngredientsViewModel, GetIngredientsRequest, GetIngredientsResponse>(query, CancellationToken.None);
 
-        [HttpPost("/{IngredientID:long}")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [HttpPost("/{ingredientID:long}")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.NotFound)]
         public Task<IActionResult> UpdateIngredient([FromBody] UpdateIngredientCommand command, [FromRoute] long ingredientID)
             => this.m_ControllerAction.UpdateAsync<UpdateIngredientRequest, UpdateIngredientResponse>(command, r => r.IngredientID = ingredientID, CancellationToken.None);
 
