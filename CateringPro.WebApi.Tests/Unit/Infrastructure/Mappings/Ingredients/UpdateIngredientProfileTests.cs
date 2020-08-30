@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
+using CateringPro.WebApi.Infrastructure.Mappings.Ingredients;
 using Xunit;
 
-namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.CreateIngredient
+namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings.Ingredients
 {
 
-    public class CreateIngredientProfileTests
+    public class UpdateIngredientProfileTests
     {
 
         #region - - - - - - Profile Configuration Tests - - - - - -
@@ -15,7 +15,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.CreateIngredie
         {
             // Arrange
             var _Configuration = new MapperConfiguration(cfg =>
-                cfg.AddProfile<CreateIngredientProfile>());
+                cfg.AddProfile<UpdateIngredientProfile>());
 
             // Act
 
@@ -24,7 +24,6 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.CreateIngredie
         }
 
         #endregion Profile Configuration Tests
-
     }
 
 }

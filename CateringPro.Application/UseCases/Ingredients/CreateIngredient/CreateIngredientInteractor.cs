@@ -37,9 +37,7 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
             await this.m_PersistenceContext.AddAsync(_Ingredient, cancellationToken);
 
-            var _Response = this.m_Mapper.Map<CreateIngredientResponse>(_Ingredient);
-
-            await presenter.PresentAsync(_Response, cancellationToken);
+            await presenter.PresentAsync(this.m_Mapper.Map<CreateIngredientResponse>(_Ingredient), cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation

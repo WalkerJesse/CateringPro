@@ -6,10 +6,10 @@ using CateringPro.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
+namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 {
 
-    public class GetIngredientsInteractor : IUseCaseInteractor<GetIngredientsRequest, GetIngredientsResponse>
+    public class UpdateIngredientInteractor : IUseCaseInteractor<UpdateIngredientRequest, UpdateIngredientResponse>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -21,7 +21,7 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         #region - - - - - - Constructors - - - - - -
 
-        public GetIngredientsInteractor(IMapper mapper, IPersistenceContext persistenceContext)
+        public UpdateIngredientInteractor(IMapper mapper, IPersistenceContext persistenceContext)
         {
             this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
             this.m_PersistenceContext = persistenceContext ?? throw CodeContract.ArgumentNullException(nameof(persistenceContext));
@@ -31,13 +31,16 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         #region - - - - - - IUseCaseInteractor Implementation - - - - - -
 
-        public async Task HandleAsync(GetIngredientsRequest request, IPresenter<GetIngredientsResponse> presenter, CancellationToken cancellationToken)
+        public async Task HandleAsync(UpdateIngredientRequest request, IPresenter<UpdateIngredientResponse> presenter, CancellationToken cancellationToken)
         {
-            var _Ingredients = this.m_PersistenceContext
+            var _Ingredient = this.m_PersistenceContext
                                 .GetEntities<Ingredient>()
-                                .ProjectTo<IngredientDto>(this.m_Mapper.ConfigurationProvider);
+                                .FirstOrDefault(i => i.ID == request.IngredientID);
 
-            await presenter.PresentAsync(this.m_Mapper.Map<GetIngredientsResponse>(_Ingredients.ToList()), cancellationToken);
+            if (_Ingredient == null)
+                await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.IngredientID), request.IngredientID), cancellationToken);
+            else
+                await presenter.PresentAsync(this.m_Mapper.Map<UpdateIngredientResponse>(this.m_Mapper.Map(request, _Ingredient)), cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation

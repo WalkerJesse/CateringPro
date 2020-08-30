@@ -54,6 +54,18 @@ namespace CateringPro.WebApi.Consumer
             return new ApiResponse<IngredientsViewModel>() { Response = JsonConvert.DeserializeObject<IngredientsViewModel>(_ResponseContent) };
         }
 
+        public async Task<ApiResponse<object>> UpdateIngredientAsync(UpdateIngredientCommand command, long IngredientID, CancellationToken cancellationToken)
+        {
+            var _HttpContent = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json");
+            var _Response = await this.m_HttpClient.PostAsync($"/api/Ingredients/{IngredientID}", _HttpContent, cancellationToken);
+            var _ResponseContent = await _Response.Content.ReadAsStringAsync();
+
+            if (_Response.StatusCode == HttpStatusCode.BadRequest)
+                return new ApiResponse<object>() { ValidationFailure = JsonConvert.DeserializeObject<ValidationFailureResponse>(_ResponseContent) };
+
+            return new ApiResponse<object>();
+        }
+
         #endregion Methods
 
     }
