@@ -29,6 +29,9 @@ namespace CateringPro.Infrastructure.Persistence
         public IEntities<TEntity> GetEntities<TEntity>() where TEntity : class
             => new Entities<TEntity>(this.Set<TEntity>());
 
+        TEntity IPersistenceContext.Remove<TEntity>(TEntity entity)
+            => base.Remove(entity).Entity;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(PersistenceContext).Assembly);
