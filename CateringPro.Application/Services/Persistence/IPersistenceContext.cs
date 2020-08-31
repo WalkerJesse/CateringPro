@@ -14,19 +14,18 @@ namespace CateringPro.Application.Services.Persistence
 
         IEntities<TEntity> GetEntities<TEntity>() where TEntity : class;
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        TEntity Remove<TEntity>(TEntity entity) where TEntity : class;
 
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 
     public interface IEntities<TEntity>
     {
-
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
 
         IEntities<TDestinationEntity> ProjectTo<TDestinationEntity>(IConfigurationProvider configurationProvider);
 
         List<TEntity> ToList();
-
     }
 
 }

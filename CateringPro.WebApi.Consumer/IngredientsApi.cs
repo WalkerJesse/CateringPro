@@ -43,6 +43,17 @@ namespace CateringPro.WebApi.Consumer
             return new ApiResponse<IngredientViewModel>() { Response = JsonConvert.DeserializeObject<IngredientViewModel>(_ResponseContent) };
         }
 
+        public async Task<ApiResponse<object>> DeleteIngredientAsync(DeleteIngredientCommand command, long IngredientID, CancellationToken cancellationToken)
+        {
+            var _Response = await this.m_HttpClient.DeleteAsync($"/api/Ingredients/{IngredientID}", cancellationToken);
+            var _ResponseContent = await _Response.Content.ReadAsStringAsync();
+
+            if (_Response.StatusCode == HttpStatusCode.BadRequest)
+                return new ApiResponse<object>() { ValidationFailure = JsonConvert.DeserializeObject<ValidationFailureResponse>(_ResponseContent) };
+
+            return new ApiResponse<object>();
+        }
+
         public async Task<ApiResponse<IngredientsViewModel>> GetIngredientsAsync(GetIngredientsQuery query, CancellationToken cancellationToken)
         {
             var _Response = await this.m_HttpClient.GetAsync("api/Ingredients/", cancellationToken);
@@ -57,7 +68,7 @@ namespace CateringPro.WebApi.Consumer
         public async Task<ApiResponse<object>> UpdateIngredientAsync(UpdateIngredientCommand command, long IngredientID, CancellationToken cancellationToken)
         {
             var _HttpContent = new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json");
-            var _Response = await this.m_HttpClient.PostAsync($"/api/Ingredients/{IngredientID}", _HttpContent, cancellationToken);
+            var _Response = await this.m_HttpClient.PutAsync($"/api/Ingredients/{IngredientID}", _HttpContent, cancellationToken);
             var _ResponseContent = await _Response.Content.ReadAsStringAsync();
 
             if (_Response.StatusCode == HttpStatusCode.BadRequest)
