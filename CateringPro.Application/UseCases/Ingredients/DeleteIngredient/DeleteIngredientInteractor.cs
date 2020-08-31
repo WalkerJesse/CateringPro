@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 {
 
-    public class DeleteIngredientInteractor
+    public class DeleteIngredientInteractor : IUseCaseInteractor<DeleteIngredientRequest, DeleteIngredientResponse>
     {
         #region - - - - - - Fields - - - - - -
 

@@ -6,7 +6,6 @@
     /// </summary>
     public class DeleteIngredientCommand
     {
-
     }
 
 }
