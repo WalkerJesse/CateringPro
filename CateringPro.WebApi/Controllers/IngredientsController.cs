@@ -41,7 +41,6 @@ namespace CateringPro.WebApi.Controllers
         public Task<IActionResult> CreateIngredient([FromBody] CreateIngredientCommand command)
             => this.m_ControllerAction.CreateAsync<IngredientViewModel, CreateIngredientRequest, CreateIngredientResponse>(command, CancellationToken.None);
 
-
         [HttpDelete("/{ingredientID:long}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
