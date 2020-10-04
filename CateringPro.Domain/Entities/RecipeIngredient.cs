@@ -1,23 +1,25 @@
-﻿//using CateringPro.Domain.Enumerations;
+﻿using CateringPro.Domain.Enumerations;
 
-//namespace CateringPro.Domain.Entities
-//{
+namespace CateringPro.Domain.Entities
+{
 
-//    public class RecipeIngredient
-//    {
+    public class RecipeIngredient
+    {
 
-//        #region - - - - - - Properties - - - - - -
+        #region - - - - - - Properties - - - - - -
 
-//        public int Amount { get; set; }
+        public long ID { get; set; }
 
-//        public Ingredient Ingredient { get; set; }
+        public int Amount { get; set; }
 
-//        public MeasurementType MeasurementType { get; set; }
+        public Ingredient Ingredient { get; set; }
 
-//        public Recipe Recipe { get; set; }
+        public MeasurementType MeasurementType { get; set; }
 
-//        #endregion Properties
+        public Recipe Recipe { get; set; }
 
-//    }
+        #endregion Properties
 
-//}
+    }
+
+}
