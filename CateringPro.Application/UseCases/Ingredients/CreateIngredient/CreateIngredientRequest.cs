@@ -1,5 +1,4 @@
 ﻿using CateringPro.Application.Services;
-using CateringPro.Domain.Enumerations;
 
 namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 {
@@ -8,8 +7,6 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
     {
 
         #region - - - - - - Properties - - - - - -
-
-        public MeasurementType MeasurementType { get; set; }
 
         public string Name { get; set; }
 

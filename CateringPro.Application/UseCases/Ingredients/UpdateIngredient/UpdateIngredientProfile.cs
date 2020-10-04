@@ -6,6 +6,7 @@ namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 
     public class UpdateIngredientProfile : Profile
     {
+
         #region - - - - - - Constructors - - - - - -
 
         public UpdateIngredientProfile()
