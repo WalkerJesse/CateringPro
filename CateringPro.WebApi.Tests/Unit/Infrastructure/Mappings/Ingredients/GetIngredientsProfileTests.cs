@@ -11,17 +11,8 @@ namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings.Ingredients
         #region - - - - - - Profile Configuration Tests - - - - - -
 
         [Fact]
-        public void ErrorMappingProfile_ConfigurationValidation_Successful()
-        {
-            // Arrange
-            var _Configuration = new MapperConfiguration(cfg =>
-                cfg.AddProfile<GetIngredientsProfile>());
-
-            // Act
-
-            // Assert
-            _Configuration.AssertConfigurationIsValid();
-        }
+        public void GetIngredientsProfile_ConfigurationValidation_Successful()
+            => new MapperConfiguration(cfg => cfg.AddProfile<GetIngredientsProfile>()).AssertConfigurationIsValid();
 
         #endregion Profile Configuration Tests
     }
