@@ -1,6 +1,5 @@
 ﻿using CateringPro.Application.Tests.Support;
 using CateringPro.Application.UseCases.Ingredients.UpdateIngredient;
-using CateringPro.Domain.Enumerations;
 using FluentValidation.TestHelper;
 using Xunit;
 
@@ -11,12 +10,6 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
     {
 
         #region - - - - - - UpdateIngredientRequestValidator Tests - - - - - -
-
-        [Fact]
-        public void Validate_NullMeasurementType_ReturnsValidationError()
-        {
-            new UpdateIngredientRequestValidator().ShouldHaveValidationErrorFor(i => i.MeasurementType, (MeasurementType)null);
-        }
 
         [Theory]
         [InlineData(null)]

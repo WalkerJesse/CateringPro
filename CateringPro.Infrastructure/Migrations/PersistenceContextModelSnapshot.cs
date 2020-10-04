@@ -19,10 +19,6 @@ namespace CateringPro.Infrastructure.Migrations
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("IngredientID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MeasurementType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -32,6 +28,57 @@ namespace CateringPro.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Ingredient");
+                });
+
+            modelBuilder.Entity("CateringPro.Domain.Entities.Recipe", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Recipe");
+                });
+
+            modelBuilder.Entity("CateringPro.Domain.Entities.RecipeIngredient", b =>
+                {
+                    b.Property<long>("ID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("IngredientID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MeasurementType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("RecipeID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("RecipeIngredient");
+                });
+
+            modelBuilder.Entity("CateringPro.Domain.Entities.RecipeIngredient", b =>
+                {
+                    b.HasOne("CateringPro.Domain.Entities.Ingredient", "Ingredient")
+                        .WithMany()
+                        .HasForeignKey("ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CateringPro.Domain.Entities.Recipe", "Recipe")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

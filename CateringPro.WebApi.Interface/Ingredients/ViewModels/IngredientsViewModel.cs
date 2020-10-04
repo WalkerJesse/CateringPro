@@ -4,7 +4,7 @@ namespace CateringPro.WebApi.Interface.Ingredients.ViewModels
 {
 
     /// <summary>
-    /// The View Model to Get all Ingredients
+    /// The View Model of Ingredients
     /// </summary>
     public class IngredientsViewModel
     {

@@ -14,14 +14,7 @@ namespace CateringPro.Infrastructure.Configurations
         {
             entity.ToTable("Ingredient");
 
-            entity.HasKey(e => e.ID);
-            entity.Property(e => e.ID)
-                .HasColumnName("IngredientID")
-                .ValueGeneratedOnAdd();
-
-            entity.Property(e => e.MeasurementType)
-                .HasConversion(i => i.Value, dbval => dbval)
-                .IsRequired();
+            entity.Property(e => e.ID);
 
             entity.Property(e => e.Name)
                 .IsRequired();

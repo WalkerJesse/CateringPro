@@ -10,7 +10,6 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
         public CreateIngredientRequestValidator()
         {
-            _ = this.RuleFor(i => i.MeasurementType).NotEmpty();
             _ = this.RuleFor(i => i.Name).MaximumLength(100).NotEmpty();
         }
 

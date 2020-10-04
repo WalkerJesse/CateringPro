@@ -1,6 +1,5 @@
 ﻿using CateringPro.Application.Tests.Support;
 using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
-using CateringPro.Domain.Enumerations;
 using FluentValidation.TestHelper;
 using Xunit;
 
@@ -11,12 +10,6 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.CreateIngredie
     {
 
         #region - - - - - - CreateIngredientRequestValidator Tests - - - - - -
-
-        [Fact]
-        public void Validate_NullMeasurementType_ReturnsValidationError()
-        {
-            new CreateIngredientRequestValidator().ShouldHaveValidationErrorFor(i => i.MeasurementType, (MeasurementType)null);
-        }
 
         [Theory]
         [InlineData(null)]

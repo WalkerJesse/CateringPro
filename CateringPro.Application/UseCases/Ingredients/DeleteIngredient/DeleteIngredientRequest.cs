@@ -8,7 +8,7 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 
         #region - - - - - - Properties - - - - - -
 
-        public long IngredientID { get; set; }
+        public long ID { get; set; }
 
         #endregion Properties
 

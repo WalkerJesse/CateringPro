@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
-using CateringPro.WebApi.Extensions;
 using CateringPro.WebApi.Interface.Ingredients.Commands;
 using CateringPro.WebApi.Interface.Ingredients.ViewModels;
 
@@ -14,11 +13,11 @@ namespace CateringPro.WebApi.Infrastructure.Mappings.Ingredients
 
         public CreateIngredientProfile()
         {
-            _ = this.CreateMap<CreateIngredientCommand, CreateIngredientRequest>()
-                .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType.ScreamingSnakeCaseToTitleCase(nameof(src.MeasurementType))));
+            _ = this.CreateMap<CreateIngredientCommand, CreateIngredientRequest>();
 
             _ = this.CreateMap<CreateIngredientResponse, IngredientViewModel>()
-                .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType));
+                .ForMember(dest => dest.IngredientID, opts => opts.Ignore())
+                .ForMember(dest => dest.IngredientName, opts => opts.Ignore());
         }
 
         #endregion Constructors
