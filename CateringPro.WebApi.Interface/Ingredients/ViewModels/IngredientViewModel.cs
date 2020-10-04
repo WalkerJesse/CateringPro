@@ -2,7 +2,7 @@
 {
 
     /// <summary>
-    /// The View Model to Create an Ingredient
+    /// The View Model of an Ingredient
     /// </summary>
     public class IngredientViewModel
     {
@@ -10,12 +10,12 @@
         #region - - - - - - Properties - - - - - -
 
         /// <summary>
-        /// The ID of the created Ingredient
+        /// The ID of the Ingredient
         /// </summary>
         public long IngredientID { get; set; }
 
         /// <summary>
-        /// The Name of the created Ingredient
+        /// The Name of the Ingredient
         /// </summary>
         public string IngredientName { get; set; }
 
