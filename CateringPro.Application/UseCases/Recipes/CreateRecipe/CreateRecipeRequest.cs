@@ -1,7 +1,9 @@
-﻿namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
+﻿using CateringPro.Application.Services;
+
+namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
 {
 
-    public class CreateRecipeRequest
+    public class CreateRecipeRequest : IUseCaseRequest<CreateRecipeResponse>
     {
 
         #region - - - - - - Properties - - - - - -
