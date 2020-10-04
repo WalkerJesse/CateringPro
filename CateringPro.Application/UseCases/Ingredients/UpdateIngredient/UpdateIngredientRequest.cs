@@ -1,5 +1,4 @@
 ﻿using CateringPro.Application.Services;
-using CateringPro.Domain.Enumerations;
 
 namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 {
@@ -9,9 +8,7 @@ namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 
         #region - - - - - - Properties - - - - - -
 
-        public long IngredientID { get; set; }
-
-        public MeasurementType MeasurementType { get; set; }
+        public long ID { get; set; }
 
         public string Name { get; set; }
 

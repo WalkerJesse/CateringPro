@@ -41,7 +41,6 @@ namespace CateringPro.Infrastructure.Persistence
 
     }
 
-
     public class Entities<TEntity> : IEntities<TEntity>
     {
 

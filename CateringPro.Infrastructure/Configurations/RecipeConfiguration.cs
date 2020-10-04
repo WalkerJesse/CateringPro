@@ -5,19 +5,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace CateringPro.Infrastructure.Configurations
 {
 
-    public class IngredientConfiguration : IEntityTypeConfiguration<Ingredient>
+    public class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
     {
 
         #region - - - - - - IEntityTypeConfiguration Implementation - - - - - -
 
-        public void Configure(EntityTypeBuilder<Ingredient> entity)
+        public void Configure(EntityTypeBuilder<Recipe> entity)
         {
-            entity.ToTable("Ingredient");
+            entity.ToTable("Recipe");
 
             entity.Property(e => e.ID);
-
-            entity.Property(e => e.Name)
-                .IsRequired();
         }
 
         #endregion IEntityTypeConfiguration Implementation

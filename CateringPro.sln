@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.Infrastructure.Tests", "CateringPro.Infrastructure.Tests\CateringPro.Infrastructure.Tests.csproj", "{578DA835-6C8D-43F0-9680-E1C01642716C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebApi.Interface", "CateringPro.Presentation\CateringPro.WebApi.Interface.csproj", "{2B60CA01-FFBA-40B8-AFDD-E1B74763E1F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebApi.Interface", "CateringPro.WebApi.Interface\CateringPro.WebApi.Interface.csproj", "{2B60CA01-FFBA-40B8-AFDD-E1B74763E1F5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebUI.Tests", "CateringPro.WebUI.Tests\CateringPro.WebUI.Tests.csproj", "{7F6E48D1-7486-407D-A144-9F0799DD9F1F}"
 EndProject

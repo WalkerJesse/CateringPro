@@ -19,11 +19,6 @@
         /// </summary>
         public string IngredientName { get; set; }
 
-        /// <summary>
-        /// The Name of the created Ingredient
-        /// </summary>
-        public string MeasurementType { get; set; }
-
         #endregion Properties
 
     }

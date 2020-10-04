@@ -34,10 +34,10 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
         {
             var _Ingredient = this.m_PersistenceContext
                                 .GetEntities<Ingredient>()
-                                .FirstOrDefault(i => i.ID == request.IngredientID);
+                                .FirstOrDefault(i => i.ID == request.ID);
 
             if (_Ingredient == null)
-                await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.IngredientID), request.IngredientID), cancellationToken);
+                await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.ID), request.ID), cancellationToken);
             else
             {
                 this.m_PersistenceContext.Remove(_Ingredient);

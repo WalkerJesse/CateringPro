@@ -21,10 +21,6 @@ namespace CateringPro.Infrastructure.Migrations
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("IngredientID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("MeasurementType")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")

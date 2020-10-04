@@ -10,14 +10,13 @@ namespace CateringPro.Infrastructure.Migrations
                 name: "Ingredient",
                 columns: table => new
                 {
-                    IngredientID = table.Column<long>(nullable: false)
+                    ID = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    MeasurementType = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ingredient", x => x.IngredientID);
+                    table.PrimaryKey("PK_Ingredient", x => x.ID);
                 });
         }
 

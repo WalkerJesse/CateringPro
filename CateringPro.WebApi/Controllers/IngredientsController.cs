@@ -47,7 +47,7 @@ namespace CateringPro.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.NotFound)]
         public Task<IActionResult> DeleteIngredient([FromBody] DeleteIngredientCommand command, [FromRoute] long ingredientID)
-            => this.m_ControllerAction.UpdateAsync<DeleteIngredientRequest, DeleteIngredientResponse>(command, r => r.IngredientID = ingredientID, CancellationToken.None);
+            => this.m_ControllerAction.UpdateAsync<DeleteIngredientRequest, DeleteIngredientResponse>(command, r => r.ID = ingredientID, CancellationToken.None);
 
         [HttpGet]
         [ProducesResponseType(typeof(IngredientsViewModel), (int)HttpStatusCode.OK)]
@@ -60,7 +60,7 @@ namespace CateringPro.WebApi.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.NotFound)]
         public Task<IActionResult> UpdateIngredient([FromBody] UpdateIngredientCommand command, [FromRoute] long ingredientID)
-            => this.m_ControllerAction.UpdateAsync<UpdateIngredientRequest, UpdateIngredientResponse>(command, r => r.IngredientID = ingredientID, CancellationToken.None);
+            => this.m_ControllerAction.UpdateAsync<UpdateIngredientRequest, UpdateIngredientResponse>(command, r => r.ID = ingredientID, CancellationToken.None);
 
         #endregion Methods
 

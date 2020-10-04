@@ -41,7 +41,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
             await _IngredientsInteractor.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken);
 
             // Assert
-            _MockEntities.Verify(mock => mock.FirstOrDefault(i => i.ID == _Request.IngredientID), Times.Once);
+            _MockEntities.Verify(mock => mock.FirstOrDefault(i => i.ID == _Request.ID), Times.Once);
             _MockPersistenceContext.Verify(mock => mock.GetEntities<Ingredient>(), Times.Once);
             _MockPresenter.Verify(mock => mock.PresentNotFoundAsync(It.IsAny<EntityRequest>(), _CancellationToken), Times.Once);
             _MockEntities.VerifyNoOtherCalls();
@@ -85,7 +85,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
             await _IngredientsInteractor.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken);
 
             // Assert
-            _MockEntities.Verify(mock => mock.FirstOrDefault(i => i.ID == _Request.IngredientID), Times.Once);
+            _MockEntities.Verify(mock => mock.FirstOrDefault(i => i.ID == _Request.ID), Times.Once);
             _MockMapper.Verify(mock => mock.Map(_Request, _Ingredient), Times.Once);
             _MockMapper.Verify(mock => mock.Map<UpdateIngredientResponse>(_Ingredient), Times.Once);
             _MockPersistenceContext.Verify(mock => mock.GetEntities<Ingredient>(), Times.Once);

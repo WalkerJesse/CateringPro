@@ -13,13 +13,11 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
         {
             _ = this.CreateMap<CreateIngredientRequest, Ingredient>()
                 .ForMember(dest => dest.ID, opts => opts.Ignore())
-                .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType))
                 .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Name));
 
             _ = this.CreateMap<Ingredient, CreateIngredientResponse>()
                 .ForMember(dest => dest.IngredientID, opts => opts.MapFrom(src => src.ID))
-                .ForMember(dest => dest.IngredientName, opts => opts.MapFrom(src => src.Name))
-                .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType));
+                .ForMember(dest => dest.IngredientName, opts => opts.MapFrom(src => src.Name));
         }
 
         #endregion Constructors

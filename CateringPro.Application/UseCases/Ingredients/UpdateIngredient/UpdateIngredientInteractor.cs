@@ -35,10 +35,10 @@ namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
         {
             var _Ingredient = this.m_PersistenceContext
                                 .GetEntities<Ingredient>()
-                                .FirstOrDefault(i => i.ID == request.IngredientID);
+                                .FirstOrDefault(i => i.ID == request.ID);
 
             if (_Ingredient == null)
-                await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.IngredientID), request.IngredientID), cancellationToken);
+                await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.ID), request.ID), cancellationToken);
             else
                 await presenter.PresentAsync(this.m_Mapper.Map<UpdateIngredientResponse>(this.m_Mapper.Map(request, _Ingredient)), cancellationToken);
         }
