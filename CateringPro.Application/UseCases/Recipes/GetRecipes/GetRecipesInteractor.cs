@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
+namespace CateringPro.Application.UseCases.Recipes.GetRecipes
 {
 
-    public class GetIngredientsInteractor : IUseCaseInteractor<GetIngredientsRequest, GetIngredientsResponse>
+    public class GetRecipesInteractor : IUseCaseInteractor<GetRecipesRequest, GetRecipesResponse>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -22,7 +22,7 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         #region - - - - - - Constructors - - - - - -
 
-        public GetIngredientsInteractor(IMapper mapper, IPersistenceContext persistenceContext)
+        public GetRecipesInteractor(IMapper mapper, IPersistenceContext persistenceContext)
         {
             this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
             this.m_PersistenceContext = persistenceContext ?? throw CodeContract.ArgumentNullException(nameof(persistenceContext));
@@ -32,12 +32,12 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         #region - - - - - - IUseCaseInteractor Implementation - - - - - -
 
-        public async Task HandleAsync(GetIngredientsRequest request, IPresenter<GetIngredientsResponse> presenter, CancellationToken cancellationToken)
+        public async Task HandleAsync(GetRecipesRequest request, IPresenter<GetRecipesResponse> presenter, CancellationToken cancellationToken)
         {
-            var _Ingredients = await this.m_PersistenceContext
-                                .GetEntitiesAsync<Ingredient>();
+            var _Recipes = await this.m_PersistenceContext
+                                .GetEntitiesAsync<Recipe>();
 
-            await presenter.PresentAsync(this.m_Mapper.Map<GetIngredientsResponse>(this.m_Mapper.Map<List<IngredientDto>>(_Ingredients)), cancellationToken);
+            await presenter.PresentAsync(this.m_Mapper.Map<GetRecipesResponse>(this.m_Mapper.Map<List<RecipeDto>>(_Recipes)), cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation
