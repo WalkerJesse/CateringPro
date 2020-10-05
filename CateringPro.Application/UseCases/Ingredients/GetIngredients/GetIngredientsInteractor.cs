@@ -3,6 +3,7 @@ using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Common.CodeContracts;
 using CateringPro.Domain.Entities;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,11 +34,11 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         public async Task HandleAsync(GetIngredientsRequest request, IPresenter<GetIngredientsResponse> presenter, CancellationToken cancellationToken)
         {
-            var _Ingredients = this.m_PersistenceContext
-                                .GetEntities<Ingredient>()
-                                .ProjectTo<IngredientDto>(this.m_Mapper.ConfigurationProvider);
+            var _Ingredients = await this.m_PersistenceContext
+                                .GetEntitiesAsync<Ingredient>();
+            //.ProjectTo<IngredientDto>(this.m_Mapper.ConfigurationProvider);
 
-            await presenter.PresentAsync(this.m_Mapper.Map<GetIngredientsResponse>(_Ingredients.ToList()), cancellationToken);
+            await presenter.PresentAsync(this.m_Mapper.Map<GetIngredientsResponse>(this.m_Mapper.Map<List<IngredientDto>>(_Ingredients)), cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation
