@@ -21,13 +21,13 @@ namespace CateringPro.Infrastructure.Migrations
                     table.PrimaryKey("PK_RecipeIngredient", x => x.ID);
                     table.ForeignKey(
                         name: "FK_RecipeIngredient_Ingredient_ID",
-                        column: x => x.ID,
+                        column: x => x.IngredientID,
                         principalTable: "Ingredient",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RecipeIngredient_Recipe_ID",
-                        column: x => x.ID,
+                        column: x => x.RecipeID,
                         principalTable: "Recipe",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
