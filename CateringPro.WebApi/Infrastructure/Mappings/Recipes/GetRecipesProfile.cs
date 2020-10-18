@@ -13,11 +13,11 @@ namespace CateringPro.WebApi.Infrastructure.Mappings.Recipes
 
         public GetRecipesProfile()
         {
-            _ = this.CreateMap<RecipeDto, RecipeViewModel>();
-
             _ = this.CreateMap<GetRecipesQuery, GetRecipesRequest>();
 
             _ = this.CreateMap<GetRecipesResponse, RecipesViewModel>();
+
+            _ = this.CreateMap<RecipeDto, RecipeViewModel>();
         }
 
         #endregion Constructors

@@ -35,8 +35,6 @@ namespace CateringPro.Infrastructure.Persistence
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(PersistenceContext).Assembly);
         }
 
-
-
         #endregion IPersistenceContext Implementation
 
     }

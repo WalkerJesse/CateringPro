@@ -11,11 +11,11 @@ namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 
         public UpdateIngredientProfile()
         {
+            _ = this.CreateMap<Ingredient, UpdateIngredientResponse>();
+
             _ = this.CreateMap<UpdateIngredientRequest, Ingredient>()
                 .ForMember(dest => dest.ID, opts => opts.MapFrom(src => src.ID))
                 .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Name));
-
-            _ = this.CreateMap<Ingredient, UpdateIngredientResponse>();
         }
 
         #endregion Constructors

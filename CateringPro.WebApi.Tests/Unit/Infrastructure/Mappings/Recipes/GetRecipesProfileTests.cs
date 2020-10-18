@@ -15,6 +15,7 @@ namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings.Recipes
             => new MapperConfiguration(cfg => cfg.AddProfile<GetRecipesProfile>()).AssertConfigurationIsValid();
 
         #endregion Profile Configuration Tests
+
     }
 
 }

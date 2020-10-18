@@ -54,7 +54,6 @@ namespace CateringPro.WebApi.Consumer
             return new ApiResponse<RecipesViewModel>() { Response = JsonConvert.DeserializeObject<RecipesViewModel>(_ResponseContent) };
         }
 
-
         #endregion Methods
 
     }

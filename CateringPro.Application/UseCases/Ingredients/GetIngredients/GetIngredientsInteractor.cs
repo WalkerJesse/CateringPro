@@ -34,8 +34,7 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         public async Task HandleAsync(GetIngredientsRequest request, IPresenter<GetIngredientsResponse> presenter, CancellationToken cancellationToken)
         {
-            var _Ingredients = await this.m_PersistenceContext
-                                .GetEntitiesAsync<Ingredient>();
+            var _Ingredients = await this.m_PersistenceContext.GetEntitiesAsync<Ingredient>();
 
             await presenter.PresentAsync(this.m_Mapper.Map<GetIngredientsResponse>(this.m_Mapper.Map<List<IngredientDto>>(_Ingredients)), cancellationToken);
         }
