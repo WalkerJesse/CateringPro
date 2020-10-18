@@ -51,7 +51,6 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.CreateRecipe
             _Actual.Should().Be(_Expected);
             _MockPersistenceContext.Verify(mock => mock.FindAsync<Ingredient>(It.IsAny<object[]>(), _CancellationToken));
             _MockPersistenceContext.VerifyNoOtherCalls();
-
         }
 
         #endregion Resolve Tests
