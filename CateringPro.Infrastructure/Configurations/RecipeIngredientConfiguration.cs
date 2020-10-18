@@ -15,13 +15,13 @@ namespace CateringPro.Infrastructure.Configurations
 
             entity.Property(e => e.ID);
 
-            entity.Property(e => e.Amount)
+            entity.Property(e => e.Measurement)
                 .IsRequired();
 
             entity.Property<long>("IngredientID");
             entity.HasOne(e => e.Ingredient)
                 .WithMany()
-                .HasForeignKey("ID")
+                .HasForeignKey("IngredientID")
                 .IsRequired();
 
             entity.Property(e => e.MeasurementType)
@@ -31,7 +31,7 @@ namespace CateringPro.Infrastructure.Configurations
             entity.Property<long>("RecipeID");
             entity.HasOne(e => e.Recipe)
                 .WithMany(e => e.Ingredients)
-                .HasForeignKey("ID")
+                .HasForeignKey("RecipeID")
                 .IsRequired();
         }
 

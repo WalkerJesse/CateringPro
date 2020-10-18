@@ -1,4 +1,7 @@
-﻿namespace CateringPro.WebApi.Interface.Recipes.Commands
+﻿using CateringPro.WebApi.Interface.Recipes.ViewModels;
+using System.Collections.Generic;
+
+namespace CateringPro.WebApi.Interface.Recipes.Commands
 {
 
     /// <summary>
@@ -8,6 +11,11 @@
     {
 
         #region - - - - - - Properties - - - - - -
+
+        /// <summary>
+        /// A list of Ingredients to add to the Recipe
+        /// </summary>
+        public List<RecipeIngredientViewModel> Ingredients { get; set; }
 
         /// <summary>
         /// The Name of the Recipe

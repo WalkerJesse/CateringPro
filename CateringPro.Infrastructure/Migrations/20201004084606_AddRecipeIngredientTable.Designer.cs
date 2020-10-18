@@ -51,7 +51,7 @@ namespace CateringPro.Infrastructure.Migrations
                     b.Property<long>("ID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Amount")
+                    b.Property<int>("Measurement")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("IngredientID")
@@ -72,13 +72,13 @@ namespace CateringPro.Infrastructure.Migrations
                 {
                     b.HasOne("CateringPro.Domain.Entities.Ingredient", "Ingredient")
                         .WithMany()
-                        .HasForeignKey("ID")
+                        .HasForeignKey("IngredientID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CateringPro.Domain.Entities.Recipe", "Recipe")
                         .WithMany("Ingredients")
-                        .HasForeignKey("ID")
+                        .HasForeignKey("RecipeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

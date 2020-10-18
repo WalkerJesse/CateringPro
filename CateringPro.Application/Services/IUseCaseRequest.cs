@@ -3,6 +3,7 @@
 
     public interface IUseCaseRequest<TResponse>
     {
+
     }
 
 }

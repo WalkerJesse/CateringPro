@@ -10,7 +10,7 @@ namespace CateringPro.Domain.Entities
 
         public long ID { get; set; }
 
-        public int Amount { get; set; }
+        public int Measurement { get; set; }
 
         public Ingredient Ingredient { get; set; }
 

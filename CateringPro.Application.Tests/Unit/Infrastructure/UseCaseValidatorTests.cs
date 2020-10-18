@@ -29,18 +29,18 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
 
             var _MockValidator = new Mock<IValidator<TestUseCaseRequest>>();
             _MockValidator
-                .Setup(mock => mock.Validate(_Request))
-                .Returns(_ValidationResult);
+                .Setup(mock => mock.ValidateAsync(_Request, _CancellationToken))
+                .Returns(Task.FromResult(_ValidationResult));
 
-            var _MockPresenter = new Mock<IPresenter<TestUseCaseResponse>>();
+            var _MockPresenter = new Mock<IPresenter<object>>();
 
-            var _UseCaseValidator = new UseCaseValidator<TestUseCaseRequest, TestUseCaseResponse>(_MockValidator.Object);
+            var _UseCaseValidator = new UseCaseValidator<TestUseCaseRequest, object>(_MockValidator.Object);
 
             // Act
             await _UseCaseValidator.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken);
 
             // Assert
-            _MockValidator.Verify(mock => mock.Validate(_Request), Times.Once);
+            _MockValidator.Verify(mock => mock.ValidateAsync(_Request, _CancellationToken), Times.Once);
             _MockPresenter.Verify(mock => mock.PresentValidationFailureAsync(_ValidationResult, _CancellationToken), Times.Once);
             _MockValidator.VerifyNoOtherCalls();
             _MockPresenter.VerifyNoOtherCalls();
@@ -56,8 +56,8 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
 
             var _MockValidator = new Mock<IValidator<TestUseCaseRequest>>();
             _MockValidator
-                .Setup(mock => mock.Validate(_Request))
-                .Returns(_ValidationResult);
+                .Setup(mock => mock.ValidateAsync(_Request, _CancellationToken))
+                .Returns(Task.FromResult(_ValidationResult));
 
             var _MockPresenter = new Mock<IPresenter<TestUseCaseRequest>>();
 
@@ -67,7 +67,7 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
             await _UseCaseValidator.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken);
 
             // Assert
-            _MockValidator.Verify(mock => mock.Validate(_Request), Times.Once);
+            _MockValidator.Verify(mock => mock.ValidateAsync(_Request, _CancellationToken), Times.Once);
             _MockValidator.VerifyNoOtherCalls();
             _MockPresenter.VerifyNoOtherCalls();
         }
@@ -77,10 +77,6 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
         #region - - - - - - Support Classes - - - - - -
 
         public class TestUseCaseRequest : IUseCaseRequest<object>
-        {
-        }
-
-        public class TestUseCaseResponse
         {
         }
 
