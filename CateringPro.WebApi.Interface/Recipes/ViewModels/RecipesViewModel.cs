@@ -4,7 +4,7 @@ namespace CateringPro.WebApi.Interface.Recipes.ViewModels
 {
 
     /// <summary>
-    /// The View Model of Recipes
+    /// The View Model for Recipes
     /// </summary>
     public class RecipesViewModel
     {

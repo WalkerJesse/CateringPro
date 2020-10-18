@@ -2,7 +2,7 @@
 {
 
     /// <summary>
-    /// The View Model of an Ingredient
+    /// The View Model for an Ingredient
     /// </summary>
     public class IngredientViewModel
     {
