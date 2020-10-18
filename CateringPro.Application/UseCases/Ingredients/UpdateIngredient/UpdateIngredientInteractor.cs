@@ -33,9 +33,7 @@ namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 
         public async Task HandleAsync(UpdateIngredientRequest request, IPresenter<UpdateIngredientResponse> presenter, CancellationToken cancellationToken)
         {
-            var _Ingredient = this.m_PersistenceContext
-                                .GetEntities<Ingredient>()
-                                .FirstOrDefault(i => i.ID == request.ID);
+            var _Ingredient = await this.m_PersistenceContext.FindAsync<Ingredient>(new object[] { request.ID }, cancellationToken);
 
             if (_Ingredient == null)
                 await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.ID), request.ID), cancellationToken);

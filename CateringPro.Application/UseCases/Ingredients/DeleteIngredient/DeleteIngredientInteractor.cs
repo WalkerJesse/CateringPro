@@ -32,15 +32,13 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 
         public async Task HandleAsync(DeleteIngredientRequest request, IPresenter<DeleteIngredientResponse> presenter, CancellationToken cancellationToken)
         {
-            var _Ingredient = this.m_PersistenceContext
-                                .GetEntities<Ingredient>()
-                                .FirstOrDefault(i => i.ID == request.ID);
+            var _Ingredient = await this.m_PersistenceContext.FindAsync<Ingredient>(new object[] { request.ID }, cancellationToken);
 
             if (_Ingredient == null)
                 await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.ID), request.ID), cancellationToken);
             else
             {
-                this.m_PersistenceContext.Remove(_Ingredient);
+                await this.m_PersistenceContext.RemoveAsync(_Ingredient);
                 await presenter.PresentAsync(this.m_Mapper.Map<DeleteIngredientResponse>(_Ingredient), cancellationToken);
             }
         }

@@ -2,7 +2,7 @@
 {
 
     /// <summary>
-    /// The View Model of a Recipe
+    /// The View Model for a Recipe
     /// </summary>
     public class RecipeViewModel
     {
