@@ -1,5 +1,6 @@
 ﻿using CateringPro.Application.Services;
 using CateringPro.Common.CodeContracts;
+using FluentValidation;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,16 +28,26 @@ namespace CateringPro.Application.Infrastructure
 
         #region - - - - - - Methods - - - - - -
 
-        public Task InvokeUseCaseAsync<TRequest, TResponse>(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken) where TRequest : IUseCaseRequest<TResponse>
+        public async Task InvokeUseCaseAsync<TRequest, TResponse>(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken) where TRequest : IUseCaseRequest<TResponse>
         {
             var _UseCaseInteractor = this.m_ServiceProvider.GetService(typeof(IUseCaseInteractor<TRequest, TResponse>));
-            return ((IUseCaseInteractor<TRequest, TResponse>)_UseCaseInteractor).HandleAsync(request, presenter, cancellationToken);
+            await ((IUseCaseInteractor<TRequest, TResponse>)_UseCaseInteractor).HandleAsync(request, presenter, cancellationToken);
         }
 
-        public Task ValidateUseCaseAsync<TRequest, TResponse>(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken) where TRequest : IUseCaseRequest<TResponse>
+        public async Task ValidateUseCaseAsync<TRequest, TResponse>(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken) where TRequest : IUseCaseRequest<TResponse>
         {
+            if (this.m_ServiceProvider.GetService(typeof(IValidator<TRequest>)) == null)
+                return;
             var _UseCaseValidator = this.m_ServiceProvider.GetService(typeof(IUseCaseValidator<TRequest, TResponse>));
-            return ((IUseCaseValidator<TRequest, TResponse>)_UseCaseValidator).HandleAsync(request, presenter, cancellationToken);
+            await ((IUseCaseValidator<TRequest, TResponse>)_UseCaseValidator).HandleAsync(request, presenter, cancellationToken);
+        }
+
+        public async Task ValidateUseCaseBusinessRulesAsync<TRequest, TResponse>(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken) where TRequest : IUseCaseRequest<TResponse>
+        {
+            if (this.m_ServiceProvider.GetService(typeof(IBusinessRuleValidator<TRequest, TResponse>)) == null)
+                return;
+            var _UseCaseBusinessRuleValidator = this.m_ServiceProvider.GetService(typeof(IBusinessRuleValidator<TRequest, TResponse>));
+            await ((IBusinessRuleValidator<TRequest, TResponse>)_UseCaseBusinessRuleValidator).ValidateAsync(request, presenter, cancellationToken);
         }
 
         #endregion Methods

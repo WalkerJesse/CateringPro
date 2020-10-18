@@ -1,4 +1,5 @@
 using AutoMapper;
+using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Infrastructure.Persistence;
 using CateringPro.WebApi.Infrastructure.Configuration;
@@ -44,7 +45,7 @@ namespace CateringPro.WebApi
             services.AddControllers();
             services.AddCors();
             services.AddPersistenceContext(this.Configuration);
-            services.AddRequestValidationBehaviourServices();
+            services.AddValidationBehaviourServices();
             services.AddServices();
             services.AddSwaggerServices();
         }
@@ -106,20 +107,15 @@ namespace CateringPro.WebApi
         //    services.AddScoped<IAuthorisationHeaderProvider, AuthorisationHeaderProvider>();
         //}
 
-        public static void AddServices(this IServiceCollection services)
-        {
-            services.AddScoped<ControllerAction>();
-
-            services.Scan(s => s.FromAssemblies(GetAssemblies())
-                                .AddClasses()
-                                .AsImplementedInterfaces()
-                                .WithScopedLifetime());
-        }
+        #region - - - - - - IServiceCollectionExtension Methods - - - - - -
 
         public static void AddAutoMapperService(this IServiceCollection services)
         {
             services.AddAutoMapper(GetAssemblies());
         }
+
+        private static Assembly[] GetAssemblies()
+            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Infrastructure.AssemblyUtility.GetAssembly() };
 
         public static void AddPersistenceContext(this IServiceCollection services, IConfiguration configuration)
         {
@@ -130,8 +126,16 @@ namespace CateringPro.WebApi
             });
         }
 
-        public static void AddRequestValidationBehaviourServices(this IServiceCollection services)
+        public static void AddValidationBehaviourServices(this IServiceCollection services)
         {
+            services.Scan(scan =>
+            {
+                scan.FromAssemblies(GetAssemblies())
+                    .AddClasses(classes => classes.AssignableTo(typeof(IBusinessRuleValidator<,>)))
+                    .AsImplementedInterfaces()
+                    .WithTransientLifetime();
+            });
+
             services.Scan(scan =>
             {
                 scan.FromAssemblies(GetAssemblies())
@@ -139,6 +143,16 @@ namespace CateringPro.WebApi
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
             });
+        }
+
+        public static void AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<ControllerAction>();
+
+            services.Scan(s => s.FromAssemblies(GetAssemblies())
+                                .AddClasses()
+                                .AsImplementedInterfaces()
+                                .WithScopedLifetime());
         }
 
         public static void AddSwaggerServices(this IServiceCollection services)
@@ -149,8 +163,7 @@ namespace CateringPro.WebApi
             });
         }
 
-        private static Assembly[] GetAssemblies()
-            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Infrastructure.AssemblyUtility.GetAssembly() };
+        #endregion IServiceCollectionExtension Methods
 
     }
 

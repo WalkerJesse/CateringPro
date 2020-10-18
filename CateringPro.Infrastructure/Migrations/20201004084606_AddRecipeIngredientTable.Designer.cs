@@ -51,7 +51,7 @@ namespace CateringPro.Infrastructure.Migrations
                     b.Property<long>("ID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Amount")
+                    b.Property<int>("Measurement")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("IngredientID")

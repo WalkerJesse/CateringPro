@@ -39,7 +39,10 @@ namespace CateringPro.WebApi.Services
             var _Presenter = new CreateCommandPresenter<TUseCaseResponse, TViewModel>(this.m_Mapper);
             var _Request = this.m_Mapper.Map<TUseCaseRequest>(command);
 
-            await this.m_UseCaseInvoker.ValidateUseCaseAsync(_Request, _Presenter, cancellationToken);
+            await this.m_UseCaseInvoker.ValidateUseCaseBusinessRulesAsync(_Request, _Presenter, cancellationToken);
+
+            if (!_Presenter.ValidationError)
+                await this.m_UseCaseInvoker.ValidateUseCaseAsync(_Request, _Presenter, cancellationToken);
 
             if (!_Presenter.ValidationError)
                 await this.m_UseCaseInvoker.InvokeUseCaseAsync(_Request, _Presenter, cancellationToken);

@@ -15,7 +15,7 @@ namespace CateringPro.Infrastructure.Configurations
 
             entity.Property(e => e.ID);
 
-            entity.Property(e => e.Amount)
+            entity.Property(e => e.Measurement)
                 .IsRequired();
 
             entity.Property<long>("IngredientID");

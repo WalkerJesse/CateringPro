@@ -28,14 +28,12 @@ namespace CateringPro.Application.Infrastructure
 
         #region - - - - - - IUseCaseValidator Implementation - - - - - -
 
-        public Task HandleAsync(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken)
+        public async Task HandleAsync(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken)
         {
-            var _ValidationResult = this.m_RequestValidator.Validate(request);
+            var _RequestValidationResult = await this.m_RequestValidator.ValidateAsync(request, cancellationToken);
 
-            if (_ValidationResult.Errors.Any())
-                return presenter.PresentValidationFailureAsync(_ValidationResult, cancellationToken);
-
-            return Task.CompletedTask;
+            if (_RequestValidationResult.Errors.Any())
+                await presenter.PresentValidationFailureAsync(_RequestValidationResult, cancellationToken);
         }
 
         #endregion IUseCaseValidator Implementation
