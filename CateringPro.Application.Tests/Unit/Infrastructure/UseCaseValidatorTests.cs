@@ -32,9 +32,9 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
                 .Setup(mock => mock.ValidateAsync(_Request, _CancellationToken))
                 .Returns(Task.FromResult(_ValidationResult));
 
-            var _MockPresenter = new Mock<IPresenter<TestUseCaseResponse>>();
+            var _MockPresenter = new Mock<IPresenter<object>>();
 
-            var _UseCaseValidator = new UseCaseValidator<TestUseCaseRequest, TestUseCaseResponse>(_MockValidator.Object);
+            var _UseCaseValidator = new UseCaseValidator<TestUseCaseRequest, object>(_MockValidator.Object);
 
             // Act
             await _UseCaseValidator.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken);
@@ -77,10 +77,6 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
         #region - - - - - - Support Classes - - - - - -
 
         public class TestUseCaseRequest : IUseCaseRequest<object>
-        {
-        }
-
-        public class TestUseCaseResponse
         {
         }
 

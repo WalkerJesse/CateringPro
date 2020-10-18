@@ -30,12 +30,13 @@ namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
 
         public async Task ValidateAsync(CreateRecipeRequest request, IPresenter<CreateRecipeResponse> presenter, CancellationToken cancellationToken)
         {
-            foreach (var _IngredientDto in request.Ingredients)
-            {
-                var _Ingredient = await this.m_PersistenceContext.FindAsync<Ingredient>(new object[] { _IngredientDto.IngredientID }, CancellationToken.None);
-                if (_Ingredient == null)
-                    await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(_IngredientDto.IngredientID), _IngredientDto.IngredientID), cancellationToken);
-            }
+            if (request.Ingredients != null)
+                foreach (var _IngredientDto in request.Ingredients)
+                {
+                    var _Ingredient = await this.m_PersistenceContext.FindAsync<Ingredient>(new object[] { _IngredientDto.IngredientID }, CancellationToken.None);
+                    if (_Ingredient == null)
+                        await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(_IngredientDto.IngredientID), _IngredientDto.IngredientID), cancellationToken);
+                }
         }
 
         #endregion IBusinessRuleValidator Implementation
