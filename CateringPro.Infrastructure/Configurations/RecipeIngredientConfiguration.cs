@@ -22,6 +22,7 @@ namespace CateringPro.Infrastructure.Configurations
             entity.HasOne(e => e.Ingredient)
                 .WithMany()
                 .HasForeignKey("IngredientID")
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             entity.Property(e => e.MeasurementType)
