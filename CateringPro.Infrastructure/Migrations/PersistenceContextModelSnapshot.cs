@@ -71,7 +71,7 @@ namespace CateringPro.Infrastructure.Migrations
                     b.HasOne("CateringPro.Domain.Entities.Ingredient", "Ingredient")
                         .WithMany()
                         .HasForeignKey("IngredientID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CateringPro.Domain.Entities.Recipe", "Recipe")

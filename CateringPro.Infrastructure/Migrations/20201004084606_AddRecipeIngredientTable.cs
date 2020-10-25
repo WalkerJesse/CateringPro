@@ -24,7 +24,7 @@ namespace CateringPro.Infrastructure.Migrations
                         column: x => x.IngredientID,
                         principalTable: "Ingredient",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RecipeIngredient_Recipe_ID",
                         column: x => x.RecipeID,
