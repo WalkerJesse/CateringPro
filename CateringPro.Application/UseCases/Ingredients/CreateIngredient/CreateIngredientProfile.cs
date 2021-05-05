@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CateringPro.Domain.Entities;
+using System;
 
 namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 {
@@ -11,11 +12,13 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
         public CreateIngredientProfile()
         {
-            _ = this.CreateMap<Ingredient, CreateIngredientResponse>();
+            _ = this.CreateMap<Ingredient, CreateIngredientResponse>()
+                    .ForMember(dest => dest.IngredientID, opts => opts.MapFrom(src => new Func<long>(() => src.ID)))
+                    .ForMember(dest => dest.IngredientName, opts => opts.MapFrom(src => src.Name));
 
             _ = this.CreateMap<CreateIngredientRequest, Ingredient>()
-                .ForMember(dest => dest.ID, opts => opts.Ignore())
-                .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Name));
+                    .ForMember(dest => dest.ID, opts => opts.Ignore())
+                    .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Name));
         }
 
         #endregion Constructors

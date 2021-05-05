@@ -16,8 +16,7 @@ namespace CateringPro.WebApi.Infrastructure.Mappings.Ingredients
             _ = this.CreateMap<CreateIngredientCommand, CreateIngredientRequest>();
 
             _ = this.CreateMap<CreateIngredientResponse, IngredientViewModel>()
-                .ForMember(dest => dest.IngredientID, opts => opts.Ignore())
-                .ForMember(dest => dest.IngredientName, opts => opts.Ignore());
+                    .ForMember(dest => dest.IngredientID, opts => opts.MapFrom(src => src.IngredientID.Invoke()));
         }
 
         #endregion Constructors
