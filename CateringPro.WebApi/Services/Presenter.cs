@@ -3,6 +3,7 @@ using CateringPro.Application.Services;
 using CateringPro.Common.CodeContracts;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -69,9 +70,37 @@ namespace CateringPro.WebApi.Services
         public override Task PresentAsync(TResponse response, CancellationToken cancellationToken)
         {
             this.PresentedSuccessfully = true;
-            this.Result = new CreatedResult(string.Empty, this.m_Mapper.Map<TViewModel>(response));
+            this.Result = new LateCreatedResult<TViewModel>(string.Empty, () => this.m_Mapper.Map<TViewModel>(response));
             return Task.CompletedTask;
         }
+
+        #region - - - - - - Nested Classes - - - - - -
+
+        private class LateCreatedResult<TResult> : CreatedResult
+        {
+
+            #region - - - - - - Constructors - - - - - -
+
+            public LateCreatedResult(string location, Func<TResult> resultFunc) : base(location, resultFunc)
+            {
+            }
+
+            #endregion Constructors
+
+            #region - - - - - - Methods - - - - - -
+
+            public override Task ExecuteResultAsync(ActionContext context)
+            {
+                this.Value = ((Func<TResult>)this.Value).Invoke();
+
+                return base.ExecuteResultAsync(context);
+            }
+
+            #endregion Methods
+
+        }
+
+        #endregion Nested Classes
 
     }
 

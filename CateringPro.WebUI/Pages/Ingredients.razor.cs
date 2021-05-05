@@ -28,8 +28,9 @@ namespace CateringPro.WebUI.Pages
 
         #region - - - - - - ComponentBase Implementation - - - - - -
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
+            this.m_IngredientViewModel = new IngredientViewModel();
             this.InitialiseCreateIngredientCommand();
         }
 
@@ -37,13 +38,22 @@ namespace CateringPro.WebUI.Pages
 
         #region - - - - - - Methods - - - - - -
 
-        private async Task CreateNewIngredient()
+        private async Task CreateNewIngredientAsync()
         {
             var _ApiResponse = await this.m_IngredientsApi.AddIngredientAsync(this.m_CreateIngredientCommand, CancellationToken.None);
             if (_ApiResponse.Response != null)
             {
                 this.m_IngredientViewModel = _ApiResponse.Response;
                 this.InitialiseCreateIngredientCommand();
+            }
+        }
+
+        private async Task DeleteIngredientAsync()
+        {
+            var _ApiResponse = await this.m_IngredientsApi.DeleteIngredientAsync(new DeleteIngredientCommand(), this.m_IngredientViewModel.IngredientID, CancellationToken.None);
+            if (_ApiResponse.Response != null)
+            {
+                this.m_IngredientViewModel = new IngredientViewModel();
             }
         }
 
