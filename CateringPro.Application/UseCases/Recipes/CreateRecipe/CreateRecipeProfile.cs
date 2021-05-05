@@ -2,6 +2,7 @@
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Common.CodeContracts;
 using CateringPro.Domain.Entities;
+using System;
 using System.Threading;
 
 namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
@@ -19,7 +20,9 @@ namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
                     .ForMember(dest => dest.Ingredients, opts => opts.MapFrom(src => src.Ingredients))
                     .AfterMap((src, dest) => dest.Ingredients.ForEach(ri => ri.Recipe = dest));
 
-            _ = this.CreateMap<Recipe, CreateRecipeResponse>();
+            _ = this.CreateMap<Recipe, CreateRecipeResponse>()
+                    .ForMember(dest => dest.RecipeID, opts => opts.MapFrom(src => new Func<long>(() => src.ID)))
+                    .ForMember(dest => dest.RecipeName, opts => opts.MapFrom(src => src.Name));
 
             _ = this.CreateMap<RecipeIngredientDto, RecipeIngredient>()
                     .ForMember(dest => dest.ID, opts => opts.Ignore())
