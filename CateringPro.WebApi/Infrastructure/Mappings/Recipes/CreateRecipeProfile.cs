@@ -17,11 +17,10 @@ namespace CateringPro.WebApi.Infrastructure.Mappings.Recipes
             _ = this.CreateMap<CreateRecipeCommand, CreateRecipeRequest>();
 
             _ = this.CreateMap<CreateRecipeResponse, RecipeViewModel>()
-                .ForMember(dest => dest.RecipeID, opts => opts.Ignore())
-                .ForMember(dest => dest.RecipeName, opts => opts.Ignore());
+                    .ForMember(dest => dest.RecipeID, opts => opts.MapFrom(src => src.RecipeID.Invoke()));
 
             _ = this.CreateMap<RecipeIngredientViewModel, RecipeIngredientDto>()
-                .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType.ScreamingSnakeCaseToTitleCase(nameof(src.MeasurementType))));
+                    .ForMember(dest => dest.MeasurementType, opts => opts.MapFrom(src => src.MeasurementType.ScreamingSnakeCaseToTitleCase(nameof(src.MeasurementType))));
         }
 
         #endregion Constructors

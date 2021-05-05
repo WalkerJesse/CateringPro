@@ -11,6 +11,7 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 
     public class DeleteIngredientInteractor : IUseCaseInteractor<DeleteIngredientRequest, DeleteIngredientResponse>
     {
+
         #region - - - - - - Fields - - - - - -
 
         private readonly IMapper m_Mapper;
@@ -44,6 +45,7 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
         }
 
         #endregion IUseCaseInteractor Implementation
+
     }
 
 }
