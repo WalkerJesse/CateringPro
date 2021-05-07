@@ -3,15 +3,19 @@ using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Infrastructure.Persistence;
 using CateringPro.WebApi.Infrastructure.Configuration;
+using CateringPro.WebApi.Infrastructure.ModelBinding;
 using CateringPro.WebApi.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace CateringPro.WebApi
 {
@@ -41,8 +45,8 @@ namespace CateringPro.WebApi
             //this.ConfigureAppContextSettings(services);
 
             //services.AddAuthenticationServices();
+            services.AddApiControllers();
             services.AddAutoMapperService();
-            services.AddControllers();
             services.AddCors();
             services.AddPersistenceContext(this.Configuration);
             services.AddValidationBehaviourServices();
@@ -109,10 +113,18 @@ namespace CateringPro.WebApi
 
         #region - - - - - - IServiceCollectionExtension Methods - - - - - -
 
+        public static void AddApiControllers(this IServiceCollection services)
+            => services.AddControllers(options =>
+            {
+                options.ModelBinderProviders.Insert(0,
+                    new BodyAndRouteModelBinderProvider(
+                        options.ModelBinderProviders.OfType<BodyModelBinderProvider>().Single(),
+                        options.ModelBinderProviders.OfType<ComplexTypeModelBinderProvider>().Single())
+                        );
+            }).AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
         public static void AddAutoMapperService(this IServiceCollection services)
-        {
-            services.AddAutoMapper(GetAssemblies());
-        }
+            => services.AddAutoMapper(GetAssemblies());
 
         private static Assembly[] GetAssemblies()
             => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Infrastructure.AssemblyUtility.GetAssembly() };

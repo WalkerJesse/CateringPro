@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Net;
 
-namespace CateringPro.WebApi.Services
+namespace CateringPro.WebApi.Services.Attributes
 {
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
