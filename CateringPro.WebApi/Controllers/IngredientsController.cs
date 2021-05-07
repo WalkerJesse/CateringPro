@@ -7,6 +7,7 @@ using CateringPro.WebApi.Interface.Ingredients.Commands;
 using CateringPro.WebApi.Interface.Ingredients.Queries;
 using CateringPro.WebApi.Interface.Ingredients.ViewModels;
 using CateringPro.WebApi.Services;
+using CateringPro.WebApi.Services.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading;
@@ -45,8 +46,8 @@ namespace CateringPro.WebApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> DeleteIngredient([FromBody] DeleteIngredientCommand command, [FromRoute] long ingredientID)
-            => this.m_ControllerAction.UpdateAsync<DeleteIngredientRequest, DeleteIngredientResponse>(command, r => r.ID = ingredientID, CancellationToken.None);
+        public Task<IActionResult> DeleteIngredient([FromBodyAndRoute] DeleteIngredientCommand command)
+            => this.m_ControllerAction.UpdateAsync<DeleteIngredientRequest, DeleteIngredientResponse>(command, CancellationToken.None);
 
         [HttpGet]
         [ProducesResponseType(typeof(IngredientsViewModel), (int)HttpStatusCode.OK)]
@@ -58,8 +59,8 @@ namespace CateringPro.WebApi.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> UpdateIngredient([FromBody] UpdateIngredientCommand command, [FromRoute] long ingredientID)
-            => this.m_ControllerAction.UpdateAsync<UpdateIngredientRequest, UpdateIngredientResponse>(command, r => r.ID = ingredientID, CancellationToken.None);
+        public Task<IActionResult> UpdateIngredient([FromBodyAndRoute] UpdateIngredientCommand command)
+            => this.m_ControllerAction.UpdateAsync<UpdateIngredientRequest, UpdateIngredientResponse>(command, CancellationToken.None);
 
         #endregion Methods
 

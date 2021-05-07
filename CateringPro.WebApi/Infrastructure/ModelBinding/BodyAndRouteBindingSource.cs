@@ -14,7 +14,7 @@ namespace CateringPro.WebApi.Infrastructure.ModelBinding
 
         #region - - - - - - Constructors - - - - - -
 
-        public BodyAndRouteBindingSource(string id, string displayName, bool isGreedy, bool isFromRequest) : base(id, displayName, isGreedy, isFromRequest)
+        private BodyAndRouteBindingSource(string id, string displayName, bool isGreedy, bool isFromRequest) : base(id, displayName, isGreedy, isFromRequest)
         {
         }
 

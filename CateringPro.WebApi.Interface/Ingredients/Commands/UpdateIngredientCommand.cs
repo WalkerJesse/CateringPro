@@ -1,4 +1,6 @@
-﻿namespace CateringPro.WebApi.Interface.Ingredients.Commands
+﻿using System.Text.Json.Serialization;
+
+namespace CateringPro.WebApi.Interface.Ingredients.Commands
 {
 
     /// <summary>
@@ -8,6 +10,9 @@
     {
 
         #region - - - - - - Properties - - - - - -
+
+        [JsonIgnore]
+        public long IngredientID { get; set; }
 
         /// <summary>
         /// The Name of the Ingredient

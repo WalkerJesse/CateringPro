@@ -10,8 +10,8 @@ namespace CateringPro.WebApi.Infrastructure.ModelBinding
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly BodyModelBinderProvider m_BodyModelBinderProvider;
-        private readonly ComplexTypeModelBinderProvider m_ComplexTypeModelBinderProvider;
+        private BodyModelBinderProvider m_BodyModelBinderProvider;
+        private ComplexTypeModelBinderProvider m_ComplexTypeModelBinderProvider;
 
         #endregion Fields
 
@@ -34,7 +34,6 @@ namespace CateringPro.WebApi.Infrastructure.ModelBinding
 
             return null;
         }
-
 
         #endregion IModelBinderProvider Implementation
 

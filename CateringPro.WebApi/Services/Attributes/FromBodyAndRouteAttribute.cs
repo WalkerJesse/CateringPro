@@ -11,7 +11,7 @@ namespace CateringPro.WebApi.Services.Attributes
 
         #region - - - - - - Properties - - - - - -
 
-        public BindingSource BindingSource => BodyAndRouteBindingSource.BodyAndRoute;;
+        public BindingSource BindingSource => BodyAndRouteBindingSource.BodyAndRoute;
 
         #endregion Properties
 

@@ -1,4 +1,6 @@
-﻿namespace CateringPro.WebApi.Interface.Ingredients.Commands
+﻿using System.Text.Json.Serialization;
+
+namespace CateringPro.WebApi.Interface.Ingredients.Commands
 {
 
     /// <summary>
@@ -6,6 +8,13 @@
     /// </summary>
     public class DeleteIngredientCommand
     {
+
+        #region - - - - - - Properties - - - - - -
+
+        [JsonIgnore]
+        public long IngredientID { get; set; }
+
+        #endregion Properties
 
     }
 

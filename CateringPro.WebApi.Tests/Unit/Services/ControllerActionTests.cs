@@ -368,7 +368,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Command = "Command";
             var _Request = new GetUseCaseRequest();
             var _Result = new CreatedResult("", "Ok");
-            var _InvokedAction = false;
 
             var _MockMapper = new Mock<IMapper>();
             _MockMapper
@@ -391,11 +390,10 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Expected = new CreatedResult("", "Ok");
 
             // Act
-            var _Actual = await _ControllerAction.UpdateAsync<GetUseCaseRequest, GetUseCaseResponse>(_Command, r => _InvokedAction = true, _CancellationToken);
+            var _Actual = await _ControllerAction.UpdateAsync<GetUseCaseRequest, GetUseCaseResponse>(_Command, _CancellationToken);
 
             // Assert
             _Actual.Should().BeEquivalentTo(_Expected);
-            _InvokedAction.Should().BeTrue();
             _MockMapper.Verify(mock => mock.Map<GetUseCaseRequest>(_Command), Times.Once);
             _MockPersistenceContext.Verify(mock => mock.SaveChangesAsync(_CancellationToken), Times.Once);
             _MockUseCaseInvoker.Verify(mock => mock.InvokeUseCaseAsync(_Request, It.IsAny<IPresenter<GetUseCaseResponse>>(), _CancellationToken), Times.Once);
@@ -414,7 +412,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Command = "Command";
             var _Request = new GetUseCaseRequest();
             var _Result = new BadRequestObjectResult("Bad");
-            var _InvokedAction = false;
 
             var _MockMapper = new Mock<IMapper>();
             _MockMapper
@@ -438,11 +435,10 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Expected = new BadRequestObjectResult("Bad");
 
             // Act
-            var _Actual = await _ControllerAction.UpdateAsync<GetUseCaseRequest, GetUseCaseResponse>(_Command, r => _InvokedAction = true, _CancellationToken);
+            var _Actual = await _ControllerAction.UpdateAsync<GetUseCaseRequest, GetUseCaseResponse>(_Command, _CancellationToken);
 
             // Assert
             _Actual.Should().BeEquivalentTo(_Expected);
-            _InvokedAction.Should().BeTrue();
             _MockMapper.Verify(mock => mock.Map<GetUseCaseRequest>(_Command), Times.Once);
             _MockUseCaseInvoker.Verify(mock => mock.InvokeUseCaseAsync(_Request, It.IsAny<IPresenter<GetUseCaseResponse>>(), _CancellationToken), Times.Once);
             _MockUseCaseInvoker.Verify(mock => mock.ValidateUseCaseAsync(_Request, It.IsAny<IPresenter<GetUseCaseResponse>>(), _CancellationToken), Times.Once);
@@ -460,7 +456,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Command = "Command";
             var _Request = new GetUseCaseRequest();
             var _Result = new BadRequestObjectResult("Bad");
-            var _InvokedAction = false;
 
             var _MockMapper = new Mock<IMapper>();
             _MockMapper
@@ -484,11 +479,10 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Expected = new BadRequestObjectResult("Bad");
 
             // Act
-            var _Actual = await _ControllerAction.UpdateAsync<GetUseCaseRequest, GetUseCaseResponse>(_Command, r => _InvokedAction = true, _CancellationToken);
+            var _Actual = await _ControllerAction.UpdateAsync<GetUseCaseRequest, GetUseCaseResponse>(_Command, _CancellationToken);
 
             // Assert
             _Actual.Should().BeEquivalentTo(_Expected);
-            _InvokedAction.Should().BeTrue();
             _MockMapper.Verify(mock => mock.Map<GetUseCaseRequest>(_Command), Times.Once);
             _MockUseCaseInvoker.Verify(mock => mock.ValidateUseCaseAsync(_Request, It.IsAny<IPresenter<GetUseCaseResponse>>(), _CancellationToken), Times.Once);
             _MockUseCaseInvoker.Verify(mock => mock.ValidateUseCaseBusinessRulesAsync(_Request, It.IsAny<IPresenter<GetUseCaseResponse>>(), _CancellationToken), Times.Once);
@@ -498,14 +492,13 @@ namespace CateringPro.WebApi.Tests.Unit.Services
         }
 
         [Fact]
-        public async Task UpdateAsync_BusinessRuleValidatorContainsErrors_DoesNotInvokeUseCaseAndDoesNotValidateAndDoesNotSaveChanges()
+        public async Task UpdateAsync_BusinessRuleValidatorContainsErrors_DoesNotValidateAndDoesNotSaveChanges()
         {
             // Arrange
             var _CancellationToken = new CancellationToken();
             var _Command = "Command";
             var _Request = new GetUseCaseRequest();
             var _Result = new BadRequestObjectResult("Bad");
-            var _InvokedAction = false;
 
             var _MockMapper = new Mock<IMapper>();
             _MockMapper
@@ -529,11 +522,10 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Expected = new BadRequestObjectResult("Bad");
 
             // Act
-            var _Actual = await _ControllerAction.UpdateAsync<GetUseCaseRequest, GetUseCaseResponse>(_Command, r => _InvokedAction = true, _CancellationToken);
+            var _Actual = await _ControllerAction.UpdateAsync<GetUseCaseRequest, GetUseCaseResponse>(_Command, _CancellationToken);
 
             // Assert
             _Actual.Should().BeEquivalentTo(_Expected);
-            _InvokedAction.Should().BeTrue();
             _MockMapper.Verify(mock => mock.Map<GetUseCaseRequest>(_Command), Times.Once);
             _MockUseCaseInvoker.Verify(mock => mock.ValidateUseCaseBusinessRulesAsync(_Request, It.IsAny<IPresenter<GetUseCaseResponse>>(), _CancellationToken), Times.Once);
             _MockMapper.VerifyNoOtherCalls();

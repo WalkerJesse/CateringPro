@@ -115,9 +115,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _ViewModel = "ViewModel";
 
             var _MockMapper = new Mock<IMapper>();
-            _MockMapper
-                .Setup(mock => mock.Map<string>(_Response))
-                .Returns(_ViewModel);
 
             var _Presenter = new CreateCommandPresenter<string, string>(_MockMapper.Object);
 
@@ -132,7 +129,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
 
             // Assert
             _Presenter.Should().BeEquivalentTo(_Expected);
-            _MockMapper.Verify(mock => mock.Map<string>(_Response), Times.Once);
             _MockMapper.VerifyNoOtherCalls();
         }
 

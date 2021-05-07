@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CateringPro.Domain.Exceptions;
-using CateringPro.WebApi.Services;
+using CateringPro.WebApi.Services.Attributes;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;

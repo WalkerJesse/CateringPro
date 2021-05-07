@@ -3,7 +3,6 @@ using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Common.CodeContracts;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -69,12 +68,10 @@ namespace CateringPro.WebApi.Services
             return _Presenter.Result;
         }
 
-        public async Task<IActionResult> UpdateAsync<TUseCaseRequest, TUseCaseResponse>(object command, Action<TUseCaseRequest> assignKeyAction, CancellationToken cancellationToken) where TUseCaseRequest : IUseCaseRequest<TUseCaseResponse>
+        public async Task<IActionResult> UpdateAsync<TUseCaseRequest, TUseCaseResponse>(object command, CancellationToken cancellationToken) where TUseCaseRequest : IUseCaseRequest<TUseCaseResponse>
         {
             var _Presenter = new UpdateCommandPresenter<TUseCaseResponse>(this.m_Mapper);
             var _Request = this.m_Mapper.Map<TUseCaseRequest>(command);
-
-            assignKeyAction.Invoke(_Request);
 
             await this.m_UseCaseInvoker.ValidateUseCaseBusinessRulesAsync(_Request, _Presenter, cancellationToken);
 

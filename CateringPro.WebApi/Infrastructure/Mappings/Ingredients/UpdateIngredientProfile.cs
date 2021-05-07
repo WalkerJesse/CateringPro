@@ -13,7 +13,7 @@ namespace CateringPro.WebApi.Infrastructure.Mappings.Ingredients
         public UpdateIngredientProfile()
         {
             _ = this.CreateMap<UpdateIngredientCommand, UpdateIngredientRequest>()
-                    .ForMember(dest => dest.ID, opts => opts.Ignore());
+                    .ForMember(dest => dest.ID, opts => opts.MapFrom(src => src.IngredientID));
         }
 
         #endregion Constructors
