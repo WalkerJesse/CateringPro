@@ -34,8 +34,6 @@ namespace CateringPro.WebApi.Services
 
         public IActionResult Result { get; set; }
 
-        public bool ValidationError { get; set; }
-
         #endregion Properties
 
         #region - - - - - - Methods - - - - - -
@@ -44,14 +42,12 @@ namespace CateringPro.WebApi.Services
 
         public Task PresentNotFoundAsync(EntityRequest entityRequest, CancellationToken cancellationToken)
         {
-            this.ValidationError = true;
             this.Result = new NotFoundObjectResult(this.m_Mapper.Map<ValidationProblemDetails>(entityRequest));
             return Task.CompletedTask;
         }
 
         public Task PresentValidationFailureAsync(ValidationResult result, CancellationToken cancellationToken)
         {
-            this.ValidationError = true;
             this.Result = new BadRequestObjectResult(this.m_Mapper.Map<ValidationProblemDetails>(result));
             return Task.CompletedTask;
         }

@@ -35,8 +35,7 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Expected = new Presenter(_MockMapper.Object)
             {
                 PresentedSuccessfully = false,
-                Result = new NotFoundObjectResult(_ValidationProblemDetails),
-                ValidationError = true
+                Result = new NotFoundObjectResult(_ValidationProblemDetails)
             };
 
             // Act
@@ -69,8 +68,7 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             var _Expected = new Presenter(_MockMapper.Object)
             {
                 PresentedSuccessfully = false,
-                Result = new NotFoundObjectResult(_ValidationProblemDetails),
-                ValidationError = true
+                Result = new NotFoundObjectResult(_ValidationProblemDetails)
             };
 
             // Act
