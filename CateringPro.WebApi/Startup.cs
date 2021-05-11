@@ -131,17 +131,17 @@ namespace CateringPro.WebApi
             services.AddScoped<IUseCaseInvoker, UseCaseInvoker>();
 
             services.Scan(s => s.FromAssemblies(GetAssemblies())
-                    .AddClasses(classes => classes.AssignableTo(typeof(IBusinessRuleValidator<,>)))
-                    .AsImplementedInterfaces()
-                    .WithScopedLifetime());
-
-            services.Scan(s => s.FromAssemblies(GetAssemblies())
-                    .AddClasses(classes => classes.AssignableTo(typeof(IUseCaseValidator<,>)))
+                    .AddClasses(classes => classes.AssignableTo(typeof(IBusinessRuleValidator<>)))
                     .AsImplementedInterfaces()
                     .WithScopedLifetime());
 
             services.Scan(s => s.FromAssemblies(GetAssemblies())
                     .AddClasses(classes => classes.AssignableTo(typeof(IUseCaseInteractor<,>)))
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime());
+
+            services.Scan(s => s.FromAssemblies(GetAssemblies())
+                    .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
                     .AsImplementedInterfaces()
                     .WithScopedLifetime());
         }

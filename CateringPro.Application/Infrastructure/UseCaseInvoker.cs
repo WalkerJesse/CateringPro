@@ -20,9 +20,7 @@ namespace CateringPro.Application.Infrastructure
         #region - - - - - - Constructors - - - - - -
 
         public UseCaseInvoker(IServiceProvider serviceProvider)
-        {
-            this.m_ServiceProvider = serviceProvider ?? throw CodeContract.ArgumentNullException(nameof(serviceProvider));
-        }
+            => this.m_ServiceProvider = serviceProvider ?? throw CodeContract.ArgumentNullException(nameof(serviceProvider));
 
         #endregion Constructors
 
@@ -30,24 +28,30 @@ namespace CateringPro.Application.Infrastructure
 
         public async Task InvokeUseCaseAsync<TRequest, TResponse>(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken) where TRequest : IUseCaseRequest<TResponse>
         {
-            var _UseCaseInteractor = this.m_ServiceProvider.GetService(typeof(IUseCaseInteractor<TRequest, TResponse>));
-            await ((IUseCaseInteractor<TRequest, TResponse>)_UseCaseInteractor).HandleAsync(request, presenter, cancellationToken);
-        }
+            var _RequestValidator = (IValidator<TRequest>)this.m_ServiceProvider.GetService(typeof(IValidator<TRequest>));
+            if (_RequestValidator != null)
+            {
+                var _ValidationResult = await _RequestValidator.ValidateAsync(request, cancellationToken);
+                if(!_ValidationResult.IsValid)
+                {
+                    await presenter.PresentValidationFailureAsync(_ValidationResult, cancellationToken);
+                    return;
+                }
+            }
 
-        public async Task ValidateUseCaseAsync<TRequest, TResponse>(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken) where TRequest : IUseCaseRequest<TResponse>
-        {
-            if (this.m_ServiceProvider.GetService(typeof(IValidator<TRequest>)) == null)
-                return;
-            var _UseCaseValidator = this.m_ServiceProvider.GetService(typeof(IUseCaseValidator<TRequest, TResponse>));
-            await ((IUseCaseValidator<TRequest, TResponse>)_UseCaseValidator).HandleAsync(request, presenter, cancellationToken);
-        }
+            var _BusinessRuleValidator = (IBusinessRuleValidator<TRequest>)this.m_ServiceProvider.GetService(typeof(IBusinessRuleValidator<TRequest>));
+            if (_BusinessRuleValidator != null)
+            {
+                var _ValidationResult = await _BusinessRuleValidator.ValidateAsync(request, cancellationToken);
+                if (!_ValidationResult.IsValid)
+                {
+                    await presenter.PresentValidationFailureAsync(_ValidationResult, cancellationToken);
+                    return;
+                }
+            }
 
-        public async Task ValidateUseCaseBusinessRulesAsync<TRequest, TResponse>(TRequest request, IPresenter<TResponse> presenter, CancellationToken cancellationToken) where TRequest : IUseCaseRequest<TResponse>
-        {
-            if (this.m_ServiceProvider.GetService(typeof(IBusinessRuleValidator<TRequest, TResponse>)) == null)
-                return;
-            var _UseCaseBusinessRuleValidator = this.m_ServiceProvider.GetService(typeof(IBusinessRuleValidator<TRequest, TResponse>));
-            await ((IBusinessRuleValidator<TRequest, TResponse>)_UseCaseBusinessRuleValidator).ValidateAsync(request, presenter, cancellationToken);
+            var _UseCaseInteractor = (IUseCaseInteractor<TRequest, TResponse>)this.m_ServiceProvider.GetService(typeof(IUseCaseInteractor<TRequest, TResponse>));
+            await _UseCaseInteractor.HandleAsync(request, presenter, cancellationToken);
         }
 
         #endregion Methods
