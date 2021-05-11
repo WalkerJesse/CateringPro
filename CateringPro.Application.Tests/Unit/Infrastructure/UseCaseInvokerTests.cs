@@ -1,6 +1,7 @@
 ﻿using CateringPro.Application.Infrastructure;
 using CateringPro.Application.Services;
 using FluentValidation;
+using FluentValidation.Results;
 using Moq;
 using System;
 using System.Threading;
@@ -13,21 +14,31 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
     public class UseCaseInvokerTests
     {
 
-        #region - - - - - - InvokeUseCase Tests - - - - - -
+        #region - - - - - - InvokeUseCaseAsync Tests - - - - - -
 
         [Fact]
-        public async Task InvokeUseCaseAsync_ValidUseCase_SuccessfullyInvokesUseCase()
+
+        public async Task InvokeUseCaseAsync_FailsValidation_PresentsValidationFailure()
         {
             // Arrange
             var _CancellationToken = new CancellationToken();
-            var _MockUseCaseInteractor = new Mock<IUseCaseInteractor<TestUseCaseRequest, object>>();
+            var _Request = new TestUseCaseRequest();
+            var _ValidationResult = new ValidationResult(new[] { new ValidationFailure("propertyName", "errorMessage") });
+
+            var _MockInteractor = new Mock<IUseCaseInteractor<TestUseCaseRequest, object>>();
+            var _MockPresenter = new Mock<IPresenter<object>>();
+            var _MockValidator = new Mock<IValidator<TestUseCaseRequest>>();
+            _MockValidator
+                .Setup(mock => mock.ValidateAsync(_Request, _CancellationToken))
+                .Returns(Task.FromResult(_ValidationResult));
+
             var _MockServiceProvider = new Mock<IServiceProvider>();
             _MockServiceProvider
                 .Setup(mock => mock.GetService(typeof(IUseCaseInteractor<TestUseCaseRequest, object>)))
-                .Returns(_MockUseCaseInteractor.Object);
-
-            var _MockPresenter = new Mock<IPresenter<object>>();
-            var _Request = new TestUseCaseRequest();
+                .Returns(_MockInteractor.Object);
+            _MockServiceProvider
+                .Setup(mock => mock.GetService(typeof(IValidator<TestUseCaseRequest>)))
+               .Returns(_MockValidator.Object);
 
             var _UseCaseInvoker = new UseCaseInvoker(_MockServiceProvider.Object);
 
@@ -35,69 +46,140 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
             await _UseCaseInvoker.InvokeUseCaseAsync(_Request, _MockPresenter.Object, _CancellationToken);
 
             // Assert
-            _MockServiceProvider.Verify(mock => mock.GetService(typeof(IUseCaseInteractor<TestUseCaseRequest, object>)), Times.Once);
-            _MockUseCaseInteractor.Verify(mock => mock.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken), Times.Once);
-            _MockServiceProvider.VerifyNoOtherCalls();
-            _MockUseCaseInteractor.VerifyNoOtherCalls();
+            _MockInteractor.Verify(mock => mock.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken), Times.Never);
+            _MockPresenter.Verify(mock => mock.PresentValidationFailureAsync(_ValidationResult, _CancellationToken));
+            _MockValidator.Verify(mock => mock.ValidateAsync(_Request, _CancellationToken));
         }
 
-        #endregion InvokeUseCase Tests
-
-        #region - - - - - - ValidateUseCase Tests - - - - - -
-
         [Fact]
-        public async Task ValidateUseCaseAsync_NoValidator_DoesNotInvokeUseCase()
+
+        public async Task InvokeUseCaseAsync_PassesValidation_InvokesInteractor()
         {
             // Arrange
             var _CancellationToken = new CancellationToken();
-            var _MockUseCaseValidator = new Mock<IUseCaseValidator<TestUseCaseRequest, object>>();
-            var _MockServiceProvider = new Mock<IServiceProvider>();
-            var _MockPresenter = new Mock<IPresenter<object>>();
             var _Request = new TestUseCaseRequest();
 
-            var _UseCaseInvoker = new UseCaseInvoker(_MockServiceProvider.Object);
-
-            // Act
-            await _UseCaseInvoker.ValidateUseCaseAsync(_Request, _MockPresenter.Object, _CancellationToken);
-
-            // Assert
-            _MockServiceProvider.Verify(mock => mock.GetService(typeof(IValidator<TestUseCaseRequest>)), Times.Once);
-            _MockServiceProvider.VerifyNoOtherCalls();
-            _MockUseCaseValidator.VerifyNoOtherCalls();
-        }
-
-        [Fact]
-        public async Task ValidateUseCaseAsync_ValidUseCase_SuccessfullyInvokesUseCase()
-        {
-            // Arrange
-            var _CancellationToken = new CancellationToken();
-            var _MockUseCaseValidator = new Mock<IUseCaseValidator<TestUseCaseRequest, object>>();
+            var _MockInteractor = new Mock<IUseCaseInteractor<TestUseCaseRequest, object>>();
+            var _MockPresenter = new Mock<IPresenter<object>>();
             var _MockValidator = new Mock<IValidator<TestUseCaseRequest>>();
+            _MockValidator
+                .Setup(mock => mock.ValidateAsync(_Request, _CancellationToken))
+                .Returns(Task.FromResult(new ValidationResult()));
+
             var _MockServiceProvider = new Mock<IServiceProvider>();
+            _MockServiceProvider
+                .Setup(mock => mock.GetService(typeof(IUseCaseInteractor<TestUseCaseRequest, object>)))
+                .Returns(_MockInteractor.Object);
             _MockServiceProvider
                 .Setup(mock => mock.GetService(typeof(IValidator<TestUseCaseRequest>)))
                 .Returns(_MockValidator.Object);
-            _MockServiceProvider
-                .Setup(mock => mock.GetService(typeof(IUseCaseValidator<TestUseCaseRequest, object>)))
-                .Returns(_MockUseCaseValidator.Object);
-
-            var _MockPresenter = new Mock<IPresenter<object>>();
-            var _Request = new TestUseCaseRequest();
 
             var _UseCaseInvoker = new UseCaseInvoker(_MockServiceProvider.Object);
 
             // Act
-            await _UseCaseInvoker.ValidateUseCaseAsync(_Request, _MockPresenter.Object, _CancellationToken);
+            await _UseCaseInvoker.InvokeUseCaseAsync(_Request, _MockPresenter.Object, _CancellationToken);
 
             // Assert
-            _MockServiceProvider.Verify(mock => mock.GetService(typeof(IUseCaseValidator<TestUseCaseRequest, object>)), Times.Once);
-            _MockServiceProvider.Verify(mock => mock.GetService(typeof(IValidator<TestUseCaseRequest>)), Times.Once);
-            _MockUseCaseValidator.Verify(mock => mock.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken), Times.Once);
-            _MockServiceProvider.VerifyNoOtherCalls();
-            _MockUseCaseValidator.VerifyNoOtherCalls();
+            _MockInteractor.Verify(mock => mock.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken));
+            _MockValidator.Verify(mock => mock.ValidateAsync(_Request, _CancellationToken));
         }
 
-        #endregion ValidateUseCase Tests
+        [Fact]
+
+        public async Task InvokeUseCaseAsync_FailsBusinessRuleValidation_PresentsValidationFailure()
+        {
+            // Arrange
+            var _CancellationToken = new CancellationToken();
+            var _Request = new TestUseCaseRequest();
+            var _ValidationResult = new ValidationResult(new[] { new ValidationFailure("propertyName", "errorMessage") });
+
+            var _MockBusinessRuleValidator = new Mock<IBusinessRuleValidator<TestUseCaseRequest>>();
+            _MockBusinessRuleValidator
+                .Setup(mock => mock.ValidateAsync(_Request, _CancellationToken))
+                .Returns(Task.FromResult(_ValidationResult));
+
+            var _MockInteractor = new Mock<IUseCaseInteractor<TestUseCaseRequest, object>>();
+            var _MockPresenter = new Mock<IPresenter<object>>();
+
+            var _MockServiceProvider = new Mock<IServiceProvider>();
+            _MockServiceProvider
+                .Setup(mock => mock.GetService(typeof(IUseCaseInteractor<TestUseCaseRequest, object>)))
+                .Returns(_MockInteractor.Object);
+            _MockServiceProvider
+                .Setup(mock => mock.GetService(typeof(IBusinessRuleValidator<TestUseCaseRequest>)))
+                .Returns(_MockBusinessRuleValidator.Object);
+
+            var _UseCaseInvoker = new UseCaseInvoker(_MockServiceProvider.Object);
+
+            // Act
+            await _UseCaseInvoker.InvokeUseCaseAsync(_Request, _MockPresenter.Object, _CancellationToken);
+
+            // Assert
+            _MockBusinessRuleValidator.Verify(mock => mock.ValidateAsync(_Request, _CancellationToken));
+            _MockInteractor.Verify(mock => mock.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken), Times.Never);
+            _MockPresenter.Verify(mock => mock.PresentValidationFailureAsync(_ValidationResult, _CancellationToken));
+        }
+
+        [Fact]
+
+        public async Task InvokeUseCaseAsync_PassesBusinessRuleValidation_InvokesInteractor()
+        {
+            // Arrange
+            var _CancellationToken = new CancellationToken();
+            var _Request = new TestUseCaseRequest();
+
+            var _MockBusinessRuleValidator = new Mock<IBusinessRuleValidator<TestUseCaseRequest>>();
+            _MockBusinessRuleValidator
+                .Setup(mock => mock.ValidateAsync(_Request, _CancellationToken))
+                .Returns(Task.FromResult(new ValidationResult()));
+
+            var _MockInteractor = new Mock<IUseCaseInteractor<TestUseCaseRequest, object>>();
+            var _MockPresenter = new Mock<IPresenter<object>>();
+
+            var _MockServiceProvider = new Mock<IServiceProvider>();
+            _MockServiceProvider
+                .Setup(mock => mock.GetService(typeof(IUseCaseInteractor<TestUseCaseRequest, object>)))
+                .Returns(_MockInteractor.Object);
+            _MockServiceProvider
+                .Setup(mock => mock.GetService(typeof(IBusinessRuleValidator<TestUseCaseRequest>)))
+                .Returns(_MockBusinessRuleValidator.Object);
+
+            var _UseCaseInvoker = new UseCaseInvoker(_MockServiceProvider.Object);
+
+            // Act
+            await _UseCaseInvoker.InvokeUseCaseAsync(_Request, _MockPresenter.Object, _CancellationToken);
+
+            // Assert
+            _MockBusinessRuleValidator.Verify(mock => mock.ValidateAsync(_Request, _CancellationToken));
+            _MockInteractor.Verify(mock => mock.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken));
+        }
+
+        [Fact]
+
+        public async Task InvokeUseCaseAsync_NoValidator_InvokesInteractor()
+        {
+            // Arrange
+            var _CancellationToken = new CancellationToken();
+            var _Request = new TestUseCaseRequest();
+
+            var _MockInteractor = new Mock<IUseCaseInteractor<TestUseCaseRequest, object>>();
+            var _MockPresenter = new Mock<IPresenter<object>>();
+
+            var _MockServiceProvider = new Mock<IServiceProvider>();
+            _MockServiceProvider
+                .Setup(mock => mock.GetService(typeof(IUseCaseInteractor<TestUseCaseRequest, object>)))
+                .Returns(_MockInteractor.Object);
+
+            var _UseCaseInvoker = new UseCaseInvoker(_MockServiceProvider.Object);
+
+            // Act
+            await _UseCaseInvoker.InvokeUseCaseAsync(_Request, _MockPresenter.Object, _CancellationToken);
+
+            // Assert
+            _MockInteractor.Verify(mock => mock.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken));
+        }
+
+        #endregion InvokeUseCaseAsync Tests
 
         #region - - - - - - Support Classes - - - - - -
 
