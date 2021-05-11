@@ -17,7 +17,6 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
         #region - - - - - - InvokeUseCaseAsync Tests - - - - - -
 
         [Fact]
-
         public async Task InvokeUseCaseAsync_FailsValidation_PresentsValidationFailure()
         {
             // Arrange
@@ -52,7 +51,6 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
         }
 
         [Fact]
-
         public async Task InvokeUseCaseAsync_PassesValidation_InvokesInteractor()
         {
             // Arrange
@@ -85,7 +83,6 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
         }
 
         [Fact]
-
         public async Task InvokeUseCaseAsync_FailsBusinessRuleValidation_PresentsValidationFailure()
         {
             // Arrange
@@ -121,7 +118,6 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
         }
 
         [Fact]
-
         public async Task InvokeUseCaseAsync_PassesBusinessRuleValidation_InvokesInteractor()
         {
             // Arrange
@@ -155,7 +151,6 @@ namespace CateringPro.Application.Tests.Unit.Infrastructure
         }
 
         [Fact]
-
         public async Task InvokeUseCaseAsync_NoValidator_InvokesInteractor()
         {
             // Arrange
