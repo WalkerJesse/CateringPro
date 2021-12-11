@@ -75,7 +75,6 @@ namespace CateringPro.Common.CodeContracts
             if (string.IsNullOrWhiteSpace(value)) throw new Exception(ExceptionReasonEnum.WhiteSpace, path, valueSource);
         }
 
-
         protected static void TestPredicates<T>(Expression<Func<T>> itemExpression, params Action<T, string>[] predicates)
         {
             if (itemExpression == null) throw new ItemExpressionIsNullException();

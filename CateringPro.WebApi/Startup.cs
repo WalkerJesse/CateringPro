@@ -2,7 +2,7 @@ using AutoMapper;
 using CateringPro.Application.Infrastructure;
 using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
-using CateringPro.Infrastructure.Persistence;
+using CateringPro.Persistence.Persistence;
 using CateringPro.WebApi.Infrastructure.Configuration;
 using CateringPro.WebApi.Infrastructure.ModelBinding;
 using CateringPro.WebApi.Services;
@@ -179,7 +179,7 @@ namespace CateringPro.WebApi
         }
 
         private static Assembly[] GetAssemblies()
-            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Infrastructure.AssemblyUtility.GetAssembly() };
+            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Persistence.AssemblyUtility.GetAssembly() };
 
 
         #endregion IServiceCollectionExtension Methods

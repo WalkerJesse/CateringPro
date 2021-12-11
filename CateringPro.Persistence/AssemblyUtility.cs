@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace CateringPro.Infrastructure
+namespace CateringPro.Persistence
 {
 
     public class AssemblyUtility
