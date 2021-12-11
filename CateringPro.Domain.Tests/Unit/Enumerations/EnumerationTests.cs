@@ -3,7 +3,7 @@ using CateringPro.Domain.Exceptions;
 using FluentAssertions;
 using Xunit;
 
-namespace CompanionSystems.OnSiteApi.Domain.Tests.Unit.Enumerations
+namespace CateringPro.Domain.Tests.Unit.Enumerations
 {
 
     public class EnumerationTests
