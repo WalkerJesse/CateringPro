@@ -2,19 +2,22 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CateringPro.Infrastructure.Configurations
+namespace CateringPro.Persistence.Configurations
 {
 
-    public class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
+    public class IngredientConfiguration : IEntityTypeConfiguration<Ingredient>
     {
 
         #region - - - - - - IEntityTypeConfiguration Implementation - - - - - -
 
-        public void Configure(EntityTypeBuilder<Recipe> entity)
+        public void Configure(EntityTypeBuilder<Ingredient> entity)
         {
-            entity.ToTable("Recipe");
+            entity.ToTable("Ingredient");
 
             entity.Property(e => e.ID);
+
+            entity.Property(e => e.Name)
+                .IsRequired();
         }
 
         #endregion IEntityTypeConfiguration Implementation

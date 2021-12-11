@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CateringPro.Application\CateringPro.Application.csproj" />
-    <ProjectReference Include="..\CateringPro.Infrastructure\CateringPro.Infrastructure.csproj" />
+    <ProjectReference Include="..\CateringPro.Persistence\CateringPro.Persistence.csproj" />
     <ProjectReference Include="..\CateringPro.WebApi.Interface\CateringPro.WebApi.Interface.csproj" />
   </ItemGroup>
 

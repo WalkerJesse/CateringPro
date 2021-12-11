@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace CateringPro.Infrastructure.Migrations
+namespace CateringPro.Persistence.Migrations
 {
     public partial class InitialCreate : Migration
     {

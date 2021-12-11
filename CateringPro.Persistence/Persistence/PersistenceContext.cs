@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CateringPro.Infrastructure.Persistence
+namespace CateringPro.Persistence.Persistence
 {
 
     public class PersistenceContext : DbContext, IPersistenceContext

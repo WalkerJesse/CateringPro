@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CateringPro.Infrastructure.Configurations
+namespace CateringPro.Persistence.Configurations
 {
     public class RecipeIngredientConfiguration : IEntityTypeConfiguration<RecipeIngredient>
     {

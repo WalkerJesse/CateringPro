@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30204.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.Application", "CateringPro.Application\CateringPro.Application.csproj", "{052AFAAB-3B43-47A2-B9AF-D6701384D5D6}"
 EndProject
@@ -15,9 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.Common", "Cater
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.Common.Tests", "CateringPro.Common.Tests\CateringPro.Common.Tests.csproj", "{36891ADA-56C2-4360-B583-1F664319A45D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.Infrastructure", "CateringPro.Infrastructure\CateringPro.Infrastructure.csproj", "{FC6BF356-462E-4E33-9649-DB744F54B0EC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.Infrastructure.Tests", "CateringPro.Infrastructure.Tests\CateringPro.Infrastructure.Tests.csproj", "{578DA835-6C8D-43F0-9680-E1C01642716C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.Persistence", "CateringPro.Persistence\CateringPro.Persistence.csproj", "{FC6BF356-462E-4E33-9649-DB744F54B0EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebApi.Interface", "CateringPro.WebApi.Interface\CateringPro.WebApi.Interface.csproj", "{2B60CA01-FFBA-40B8-AFDD-E1B74763E1F5}"
 EndProject
@@ -29,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebApi", "Cater
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebApi.Tests", "CateringPro.WebApi.Tests\CateringPro.WebApi.Tests.csproj", "{A5973CEC-3ECB-4B9F-BEA2-B7B45CE90DD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CateringPro.WebApi.Consumer", "CateringPro.WebApi.Consumer\CateringPro.WebApi.Consumer.csproj", "{CC239A2C-FA7B-41CA-B02D-904ADCEFBC51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CateringPro.WebApi.Consumer", "CateringPro.WebApi.Consumer\CateringPro.WebApi.Consumer.csproj", "{CC239A2C-FA7B-41CA-B02D-904ADCEFBC51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +63,6 @@ Global
 		{FC6BF356-462E-4E33-9649-DB744F54B0EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC6BF356-462E-4E33-9649-DB744F54B0EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC6BF356-462E-4E33-9649-DB744F54B0EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{578DA835-6C8D-43F0-9680-E1C01642716C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{578DA835-6C8D-43F0-9680-E1C01642716C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{578DA835-6C8D-43F0-9680-E1C01642716C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{578DA835-6C8D-43F0-9680-E1C01642716C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B60CA01-FFBA-40B8-AFDD-E1B74763E1F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B60CA01-FFBA-40B8-AFDD-E1B74763E1F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B60CA01-FFBA-40B8-AFDD-E1B74763E1F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
