@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace CateringPro.Common.Tests.Unit.Extensions
+namespace CateringPro.Application.Tests.Unit.Extensions
 {
 
     public class StringExtensionsTests
