@@ -1,6 +1,6 @@
-﻿using CateringPro.Common.CodeContracts;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using System;
 
 namespace CateringPro.WebApi.Infrastructure.ModelBinding
 {
@@ -19,8 +19,8 @@ namespace CateringPro.WebApi.Infrastructure.ModelBinding
 
         public BodyAndRouteModelBinderProvider(BodyModelBinderProvider bodyModelBinderProvider, ComplexTypeModelBinderProvider complexTypeModelBinderProvider)
         {
-            this.m_BodyModelBinderProvider = bodyModelBinderProvider ?? throw CodeContract.ArgumentNullException(nameof(bodyModelBinderProvider));
-            this.m_ComplexTypeModelBinderProvider = complexTypeModelBinderProvider ?? throw CodeContract.ArgumentNullException(nameof(complexTypeModelBinderProvider));
+            this.m_BodyModelBinderProvider = bodyModelBinderProvider ?? throw new ArgumentNullException(nameof(bodyModelBinderProvider));
+            this.m_ComplexTypeModelBinderProvider = complexTypeModelBinderProvider ?? throw new ArgumentNullException(nameof(complexTypeModelBinderProvider));
         }
 
         #endregion Constructors

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
-using CateringPro.Common.CodeContracts;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,9 +24,9 @@ namespace CateringPro.WebApi.Services
 
         public ControllerAction(IMapper mapper, IPersistenceContext persistenceContext, IUseCaseInvoker useCaseInvoker)
         {
-            this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
-            this.m_PersistenceContext = persistenceContext ?? throw CodeContract.ArgumentNullException(nameof(persistenceContext));
-            this.m_UseCaseInvoker = useCaseInvoker ?? throw CodeContract.ArgumentNullException(nameof(useCaseInvoker));
+            this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.m_PersistenceContext = persistenceContext ?? throw new ArgumentNullException(nameof(persistenceContext));
+            this.m_UseCaseInvoker = useCaseInvoker ?? throw new ArgumentNullException(nameof(useCaseInvoker));
         }
 
         #endregion Constructors

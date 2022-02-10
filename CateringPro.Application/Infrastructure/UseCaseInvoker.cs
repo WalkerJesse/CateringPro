@@ -1,5 +1,4 @@
 ﻿using CateringPro.Application.Services;
-using CateringPro.Common.CodeContracts;
 using FluentValidation;
 using System;
 using System.Threading;
@@ -20,7 +19,7 @@ namespace CateringPro.Application.Infrastructure
         #region - - - - - - Constructors - - - - - -
 
         public UseCaseInvoker(IServiceProvider serviceProvider)
-            => this.m_ServiceProvider = serviceProvider ?? throw CodeContract.ArgumentNullException(nameof(serviceProvider));
+            => this.m_ServiceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
         #endregion Constructors
 
@@ -32,7 +31,7 @@ namespace CateringPro.Application.Infrastructure
             if (_RequestValidator != null)
             {
                 var _ValidationResult = await _RequestValidator.ValidateAsync(request, cancellationToken);
-                if(!_ValidationResult.IsValid)
+                if (!_ValidationResult.IsValid)
                 {
                     await presenter.PresentValidationFailureAsync(_ValidationResult, cancellationToken);
                     return;

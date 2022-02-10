@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CateringPro.Application.Services;
-using CateringPro.Common.CodeContracts;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,7 +22,7 @@ namespace CateringPro.WebApi.Services
 
         public Presenter(IMapper mapper)
         {
-            this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
+            this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         #endregion Constructors

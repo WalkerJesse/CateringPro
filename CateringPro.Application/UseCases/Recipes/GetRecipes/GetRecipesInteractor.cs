@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
-using CateringPro.Common.CodeContracts;
 using CateringPro.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,8 +24,8 @@ namespace CateringPro.Application.UseCases.Recipes.GetRecipes
 
         public GetRecipesInteractor(IMapper mapper, IPersistenceContext persistenceContext)
         {
-            this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
-            this.m_PersistenceContext = persistenceContext ?? throw CodeContract.ArgumentNullException(nameof(persistenceContext));
+            this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.m_PersistenceContext = persistenceContext ?? throw new ArgumentNullException(nameof(persistenceContext));
         }
 
         #endregion Constructors
