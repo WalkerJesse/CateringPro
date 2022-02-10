@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CateringPro.Common.CodeContracts;
 using CateringPro.Domain.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,7 @@ namespace CateringPro.WebApi.Services.Attributes
 
         public CustomExceptionFilterAttribute(IMapper mapper)
         {
-            this.m_Mapper = mapper ?? throw CodeContract.ArgumentNullException(nameof(mapper));
+            this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         #endregion Constructors

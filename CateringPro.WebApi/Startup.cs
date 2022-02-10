@@ -4,18 +4,15 @@ using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Persistence.Persistence;
 using CateringPro.WebApi.Infrastructure.Configuration;
-using CateringPro.WebApi.Infrastructure.ModelBinding;
 using CateringPro.WebApi.Services;
 using CateringPro.WebApi.Services.Swagger;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -117,14 +114,15 @@ namespace CateringPro.WebApi
         #region - - - - - - IServiceCollectionExtension Methods - - - - - -
 
         public static void AddApiControllers(this IServiceCollection services)
-            => services.AddControllers(options =>
-            {
-                options.ModelBinderProviders.Insert(0,
-                    new BodyAndRouteModelBinderProvider(
-                        options.ModelBinderProviders.OfType<BodyModelBinderProvider>().Single(),
-                        options.ModelBinderProviders.OfType<ComplexTypeModelBinderProvider>().Single())
-                        );
-            }).AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            => services.AddControllers(//options =>
+                                       //{
+                                       //    options.ModelBinderProviders.Insert(0,
+                                       //        new BodyAndRouteModelBinderProvider(
+                                       //            options.ModelBinderProviders.OfType<BodyModelBinderProvider>().Single(),
+                                       //            options.ModelBinderProviders.OfType<ComplexTypeModelBinderProvider>().Single())
+                                       //            );
+                                       //}
+            ).AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
         public static void AddApplicationServices(this IServiceCollection services)
         {

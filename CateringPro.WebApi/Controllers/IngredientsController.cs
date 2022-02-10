@@ -2,13 +2,13 @@
 using CateringPro.Application.UseCases.Ingredients.DeleteIngredient;
 using CateringPro.Application.UseCases.Ingredients.GetIngredients;
 using CateringPro.Application.UseCases.Ingredients.UpdateIngredient;
-using CateringPro.Common.CodeContracts;
 using CateringPro.WebApi.Interface.Ingredients.Commands;
 using CateringPro.WebApi.Interface.Ingredients.Queries;
 using CateringPro.WebApi.Interface.Ingredients.ViewModels;
 using CateringPro.WebApi.Services;
 using CateringPro.WebApi.Services.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +29,7 @@ namespace CateringPro.WebApi.Controllers
 
         public IngredientsController(ControllerAction controllerAction)
         {
-            this.m_ControllerAction = controllerAction ?? throw CodeContract.ArgumentNullException(nameof(controllerAction));
+            this.m_ControllerAction = controllerAction ?? throw new ArgumentNullException(nameof(controllerAction));
         }
 
         #endregion Constructors

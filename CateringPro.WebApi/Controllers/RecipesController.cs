@@ -1,11 +1,11 @@
 ﻿using CateringPro.Application.UseCases.Recipes.CreateRecipe;
 using CateringPro.Application.UseCases.Recipes.GetRecipes;
-using CateringPro.Common.CodeContracts;
 using CateringPro.WebApi.Interface.Recipes.Commands;
 using CateringPro.WebApi.Interface.Recipes.Queries;
 using CateringPro.WebApi.Interface.Recipes.ViewModels;
 using CateringPro.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +26,7 @@ namespace CateringPro.WebApi.Controllers
 
         public RecipesController(ControllerAction controllerAction)
         {
-            this.m_ControllerAction = controllerAction ?? throw CodeContract.ArgumentNullException(nameof(controllerAction));
+            this.m_ControllerAction = controllerAction ?? throw new ArgumentNullException(nameof(controllerAction));
         }
 
         #endregion Constructors
