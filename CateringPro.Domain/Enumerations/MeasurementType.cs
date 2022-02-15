@@ -6,21 +6,21 @@
 
         #region - - - - - - Fields - - - - - -
 
-        public static readonly MeasurementType Gram = new WeightMeasurementType("Gram", 0);
+        public static readonly MeasurementType Gram = new WeightMeasurementType("Gram", 1);
 
-        public static readonly MeasurementType Kilogram = new WeightMeasurementType("Kilogram", 1);
+        public static readonly MeasurementType Kilogram = new WeightMeasurementType("Kilogram", 2);
 
-        public static readonly MeasurementType Millilitre = new VolumeMeasurementType("Millilitre", 2);
+        public static readonly MeasurementType Millilitre = new VolumeMeasurementType("Millilitre", 3);
 
-        public static readonly MeasurementType Litre = new VolumeMeasurementType("Litre", 3);
+        public static readonly MeasurementType Litre = new VolumeMeasurementType("Litre", 4);
 
-        public static readonly MeasurementType Cup = new VolumeMeasurementType("Cup", 4);
+        public static readonly MeasurementType Cup = new VolumeMeasurementType("Cup", 5);
 
-        public static readonly MeasurementType Teaspoon = new VolumeMeasurementType("Teaspoon", 5);
+        public static readonly MeasurementType Teaspoon = new VolumeMeasurementType("Teaspoon", 6);
 
-        public static readonly MeasurementType Tablespoon = new VolumeMeasurementType("Tablespoon", 6);
+        public static readonly MeasurementType Tablespoon = new VolumeMeasurementType("Tablespoon", 7);
 
-        public static readonly MeasurementType Item = new ItemMeasurementType("Item", 7);
+        public static readonly MeasurementType Item = new ItemMeasurementType("Item", 8);
 
         #endregion Fields
 
@@ -28,7 +28,7 @@
 
         private MeasurementType() { }
 
-        protected MeasurementType(string name, int value) : base(name, value) { }
+        protected MeasurementType(string name, long value) : base(name, value) { }
 
         #endregion Constructors
 
@@ -37,8 +37,11 @@
         public static implicit operator MeasurementType(string name)
             => FromName<MeasurementType>(name);
 
-        public static implicit operator MeasurementType(int value)
+        public static implicit operator MeasurementType(long value)
             => FromValue<MeasurementType>(value);
+
+        public virtual decimal GetBaseMeasurement(decimal measurement)
+            => 0;
 
         #endregion Methods
 
@@ -55,7 +58,12 @@
 
             #region - - - - - - Methods - - - - - -
 
-            //TODO conversion here from x to Weight
+            public override decimal GetBaseMeasurement(decimal measurement)
+                => this.Name switch
+                {
+                    "Gram" => measurement,
+                    "Kilogram" => measurement * 1000
+                };
 
             #endregion Methods
 
@@ -72,7 +80,15 @@
 
             #region - - - - - - Methods - - - - - -
 
-            //TODO conversion here from x to Volume
+            public override decimal GetBaseMeasurement(decimal measurement)
+                => this.Name switch
+                {
+                    "Millilitre" => measurement,
+                    "Litre" => measurement * 1000,
+                    "Cup" => measurement * 250,
+                    "Tablespoon" => measurement * 20,
+                    "Teaspoon" => measurement * 5
+                };
 
             #endregion Methods
 
@@ -88,8 +104,8 @@
             #endregion Constructors
 
             #region - - - - - - Methods - - - - - -
-
-            // Cannot convert to and from weight or volume
+            public override decimal GetBaseMeasurement(decimal measurement)
+               => measurement;
 
             #endregion Methods
 

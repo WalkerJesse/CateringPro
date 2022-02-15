@@ -10,15 +10,14 @@ namespace CateringPro.Persistence.Migrations
                 name: "RecipeIngredient",
                 columns: table => new
                 {
-                    ID = table.Column<long>(nullable: false),
-                    Measurement = table.Column<int>(nullable: false),
+                    Measurement = table.Column<decimal>(nullable: false),
                     MeasurementType = table.Column<int>(nullable: false),
                     IngredientID = table.Column<long>(nullable: false),
                     RecipeID = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RecipeIngredient", x => x.ID);
+                    table.PrimaryKey("PK_RecipeIngredient", x => new { x.RecipeID, x.IngredientID });
                     table.ForeignKey(
                         name: "FK_RecipeIngredient_Ingredient_ID",
                         column: x => x.IngredientID,

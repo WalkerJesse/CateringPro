@@ -46,10 +46,7 @@ namespace CateringPro.Persistence.Migrations
 
             modelBuilder.Entity("CateringPro.Domain.Entities.RecipeIngredient", b =>
                 {
-                    b.Property<long>("ID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Measurement")
+                    b.Property<decimal>("Measurement")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("IngredientID")
@@ -61,7 +58,7 @@ namespace CateringPro.Persistence.Migrations
                     b.Property<long>("RecipeID")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ID");
+                    b.HasKey("RecipeID", "IngredientID");
 
                     b.ToTable("RecipeIngredient");
                 });
