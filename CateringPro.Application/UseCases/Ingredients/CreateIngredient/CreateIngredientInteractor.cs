@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Domain.Entities;
+using CleanArchitecture.Services;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 {
 
-    public class CreateIngredientInteractor : IUseCaseInteractor<CreateIngredientRequest, CreateIngredientResponse>
+    public class CreateIngredientInteractor : IUseCaseInteractor<CreateIngredientInputPort, ICreateIngredientOutputPort>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -29,18 +29,18 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
         #endregion Constructors
 
-        #region - - - - - - IUseCaseInteractor Implementation - - - - - -
+        #region - - - - - - Methods - - - - - -
 
-        public async Task HandleAsync(CreateIngredientRequest request, IPresenter<CreateIngredientResponse> presenter, CancellationToken cancellationToken)
+        public async Task HandleAsync(CreateIngredientInputPort inputPort, ICreateIngredientOutputPort outputPort, CancellationToken cancellationToken)
         {
-            var _Ingredient = this.m_Mapper.Map<Ingredient>(request);
+            var _Ingredient = this.m_Mapper.Map<Ingredient>(inputPort);
 
             await this.m_PersistenceContext.AddAsync(_Ingredient, cancellationToken);
 
-            await presenter.PresentAsync(this.m_Mapper.Map<CreateIngredientResponse>(_Ingredient), cancellationToken);
+            await outputPort.PresentCreatedIngredientAsync(this.m_Mapper.Map<CreatedIngredientDto>(_Ingredient), cancellationToken);
         }
 
-        #endregion IUseCaseInteractor Implementation
+        #endregion Methods
 
     }
 

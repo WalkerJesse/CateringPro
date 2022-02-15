@@ -1,12 +1,14 @@
-﻿using CateringPro.Application.Services;
+﻿using System;
 
 namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 {
 
-    public class CreateIngredientRequest : IUseCaseRequest<CreateIngredientResponse>
+    public class CreatedIngredientDto
     {
 
         #region - - - - - - Properties - - - - - -
+
+        public Func<long> IngredientID { get; set; }
 
         public string Name { get; set; }
 
