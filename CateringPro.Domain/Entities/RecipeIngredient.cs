@@ -8,11 +8,9 @@ namespace CateringPro.Domain.Entities
 
         #region - - - - - - Properties - - - - - -
 
-        public long ID { get; set; }
-
-        public int Measurement { get; set; }
-
         public Ingredient Ingredient { get; set; }
+
+        public decimal Measurement { get; set; }
 
         public MeasurementType MeasurementType { get; set; }
 

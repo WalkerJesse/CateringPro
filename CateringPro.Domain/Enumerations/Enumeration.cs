@@ -9,31 +9,30 @@ namespace CateringPro.Domain.Enumerations
 
     public class Enumeration : IComparable
     {
-
-        #region - - - - - - Fields - - - - - -
-
-        private readonly string m_Name;
-
-        private readonly int m_Value;
-
-        #endregion Fields
-
         #region - - - - - - Constructors - - - - - -
 
         protected Enumeration() { }
 
-        protected Enumeration(string name, int value)
+        protected Enumeration(string name, long value)
         {
-            this.m_Name = name;
-            this.m_Value = value;
+            this.Name = name;
+            this.Value = value;
         }
 
         #endregion Constructors
 
+        #region - - - - - - Properties - - - - - -
+
+        public string Name { get; }
+
+        public long Value { get; }
+
+        #endregion Properties
+
         #region - - - - - - Methods - - - - - -
 
         public int CompareTo(object other)
-            => this.m_Value.CompareTo(((Enumeration)other).Value);
+            => this.Value.CompareTo(((Enumeration)other).Value);
 
         public override bool Equals(object obj)
         {
@@ -43,7 +42,7 @@ namespace CateringPro.Domain.Enumerations
                 return false;
 
             var typeMatches = this.GetType().Equals(obj.GetType());
-            var valueMatches = this.m_Value.Equals(otherValue.Value);
+            var valueMatches = this.Value.Equals(otherValue.Value);
 
             return typeMatches && valueMatches;
         }
@@ -58,11 +57,10 @@ namespace CateringPro.Domain.Enumerations
                         ?? throw new InvalidEnumException(name);
         }
 
-        public static T FromValue<T>(int value) where T : Enumeration
+        public static T FromValue<T>(long value) where T : Enumeration
             => GetAll<T>()
                     .SingleOrDefault(e => e.Value == value)
                         ?? throw new InvalidEnumException(value.ToString());
-
 
         public static IEnumerable<T> GetAll<T>() where T : Enumeration
         {
@@ -74,19 +72,13 @@ namespace CateringPro.Domain.Enumerations
         }
 
         public override int GetHashCode()
-            => this.m_Value.GetHashCode();
+            => this.Value.GetHashCode();
 
-        public string Name
-            => this.m_Name;
-
-        public static implicit operator int(Enumeration enumeration)
+        public static implicit operator long(Enumeration enumeration)
             => enumeration.Value;
 
         public override string ToString()
             => this.Name;
-
-        public int Value
-            => this.m_Value;
 
         #endregion Methods
 

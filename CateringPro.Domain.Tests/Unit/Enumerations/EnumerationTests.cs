@@ -215,7 +215,7 @@ namespace CateringPro.Domain.Tests.Unit.Enumerations
             var _Output = _Input.GetHashCode();
 
             // Assert
-            _Output.Should().Be(_Input.Value);
+            _Output.Should().Be((int)_Input.Value);
         }
 
         #endregion GetHashCode Tests

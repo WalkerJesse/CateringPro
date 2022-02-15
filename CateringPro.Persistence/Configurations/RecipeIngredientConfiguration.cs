@@ -13,16 +13,16 @@ namespace CateringPro.Persistence.Configurations
         {
             entity.ToTable("RecipeIngredient");
 
-            entity.Property(e => e.ID);
-
-            entity.Property(e => e.Measurement)
-                .IsRequired();
+            entity.HasKey("RecipeID", "IngredientID");
 
             entity.Property<long>("IngredientID");
             entity.HasOne(e => e.Ingredient)
                 .WithMany()
                 .HasForeignKey("IngredientID")
                 .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            entity.Property(e => e.Measurement)
                 .IsRequired();
 
             entity.Property(e => e.MeasurementType)

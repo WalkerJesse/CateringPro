@@ -15,6 +15,9 @@ namespace CateringPro.Persistence.Configurations
             entity.ToTable("Recipe");
 
             entity.Property(e => e.ID);
+
+            entity.Property(e => e.Name)
+                .IsRequired();
         }
 
         #endregion IEntityTypeConfiguration Implementation

@@ -4,15 +4,18 @@ using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Persistence.Persistence;
 using CateringPro.WebApi.Infrastructure.Configuration;
+using CateringPro.WebApi.Infrastructure.ModelBinding;
 using CateringPro.WebApi.Services;
 using CateringPro.WebApi.Services.Swagger;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -41,7 +44,7 @@ namespace CateringPro.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //this.ConfigureAppContextSettings(services);
+            this.ConfigureAppContextSettings(services);
 
             //services.AddAuthenticationServices();
             services.AddApiControllers();
@@ -86,10 +89,8 @@ namespace CateringPro.WebApi
 
         #region - - - - - - Service Registration - - - - - -
 
-        //private void ConfigureAppContextSettings(IServiceCollection services)
-        //{
-        //    services.Configure<DataStorageOptions>(this.Configuration.GetSection("DataStorageSettings"));
-        //}
+        private void ConfigureAppContextSettings(IServiceCollection services)
+            => services.Configure<DataStorageOptions>(this.Configuration.GetSection("DataStorageSettings"));
 
         #endregion Service Registration
 
@@ -114,14 +115,14 @@ namespace CateringPro.WebApi
         #region - - - - - - IServiceCollectionExtension Methods - - - - - -
 
         public static void AddApiControllers(this IServiceCollection services)
-            => services.AddControllers(//options =>
-                                       //{
-                                       //    options.ModelBinderProviders.Insert(0,
-                                       //        new BodyAndRouteModelBinderProvider(
-                                       //            options.ModelBinderProviders.OfType<BodyModelBinderProvider>().Single(),
-                                       //            options.ModelBinderProviders.OfType<ComplexTypeModelBinderProvider>().Single())
-                                       //            );
-                                       //}
+            => services.AddControllers(options =>
+                {
+                    options.ModelBinderProviders.Insert(0,
+                        new BodyAndRouteModelBinderProvider(
+                            options.ModelBinderProviders.OfType<BodyModelBinderProvider>().Single(),
+                            options.ModelBinderProviders.OfType<ComplexObjectModelBinderProvider>().Single())
+                            );
+                }
             ).AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
         public static void AddApplicationServices(this IServiceCollection services)
