@@ -31,13 +31,13 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
         #region - - - - - - Methods - - - - - -
 
-        public async Task HandleAsync(CreateIngredientInputPort inputPort, ICreateIngredientOutputPort outputPort, CancellationToken cancellationToken)
+        public Task HandleAsync(CreateIngredientInputPort inputPort, ICreateIngredientOutputPort outputPort, CancellationToken cancellationToken)
         {
             var _Ingredient = this.m_Mapper.Map<Ingredient>(inputPort);
 
-            await this.m_PersistenceContext.AddAsync(_Ingredient, cancellationToken);
+            this.m_PersistenceContext.AddAsync(_Ingredient, cancellationToken);
 
-            await outputPort.PresentCreatedIngredientAsync(this.m_Mapper.Map<CreatedIngredientDto>(_Ingredient), cancellationToken);
+            return outputPort.PresentCreatedIngredientAsync(this.m_Mapper.Map<CreatedIngredientDto>(_Ingredient), cancellationToken);
         }
 
         #endregion Methods

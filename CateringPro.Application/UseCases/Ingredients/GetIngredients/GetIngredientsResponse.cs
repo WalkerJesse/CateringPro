@@ -14,17 +14,17 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
     }
 
-    public class IngredientDto
-    {
+    //public class IngredientDto
+    //{
 
-        #region - - - - - - Properties - - - - - -
+    //    #region - - - - - - Properties - - - - - -
 
-        public long IngredientID { get; set; }
+    //    public long IngredientID { get; set; }
 
-        public string IngredientName { get; set; }
+    //    public string IngredientName { get; set; }
 
-        #endregion Properties
+    //    #endregion Properties
 
-    }
+    //}
 
 }

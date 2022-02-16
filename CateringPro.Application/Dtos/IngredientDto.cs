@@ -8,7 +8,7 @@
 
         public long IngredientID { get; set; }
 
-        public string IngredientName { get; set; }
+        public string Name { get; set; }
 
         #endregion Properties
 

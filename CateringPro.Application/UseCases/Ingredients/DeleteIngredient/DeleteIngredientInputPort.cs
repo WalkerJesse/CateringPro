@@ -1,14 +1,14 @@
-﻿using CateringPro.Application.Services;
+﻿using CleanArchitecture.Services;
 
 namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 {
 
-    public class DeleteIngredientRequest : IUseCaseRequest<DeleteIngredientResponse>
+    public class DeleteIngredientInputPort : IUseCaseInputPort<IDeleteIngredientOutputPort>
     {
 
         #region - - - - - - Properties - - - - - -
 
-        public long ID { get; set; }
+        public long IngredientID { get; set; }
 
         #endregion Properties
 
