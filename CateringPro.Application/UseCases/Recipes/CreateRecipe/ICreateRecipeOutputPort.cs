@@ -4,10 +4,10 @@ using FluentValidation.Results;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
+namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
 {
 
-    public interface ICreateIngredientOutputPort :
+    public interface ICreateRecipeOutputPort :
         IAuthenticationOutputPort,
         IAuthorisationOutputPort<AuthorisationResult>,
         IValidationOutputPort<ValidationResult> // IUseCaseInputPortValidator<ValidationResult>
@@ -15,7 +15,7 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 
         #region - - - - - - Methods - - - - - -
 
-        Task PresentIngredientAsync(CreatedIngredientDto ingredient, CancellationToken cancellationToken);
+        Task PresentRecipeAsync(CreatedRecipeDto recipe, CancellationToken cancellationToken);
 
         #endregion Methods
 

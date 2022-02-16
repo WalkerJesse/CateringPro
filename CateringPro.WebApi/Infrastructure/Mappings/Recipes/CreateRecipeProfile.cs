@@ -13,9 +13,9 @@ namespace CateringPro.WebApi.Infrastructure.Mappings.Recipes
 
         public CreateRecipeProfile()
         {
-            _ = this.CreateMap<CreateRecipeCommand, CreateRecipeRequest>();
+            _ = this.CreateMap<CreateRecipeCommand, CreateRecipeInputPort>();
 
-            _ = this.CreateMap<CreateRecipeResponse, RecipeViewModel>()
+            _ = this.CreateMap<ICreateRecipeOutputPort, RecipeViewModel>()
                     .ForMember(dest => dest.RecipeID, opts => opts.MapFrom(src => src.RecipeID.Invoke()));
         }
 

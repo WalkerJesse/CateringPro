@@ -21,8 +21,8 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.CreateRecipe
         {
             // Arrange
             var _CancellationToken = new CancellationToken();
-            var _Request = new CreateRecipeRequest();
-            var _Response = new CreateRecipeResponse();
+            var _Request = new CreateRecipeInputPort();
+            var _Response = new ICreateRecipeOutputPort();
             var _Recipe = new Recipe();
 
             var _MockMapper = new Mock<IMapper>();
@@ -30,11 +30,11 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.CreateRecipe
                 .Setup(mock => mock.Map<Recipe>(_Request))
                 .Returns(_Recipe);
             _MockMapper
-                .Setup(mock => mock.Map<CreateRecipeResponse>(_Recipe))
+                .Setup(mock => mock.Map<ICreateRecipeOutputPort>(_Recipe))
                 .Returns(_Response);
 
             var _MockPersistenceContext = new Mock<IPersistenceContext>();
-            var _MockPresenter = new Mock<IPresenter<CreateRecipeResponse>>();
+            var _MockPresenter = new Mock<IPresenter<ICreateRecipeOutputPort>>();
 
             var _Interactor = new CreateRecipeInteractor(_MockMapper.Object, _MockPersistenceContext.Object);
 
@@ -43,7 +43,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.CreateRecipe
 
             // Assert
             _MockMapper.Verify(mock => mock.Map<Recipe>(_Request), Times.Once);
-            _MockMapper.Verify(mock => mock.Map<CreateRecipeResponse>(_Recipe), Times.Once);
+            _MockMapper.Verify(mock => mock.Map<ICreateRecipeOutputPort>(_Recipe), Times.Once);
             _MockPersistenceContext.Verify(mock => mock.AddAsync(_Recipe, _CancellationToken), Times.Once);
             _MockPresenter.Verify(mock => mock.PresentAsync(_Response, _CancellationToken), Times.Once);
             _MockMapper.VerifyNoOtherCalls();

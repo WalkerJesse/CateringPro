@@ -17,7 +17,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.CreateRecipe
         [InlineData(StringConstants.LengthOf_100 + "1")]
         public void Validate_NullOrEmptyOrLongName_ReturnsValidationError(string input)
         {
-            new CreateRecipeRequestValidator().ShouldHaveValidationErrorFor(i => i.Name, input);
+            new CreateRecipeInputPortValidator().ShouldHaveValidationErrorFor(i => i.Name, input);
         }
 
         [Theory]
@@ -25,7 +25,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.CreateRecipe
         [InlineData(StringConstants.LengthOf_100)]
         public void Validate_Name_PassesValidation(string input)
         {
-            new CreateRecipeRequestValidator().ShouldNotHaveValidationErrorFor(i => i.Name, input);
+            new CreateRecipeInputPortValidator().ShouldNotHaveValidationErrorFor(i => i.Name, input);
         }
 
         #endregion CreateRecipeRequestValidator Tests

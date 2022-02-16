@@ -1,15 +1,17 @@
 ﻿using CateringPro.Application.Dtos;
 using CateringPro.Application.Infrastructure.Authorisation;
 using CleanArchitecture.Services;
+using FluentValidation.Results;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
+namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 {
 
-    public interface IDeleteIngredientOutputPort :
+    public interface IUpdateIngredientOutputPort :
         IAuthenticationOutputPort,
-        IAuthorisationOutputPort<AuthorisationResult>
+        IAuthorisationOutputPort<AuthorisationResult>,
+        IValidationOutputPort<ValidationResult> // IUseCaseInputPortValidator<ValidationResult>
     {
 
         #region - - - - - - Methods - - - - - -

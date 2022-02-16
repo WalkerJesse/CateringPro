@@ -1,16 +1,14 @@
-﻿using System;
+﻿using CleanArchitecture.Services;
 
 namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
 {
 
-    public class CreateRecipeResponse
+    public class CreateRecipeInputPort : IUseCaseInputPort<ICreateRecipeOutputPort>
     {
 
         #region - - - - - - Properties - - - - - -
 
-        public Func<long> RecipeID { get; set; }
-
-        public string RecipeName { get; set; }
+        public string Name { get; set; }
 
         #endregion Properties
 

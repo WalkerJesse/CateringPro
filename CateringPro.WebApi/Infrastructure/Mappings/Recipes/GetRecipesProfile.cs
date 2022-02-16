@@ -13,9 +13,9 @@ namespace CateringPro.WebApi.Infrastructure.Mappings.Recipes
 
         public GetRecipesProfile()
         {
-            _ = this.CreateMap<GetRecipesQuery, GetRecipesRequest>();
+            _ = this.CreateMap<GetRecipesQuery, GetRecipesInputPort>();
 
-            _ = this.CreateMap<GetRecipesResponse, RecipesViewModel>();
+            _ = this.CreateMap<IGetRecipesOutputPort, RecipesViewModel>();
 
             _ = this.CreateMap<RecipeDto, RecipeViewModel>();
         }

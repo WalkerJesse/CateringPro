@@ -53,14 +53,14 @@ namespace CateringPro.WebApi.Controllers
         [ProducesResponseType(typeof(IngredientsViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public Task<IActionResult> GetIngredients(GetIngredientsQuery query)
-            => this.m_ControllerAction.ReadAsync<IngredientsViewModel, GetIngredientsRequest, GetIngredientsResponse>(query, CancellationToken.None);
+            => this.m_ControllerAction.ReadAsync<IngredientsViewModel, GetIngredientsRequest, Application.UseCases.Ingredients.GetIngredients.IGetIngredientsOutputPort>(query, CancellationToken.None);
 
         [HttpPost("{ingredientID:long}")]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.NotFound)]
         public Task<IActionResult> UpdateIngredient([FromBodyAndRoute] UpdateIngredientCommand command)
-            => this.m_ControllerAction.UpdateAsync<UpdateIngredientRequest, UpdateIngredientResponse>(command, CancellationToken.None);
+            => this.m_ControllerAction.UpdateAsync<UpdateIngredientRequest, IUpdateIngredientOutputPort>(command, CancellationToken.None);
 
         #endregion Methods
 

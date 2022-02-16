@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace CateringPro.Domain.Entities
+namespace CateringPro.Application.Dtos
 {
 
-    public class Recipe
+    public class RecipeDto
     {
 
         #region - - - - - - Properties - - - - - -
 
-        public long ID { get; set; }
+        public long RecipeID { get; set; }
 
-        public ICollection<RecipeIngredient> Ingredients { get; set; }
+        public IEnumerable<RecipeIngredientDto> Ingredients { get; set; }
 
         public string Name { get; set; }
 

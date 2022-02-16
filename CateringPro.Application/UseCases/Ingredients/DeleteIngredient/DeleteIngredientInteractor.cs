@@ -34,14 +34,14 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 
         public Task HandleAsync(DeleteIngredientInputPort inputPort, IDeleteIngredientOutputPort outputPort, CancellationToken cancellationToken)
         {
-            var _Ingredient = this.m_PersistenceContext.FindAsync<Ingredient>(new object[] { inputPort.IngredientID }, cancellationToken);
+            var _Ingredient = this.m_PersistenceContext.Find<Ingredient>(new object[] { inputPort.IngredientID });
 
             if (_Ingredient == null)
                 return outputPort.PresentIngredientNotFound(inputPort.IngredientID, cancellationToken);
 
-            this.m_PersistenceContext.RemoveAsync(_Ingredient);
+            this.m_PersistenceContext.Remove(_Ingredient);
 
-            return outputPort.PresentDeletedIngredientAsync(this.m_Mapper.Map<IngredientDto>(_Ingredient), cancellationToken);
+            return outputPort.PresentIngredientAsync(this.m_Mapper.Map<IngredientDto>(_Ingredient), cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation

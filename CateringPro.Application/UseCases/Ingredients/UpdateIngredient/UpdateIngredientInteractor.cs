@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Services;
+using CateringPro.Application.Dtos;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Domain.Entities;
+using CleanArchitecture.Services;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 {
 
-    public class UpdateIngredientInteractor : IUseCaseInteractor<UpdateIngredientRequest, UpdateIngredientResponse>
+    public class UpdateIngredientInteractor : IUseCaseInteractor<UpdateIngredientInputPort, IUpdateIngredientOutputPort>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -31,14 +32,14 @@ namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 
         #region - - - - - - IUseCaseInteractor Implementation - - - - - -
 
-        public async Task HandleAsync(UpdateIngredientRequest request, IPresenter<UpdateIngredientResponse> presenter, CancellationToken cancellationToken)
+        public Task HandleAsync(UpdateIngredientInputPort inputPort, IUpdateIngredientOutputPort outputPort, CancellationToken cancellationToken)
         {
-            var _Ingredient = await this.m_PersistenceContext.FindAsync<Ingredient>(new object[] { request.ID }, cancellationToken);
+            var _Ingredient = this.m_PersistenceContext.Find<Ingredient>(new object[] { inputPort.IngredientID });
 
             if (_Ingredient == null)
-                await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.ID), request.ID), cancellationToken);
-            else
-                await presenter.PresentAsync(this.m_Mapper.Map<UpdateIngredientResponse>(this.m_Mapper.Map(request, _Ingredient)), cancellationToken);
+                return outputPort.PresentIngredientNotFound(inputPort.IngredientID, cancellationToken);
+
+            return outputPort.PresentIngredientAsync(this.m_Mapper.Map<IngredientDto>(this.m_Mapper.Map(inputPort, _Ingredient)), cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation

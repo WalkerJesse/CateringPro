@@ -1,12 +1,14 @@
-﻿using CateringPro.Application.Services;
+﻿using System;
 
 namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
 {
 
-    public class CreateRecipeRequest : IUseCaseRequest<CreateRecipeResponse>
+    public class CreatedRecipeDto
     {
 
         #region - - - - - - Properties - - - - - -
+
+        public Func<long> RecipeID { get; set; }
 
         public string Name { get; set; }
 

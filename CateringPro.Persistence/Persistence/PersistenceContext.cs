@@ -1,8 +1,6 @@
 ﻿using CateringPro.Application.Services.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CateringPro.Persistence.Persistence
 {
@@ -18,22 +16,20 @@ namespace CateringPro.Persistence.Persistence
 
         #region - - - - - - IPersistenceContext Implementation - - - - - -
 
-        Task IPersistenceContext.AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken)
-            => this.AddAsync(entity, cancellationToken).AsTask();
+        void IPersistenceContext.Add<TEntity>(TEntity entity)
+            => this.Add(entity);
 
-        Task<TEntity> IPersistenceContext.FindAsync<TEntity>(object[] keyValues, CancellationToken cancellationToken)
-            => this.FindAsync<TEntity>(keyValues, cancellationToken).AsTask();
+        TEntity IPersistenceContext.Find<TEntity>(object[] keyValues)
+            => this.Find<TEntity>(keyValues);
 
-        public Task<IQueryable<TEntity>> GetEntitiesAsync<TEntity>() where TEntity : class
-            => Task.FromResult(this.Set<TEntity>().AsQueryable());
+        IQueryable<TEntity> IPersistenceContext.GetEntities<TEntity>() where TEntity : class
+            => this.Set<TEntity>().AsQueryable();
 
-        Task IPersistenceContext.RemoveAsync<TEntity>(TEntity entity)
-            => Task.FromResult(this.Remove(entity));
+        void IPersistenceContext.Remove<TEntity>(TEntity entity)
+            => this.Remove(entity);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(PersistenceContext).Assembly);
-        }
+            => modelBuilder.ApplyConfigurationsFromAssembly(typeof(PersistenceContext).Assembly);
 
         #endregion IPersistenceContext Implementation
 

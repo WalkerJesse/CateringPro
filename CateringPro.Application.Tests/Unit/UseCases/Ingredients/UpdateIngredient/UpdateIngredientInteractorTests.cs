@@ -22,7 +22,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
             // Arrange
             var _CancellationToken = new CancellationToken();
             var _Request = new UpdateIngredientRequest();
-            var _Response = new UpdateIngredientResponse();
+            var _Response = new IUpdateIngredientOutputPort();
 
             var _MockMapper = new Mock<IMapper>();
             var _MockPersistenceContext = new Mock<IPersistenceContext>();
@@ -30,7 +30,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
                 .Setup(mock => mock.FindAsync<Ingredient>(new object[] { _Request.ID }, CancellationToken.None))
                 .Returns(Task.FromResult((Ingredient)null));
 
-            var _MockPresenter = new Mock<IPresenter<UpdateIngredientResponse>>();
+            var _MockPresenter = new Mock<IPresenter<IUpdateIngredientOutputPort>>();
 
             var _IngredientsInteractor = new UpdateIngredientInteractor(_MockMapper.Object, _MockPersistenceContext.Object);
 
@@ -51,7 +51,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
             // Arrange
             var _CancellationToken = new CancellationToken();
             var _Request = new UpdateIngredientRequest();
-            var _Response = new UpdateIngredientResponse();
+            var _Response = new IUpdateIngredientOutputPort();
             var _Ingredient = new Ingredient();
 
             var _MockMapper = new Mock<IMapper>();
@@ -59,7 +59,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
                 .Setup(mock => mock.Map(_Request, _Ingredient))
                 .Returns(_Ingredient);
             _MockMapper
-                .Setup(mock => mock.Map<UpdateIngredientResponse>(_Ingredient))
+                .Setup(mock => mock.Map<IUpdateIngredientOutputPort>(_Ingredient))
                 .Returns(_Response);
 
             var _MockPersistenceContext = new Mock<IPersistenceContext>();
@@ -67,7 +67,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
                 .Setup(mock => mock.FindAsync<Ingredient>(new object[] { _Request.ID }, CancellationToken.None))
                 .Returns(Task.FromResult(_Ingredient));
 
-            var _MockPresenter = new Mock<IPresenter<UpdateIngredientResponse>>();
+            var _MockPresenter = new Mock<IPresenter<IUpdateIngredientOutputPort>>();
 
             var _IngredientsInteractor = new UpdateIngredientInteractor(_MockMapper.Object, _MockPersistenceContext.Object);
 
@@ -76,7 +76,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
 
             // Assert
             _MockMapper.Verify(mock => mock.Map(_Request, _Ingredient), Times.Once);
-            _MockMapper.Verify(mock => mock.Map<UpdateIngredientResponse>(_Ingredient), Times.Once);
+            _MockMapper.Verify(mock => mock.Map<IUpdateIngredientOutputPort>(_Ingredient), Times.Once);
             _MockPersistenceContext.Verify(mock => mock.FindAsync<Ingredient>(new object[] { _Request.ID }, CancellationToken.None), Times.Once);
             _MockPresenter.Verify(mock => mock.PresentAsync(_Response, _CancellationToken), Times.Once);
             _MockMapper.VerifyNoOtherCalls();

@@ -3,7 +3,7 @@
 namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 {
 
-    public class CreateIngredientInputPortValidator : AbstractValidator<CreateIngredientInputPort>
+    public class CreateIngredientInputPortValidator : AbstractValidator<CreateIngredientInputPort>  // :  IUseCaseInputPortValidator<CreateIngredientInputPort,ValidationResult>
     {
 
         #region - - - - - - Constructors - - - - - -

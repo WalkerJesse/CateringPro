@@ -17,7 +17,7 @@ namespace CateringPro.WebApi.Infrastructure.Mappings.Ingredients
 
             _ = this.CreateMap<GetIngredientsQuery, GetIngredientsRequest>();
 
-            _ = this.CreateMap<GetIngredientsResponse, IngredientsViewModel>();
+            _ = this.CreateMap<IGetIngredientsOutputPort, IngredientsViewModel>();
         }
 
         #endregion Constructors

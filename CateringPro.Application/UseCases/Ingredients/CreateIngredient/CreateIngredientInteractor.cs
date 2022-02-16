@@ -35,9 +35,9 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
         {
             var _Ingredient = this.m_Mapper.Map<Ingredient>(inputPort);
 
-            this.m_PersistenceContext.AddAsync(_Ingredient, cancellationToken);
+            this.m_PersistenceContext.Add(_Ingredient);
 
-            return outputPort.PresentCreatedIngredientAsync(this.m_Mapper.Map<CreatedIngredientDto>(_Ingredient), cancellationToken);
+            return outputPort.PresentIngredientAsync(this.m_Mapper.Map<CreatedIngredientDto>(_Ingredient), cancellationToken);
         }
 
         #endregion Methods

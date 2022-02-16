@@ -1,22 +1,21 @@
 ﻿using CateringPro.Application.Dtos;
 using CateringPro.Application.Infrastructure.Authorisation;
 using CleanArchitecture.Services;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
+namespace CateringPro.Application.UseCases.Recipes.GetRecipes
 {
 
-    public interface IDeleteIngredientOutputPort :
+    public interface IGetRecipesOutputPort :
         IAuthenticationOutputPort,
         IAuthorisationOutputPort<AuthorisationResult>
     {
 
         #region - - - - - - Methods - - - - - -
 
-        Task PresentIngredientAsync(IngredientDto ingredient, CancellationToken cancellationToken);
-
-        Task PresentIngredientNotFound(long ingredientID, CancellationToken cancellationToken);
+        Task PresentRecipesAsync(IQueryable<RecipeDto> ingredient, CancellationToken cancellationToken);
 
         #endregion Methods
 

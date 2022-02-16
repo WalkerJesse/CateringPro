@@ -37,13 +37,13 @@ namespace CateringPro.WebApi.Controllers
         [ProducesResponseType(typeof(RecipeViewModel), (int)HttpStatusCode.Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public Task<IActionResult> CreateRecipe([FromBody] CreateRecipeCommand command)
-            => this.m_ControllerAction.CreateAsync<RecipeViewModel, CreateRecipeRequest, CreateRecipeResponse>(command, CancellationToken.None);
+            => this.m_ControllerAction.CreateAsync<RecipeViewModel, CreateRecipeInputPort, ICreateRecipeOutputPort>(command, CancellationToken.None);
 
         [HttpGet]
         [ProducesResponseType(typeof(RecipesViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
         public Task<IActionResult> GetRecipes(GetRecipesQuery query)
-            => this.m_ControllerAction.ReadAsync<RecipesViewModel, GetRecipesRequest, GetRecipesResponse>(query, CancellationToken.None);
+            => this.m_ControllerAction.ReadAsync<RecipesViewModel, GetRecipesInputPort, IGetRecipesOutputPort>(query, CancellationToken.None);
 
         #endregion Methods
 

@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Services;
 
-namespace CateringPro.Application.Infrastructure
+namespace CateringPro.Application.Infrastructure.Authorisation
 {
 
     public class AuthorisationResult : IAuthorisationResult

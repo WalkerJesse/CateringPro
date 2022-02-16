@@ -17,7 +17,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
         [InlineData(StringConstants.LengthOf_100 + "1")]
         public void Validate_NullOrEmptyOrLongName_ReturnsValidationError(string input)
         {
-            new UpdateIngredientRequestValidator().ShouldHaveValidationErrorFor(i => i.Name, input);
+            new UpdateIngredientInputPortValidator().ShouldHaveValidationErrorFor(i => i.Name, input);
         }
 
         [Theory]
@@ -25,7 +25,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
         [InlineData(StringConstants.LengthOf_100)]
         public void Validate_Name_PassesValidation(string input)
         {
-            new UpdateIngredientRequestValidator().ShouldNotHaveValidationErrorFor(i => i.Name, input);
+            new UpdateIngredientInputPortValidator().ShouldNotHaveValidationErrorFor(i => i.Name, input);
         }
 
         #endregion UpdateIngredientRequestValidator Tests

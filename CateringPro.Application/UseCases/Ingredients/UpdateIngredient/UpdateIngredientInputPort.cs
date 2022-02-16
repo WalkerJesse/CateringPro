@@ -1,14 +1,14 @@
-﻿using CateringPro.Application.Services;
+﻿using CleanArchitecture.Services;
 
 namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 {
 
-    public class UpdateIngredientRequest : IUseCaseRequest<UpdateIngredientResponse>
+    public class UpdateIngredientInputPort : IUseCaseInputPort<IUpdateIngredientOutputPort>
     {
 
         #region - - - - - - Properties - - - - - -
 
-        public long ID { get; set; }
+        public long IngredientID { get; set; }
 
         public string Name { get; set; }
 
