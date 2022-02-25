@@ -3,8 +3,10 @@ using CateringPro.Application.Dtos;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Application.UseCases.Recipes.GetRecipes;
 using CateringPro.Domain.Entities;
+using CateringPro.Domain.Enumerations;
 using FluentAssertions;
 using Moq;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +38,13 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.GetRecipes
 
             this.m_MockMapper
                 .Setup(mock => mock.ConfigurationProvider)
-                .Returns(new MapperConfiguration(opts => opts.CreateMap<Recipe, RecipeDto>()));
+                .Returns(new MapperConfiguration(opts =>
+                {
+                    opts.CreateMap<Ingredient, IngredientDto>();
+                    opts.CreateMap<MeasurementType, MeasurementTypeDto>();
+                    opts.CreateMap<Recipe, RecipeDto>();
+                    opts.CreateMap<RecipeIngredient, RecipeIngredientDto>();
+                }));
 
             this.m_MockOutputPort
                 .Setup(mock => mock.PresentRecipesAsync(It.IsAny<IQueryable<RecipeDto>>(), default))
@@ -44,7 +52,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.GetRecipes
 
             this.m_MockPersistenceContext
                 .Setup(mock => mock.GetEntities<Recipe>())
-                .Returns(new[] { new Recipe() }.AsQueryable());
+                .Returns(new[] { new Recipe() { Ingredients = new List<RecipeIngredient>() } }.AsQueryable());
         }
 
         #endregion Constructors
@@ -55,7 +63,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.GetRecipes
         public async Task HandleAsync_AnyRequest_PresentsRecipeDtos()
         {
             // Arrange
-            var _Expected = new[] { new RecipeDto() };
+            var _Expected = new[] { new RecipeDto() { Ingredients = new List<RecipeIngredientDto>() } };
 
             // Act
             await this.m_Interactor.HandleAsync(this.m_InputPort, this.m_MockOutputPort.Object, default);

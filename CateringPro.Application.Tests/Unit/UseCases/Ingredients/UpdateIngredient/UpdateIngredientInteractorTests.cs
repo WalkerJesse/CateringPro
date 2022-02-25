@@ -39,7 +39,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.UpdateIngredie
                 .Returns(this.m_Ingredient);
 
             this.m_MockMapper
-                .Setup(mock => mock.Map<Ingredient>(this.m_InputPort))
+                .Setup(mock => mock.Map(this.m_InputPort, this.m_Ingredient))
                 .Returns(this.m_Ingredient);
 
             this.m_MockMapper

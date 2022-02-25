@@ -1,6 +1,6 @@
 ﻿using CateringPro.Application.Infrastructure.Authorisation;
+using CateringPro.Application.Infrastructure.Validation;
 using CleanArchitecture.Services;
-using FluentValidation.Results;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +10,7 @@ namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
     public interface ICreateIngredientOutputPort :
         IAuthenticationOutputPort,
         IAuthorisationOutputPort<AuthorisationResult>,
-        IValidationOutputPort<ValidationResult> // IUseCaseInputPortValidator<ValidationResult>
+        IValidationOutputPort<CleanValidationResult>
     {
 
         #region - - - - - - Methods - - - - - -

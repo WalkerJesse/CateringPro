@@ -1,9 +1,10 @@
-﻿using FluentValidation;
+﻿using CateringPro.Application.Infrastructure.Validation;
+using FluentValidation;
 
 namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 {
 
-    public class UpdateIngredientInputPortValidator : AbstractValidator<UpdateIngredientInputPort> // :  IUseCaseInputPortValidator<CreateIngredientInputPort,ValidationResult>
+    public class UpdateIngredientInputPortValidator : BaseValidator<UpdateIngredientInputPort>
     {
 
         #region - - - - - - Constructors - - - - - -

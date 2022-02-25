@@ -1,9 +1,10 @@
-﻿using FluentValidation;
+﻿using CateringPro.Application.Infrastructure.Validation;
+using FluentValidation;
 
 namespace CateringPro.Application.UseCases.Ingredients.CreateIngredient
 {
 
-    public class CreateIngredientInputPortValidator : AbstractValidator<CreateIngredientInputPort>  // :  IUseCaseInputPortValidator<CreateIngredientInputPort,ValidationResult>
+    public class CreateIngredientInputPortValidator : BaseValidator<CreateIngredientInputPort>
     {
 
         #region - - - - - - Constructors - - - - - -
