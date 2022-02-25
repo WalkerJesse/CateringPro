@@ -1,5 +1,4 @@
-﻿using CateringPro.Application.Dtos;
-using CateringPro.Application.Infrastructure.Authorisation;
+﻿using CateringPro.Application.Infrastructure.Authorisation;
 using CleanArchitecture.Services;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 
         #region - - - - - - Methods - - - - - -
 
-        Task PresentIngredientAsync(IngredientDto ingredient, CancellationToken cancellationToken);
+        Task PresentDeletedIngredientAsync(long ingredientID, CancellationToken cancellationToken);
 
         Task PresentIngredientNotFound(long ingredientID, CancellationToken cancellationToken);
 

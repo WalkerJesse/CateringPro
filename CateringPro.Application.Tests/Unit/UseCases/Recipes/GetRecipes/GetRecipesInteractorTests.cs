@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Services;
+using CateringPro.Application.Dtos;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Application.UseCases.Recipes.GetRecipes;
 using CateringPro.Domain.Entities;
+using FluentAssertions;
 using Moq;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,49 +16,56 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Recipes.GetRecipes
     public class GetRecipesInteractorTests
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        private readonly Mock<IMapper> m_MockMapper = new();
+        private readonly Mock<IGetRecipesOutputPort> m_MockOutputPort = new();
+        private readonly Mock<IPersistenceContext> m_MockPersistenceContext = new();
+
+        private IQueryable<RecipeDto> m_Actual;
+        private readonly GetRecipesInputPort m_InputPort = new();
+        private readonly GetRecipesInteractor m_Interactor;
+
+        #endregion Fields
+
+        #region - - - - - - Constructors - - - - - -
+
+        public GetRecipesInteractorTests()
+        {
+            this.m_Interactor = new(this.m_MockMapper.Object, this.m_MockPersistenceContext.Object);
+
+            this.m_MockMapper
+                .Setup(mock => mock.ConfigurationProvider)
+                .Returns(new MapperConfiguration(opts => opts.CreateMap<Recipe, RecipeDto>()));
+
+            this.m_MockOutputPort
+                .Setup(mock => mock.PresentRecipesAsync(It.IsAny<IQueryable<RecipeDto>>(), default))
+                .Callback((IQueryable<RecipeDto> dtos, CancellationToken c) => this.m_Actual = dtos);
+
+            this.m_MockPersistenceContext
+                .Setup(mock => mock.GetEntities<Recipe>())
+                .Returns(new[] { new Recipe() }.AsQueryable());
+        }
+
+        #endregion Constructors
+
         #region - - - - - - HandleAsync Tests - - - - - -
 
         [Fact]
-        public async Task HandleAsync_ValidRequest_Successful()
+        public async Task HandleAsync_AnyRequest_PresentsRecipeDtos()
         {
             // Arrange
-            var _CancellationToken = new CancellationToken();
-            var _Request = new GetRecipesInputPort();
-            var _Response = new IGetRecipesOutputPort();
-            var _RecipeDto = new RecipeDto();
-            var _RecipeDtos = new List<RecipeDto>() { _RecipeDto };
-            var _Recipe = new Recipe();
-            var _Recipes = new List<Recipe>() { _Recipe };
-
-            var _MockMapper = new Mock<IMapper>();
-            _MockMapper
-                .Setup(mock => mock.Map<List<RecipeDto>>(_Recipes))
-                .Returns(_RecipeDtos);
-            _MockMapper
-                .Setup(mock => mock.Map<IGetRecipesOutputPort>(_RecipeDtos))
-                .Returns(_Response);
-
-            var _MockPersistenceContext = new Mock<IPersistenceContext>();
-            _MockPersistenceContext
-                .Setup(mock => mock.GetEntitiesAsync<Recipe>())
-                .Returns(Task.FromResult(
-                    new List<Recipe>() { _Recipe }.AsQueryable()));
-
-            var _MockPresenter = new Mock<IPresenter<IGetRecipesOutputPort>>();
-
-            var _Interactor = new GetRecipesInteractor(_MockMapper.Object, _MockPersistenceContext.Object);
+            var _Expected = new[] { new RecipeDto() };
 
             // Act
-            await _Interactor.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken);
+            await this.m_Interactor.HandleAsync(this.m_InputPort, this.m_MockOutputPort.Object, default);
 
             // Assert
-            _MockMapper.Verify(mock => mock.Map<List<RecipeDto>>(_Recipes), Times.Once);
-            _MockMapper.Verify(mock => mock.Map<IGetRecipesOutputPort>(_RecipeDtos), Times.Once);
-            _MockPersistenceContext.Verify(mock => mock.GetEntitiesAsync<Recipe>(), Times.Once);
-            _MockPresenter.Verify(mock => mock.PresentAsync(_Response, _CancellationToken), Times.Once);
-            _MockMapper.VerifyNoOtherCalls();
-            _MockPersistenceContext.VerifyNoOtherCalls();
-            _MockPresenter.VerifyNoOtherCalls();
+            this.m_Actual.Should().BeEquivalentTo(_Expected);
+
+            this.m_MockOutputPort.Verify(mock => mock.PresentRecipesAsync(It.IsAny<IQueryable<RecipeDto>>(), default), Times.Once);
+
+            this.m_MockOutputPort.VerifyNoOtherCalls();
         }
 
         #endregion HandleAsync Tests

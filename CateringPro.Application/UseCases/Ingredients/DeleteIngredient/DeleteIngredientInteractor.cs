@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using CateringPro.Application.Dtos;
-using CateringPro.Application.Services.Persistence;
+﻿using CateringPro.Application.Services.Persistence;
 using CateringPro.Domain.Entities;
 using CleanArchitecture.Services;
 using System;
@@ -15,18 +13,14 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 
         #region - - - - - - Fields - - - - - -
 
-        private readonly IMapper m_Mapper;
         private readonly IPersistenceContext m_PersistenceContext;
 
         #endregion Fields
 
         #region - - - - - - Constructors - - - - - -
 
-        public DeleteIngredientInteractor(IMapper mapper, IPersistenceContext persistenceContext)
-        {
-            this.m_Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            this.m_PersistenceContext = persistenceContext ?? throw new ArgumentNullException(nameof(persistenceContext));
-        }
+        public DeleteIngredientInteractor(IPersistenceContext persistenceContext)
+            => this.m_PersistenceContext = persistenceContext ?? throw new ArgumentNullException(nameof(persistenceContext));
 
         #endregion Constructors
 
@@ -41,7 +35,7 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 
             this.m_PersistenceContext.Remove(_Ingredient);
 
-            return outputPort.PresentIngredientAsync(this.m_Mapper.Map<IngredientDto>(_Ingredient), cancellationToken);
+            return outputPort.PresentDeletedIngredientAsync(inputPort.IngredientID, cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation

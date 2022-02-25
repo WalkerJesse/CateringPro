@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using CateringPro.Application.Services;
-using CateringPro.Application.Services.Persistence;
+﻿using CateringPro.Application.Services.Persistence;
 using CateringPro.Application.UseCases.Ingredients.DeleteIngredient;
 using CateringPro.Domain.Entities;
 using Moq;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -14,78 +11,73 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.DeleteIngredie
     public class DeleteIngredientInteractorTests
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        private readonly Mock<IDeleteIngredientOutputPort> m_MockOutputPort = new();
+        private readonly Mock<IPersistenceContext> m_MockPersistenceContext = new();
+
+        private readonly Ingredient m_Ingredient = new() { ID = 5 };
+        private readonly DeleteIngredientInputPort m_InputPort = new();
+        private readonly DeleteIngredientInteractor m_Interactor;
+
+        #endregion Fields
+
+        #region - - - - - - Constructors - - - - - -
+
+        public DeleteIngredientInteractorTests()
+        {
+            this.m_InputPort.IngredientID = this.m_Ingredient.ID;
+
+            this.m_Interactor = new(this.m_MockPersistenceContext.Object);
+
+            this.m_MockPersistenceContext
+                .Setup(mock => mock.Find<Ingredient>(It.Is<object[]>(k => Equals(k[0], this.m_Ingredient.ID))))
+                .Returns(this.m_Ingredient);
+        }
+
+        #endregion Constructors
+
         #region - - - - - - HandleAsync Tests - - - - - -
 
         [Fact]
-        public async Task HandleAsync_IngredientDoesNotExist_PresentsNotFoundResponse()
+        public async Task HandleAsync_IngredientExists_RemovesIngredientFromPersistence()
         {
             // Arrange
-            var _CancellationToken = new CancellationToken();
-            var _Request = new DeleteIngredientRequest() { ID = 1 };
-            var _Response = new DeleteIngredientResponse();
-
-            var _MockMapper = new Mock<IMapper>();
-            var _MockPersistenceContext = new Mock<IPersistenceContext>();
-            _MockPersistenceContext
-                .Setup(mock => mock.FindAsync<Ingredient>(new object[] { _Request.ID }, CancellationToken.None))
-                .Returns(Task.FromResult((Ingredient)null));
-
-            var _MockPresenter = new Mock<IPresenter<DeleteIngredientResponse>>();
-
-            var _IngredientsInteractor = new DeleteIngredientInteractor(_MockMapper.Object, _MockPersistenceContext.Object);
 
             // Act
-            await _IngredientsInteractor.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken);
+            await this.m_Interactor.HandleAsync(this.m_InputPort, this.m_MockOutputPort.Object, default);
 
             // Assert
-            _MockPersistenceContext.Verify(mock => mock.FindAsync<Ingredient>(new object[] { _Request.ID }, CancellationToken.None), Times.Once);
-            _MockPresenter.Verify(mock => mock.PresentNotFoundAsync(It.IsAny<EntityRequest>(), _CancellationToken), Times.Once);
-            _MockMapper.VerifyNoOtherCalls();
-            _MockPersistenceContext.VerifyNoOtherCalls();
-            _MockPresenter.VerifyNoOtherCalls();
+            this.m_MockPersistenceContext.Verify(mock => mock.Remove(this.m_Ingredient), Times.Once);
         }
 
         [Fact]
-        public async Task HandleAsync_ValidRequest_PresentsSuccessResponse()
+        public async Task HandleAsync_IngredientExists_PresentsDeletedIngredientID()
         {
             // Arrange
-            var _Ingredient = new Ingredient() { ID = 1 };
-            var _CancellationToken = new CancellationToken();
-            var _Request = new DeleteIngredientRequest() { ID = _Ingredient.ID };
-            var _Response = new DeleteIngredientResponse();
-
-
-            var _MockMapper = new Mock<IMapper>();
-            _MockMapper
-                .Setup(mock => mock.Map(_Request, _Ingredient))
-                .Returns(_Ingredient);
-            _MockMapper
-                .Setup(mock => mock.Map<DeleteIngredientResponse>(_Ingredient))
-                .Returns(_Response); ;
-
-            var _MockPersistenceContext = new Mock<IPersistenceContext>();
-            _MockPersistenceContext
-                .Setup(mock => mock.FindAsync<Ingredient>(new object[] { _Request.ID }, CancellationToken.None))
-                .Returns(Task.FromResult(_Ingredient));
-            _MockPersistenceContext
-                .Setup(mock => mock.RemoveAsync(_Ingredient))
-                .Returns(Task.FromResult(_Ingredient));
-
-            var _MockPresenter = new Mock<IPresenter<DeleteIngredientResponse>>();
-
-            var _IngredientsInteractor = new DeleteIngredientInteractor(_MockMapper.Object, _MockPersistenceContext.Object);
 
             // Act
-            await _IngredientsInteractor.HandleAsync(_Request, _MockPresenter.Object, _CancellationToken);
+            await this.m_Interactor.HandleAsync(this.m_InputPort, this.m_MockOutputPort.Object, default);
 
             // Assert
-            _MockMapper.Verify(mock => mock.Map<DeleteIngredientResponse>(_Ingredient), Times.Once);
-            _MockPersistenceContext.Verify(mock => mock.FindAsync<Ingredient>(new object[] { _Request.ID }, CancellationToken.None), Times.Once);
-            _MockPersistenceContext.Verify(mock => mock.RemoveAsync(_Ingredient), Times.Once);
-            _MockPresenter.Verify(mock => mock.PresentAsync(_Response, _CancellationToken), Times.Once);
-            _MockMapper.VerifyNoOtherCalls();
-            _MockPersistenceContext.VerifyNoOtherCalls();
-            _MockPresenter.VerifyNoOtherCalls();
+            this.m_MockOutputPort.Verify(mock => mock.PresentDeletedIngredientAsync(this.m_InputPort.IngredientID, default), Times.Once);
+
+            this.m_MockOutputPort.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task HandleAsync_IngredientDoesNotExist_PresentsIngredientNotFound()
+        {
+            // Arrange
+            this.m_InputPort.IngredientID = 0;
+
+            // Act
+            await this.m_Interactor.HandleAsync(this.m_InputPort, this.m_MockOutputPort.Object, default);
+
+            // Assert
+            this.m_MockOutputPort.Verify(mock => mock.PresentIngredientNotFound(this.m_InputPort.IngredientID, default), Times.Once);
+
+            this.m_MockOutputPort.VerifyNoOtherCalls();
         }
 
         #endregion HandleAsync Tests
