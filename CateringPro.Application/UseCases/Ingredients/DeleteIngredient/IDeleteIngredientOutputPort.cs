@@ -1,5 +1,4 @@
-﻿using CateringPro.Application.Infrastructure.Authorisation;
-using CleanArchitecture.Services;
+﻿using CleanArchitecture.Mediator;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,8 +6,8 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 {
 
     public interface IDeleteIngredientOutputPort :
-        IAuthenticationOutputPort,
-        IAuthorisationOutputPort<AuthorisationResult>
+        IAuthenticationOutputPort
+    //IAuthorisationOutputPort<AuthorisationResult>
     {
 
         #region - - - - - - Methods - - - - - -

@@ -1,7 +1,7 @@
 ﻿using CateringPro.Application.Dtos;
 using CateringPro.Application.Infrastructure.Authorisation;
 using CateringPro.Application.Infrastructure.Validation;
-using CleanArchitecture.Services;
+using CleanArchitecture.Mediator;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +10,7 @@ namespace CateringPro.Application.UseCases.Ingredients.UpdateIngredient
 
     public interface IUpdateIngredientOutputPort :
         IAuthenticationOutputPort,
-        IAuthorisationOutputPort<AuthorisationResult>,
+        //IAuthorisationOutputPort<AuthorisationResult>,
         IValidationOutputPort<CleanValidationResult>
     {
 

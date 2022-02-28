@@ -1,6 +1,5 @@
 ﻿using CateringPro.Application.Dtos;
-using CateringPro.Application.Infrastructure.Authorisation;
-using CleanArchitecture.Services;
+using CleanArchitecture.Mediator;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,8 +8,8 @@ namespace CateringPro.Application.UseCases.Recipes.GetRecipes
 {
 
     public interface IGetRecipesOutputPort :
-        IAuthenticationOutputPort,
-        IAuthorisationOutputPort<AuthorisationResult>
+        IAuthenticationOutputPort
+    //IAuthorisationOutputPort<AuthorisationResult>
     {
 
         #region - - - - - - Methods - - - - - -

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Domain.Entities;
-using CleanArchitecture.Services;
+using CleanArchitecture.Mediator;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

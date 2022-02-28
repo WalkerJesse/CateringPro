@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.0" />
-    <PackageReference Include="CleanArchitecture.Services" Version="2.1.0" />
+    <PackageReference Include="CleanArchitecture.Mediator" Version="1.0.0" />
     <PackageReference Include="FluentValidation" Version="9.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
   </ItemGroup>

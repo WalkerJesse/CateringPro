@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Services;
+﻿using CleanArchitecture.Mediator;
 using FluentValidation.Results;
 using System.Collections.Generic;
 

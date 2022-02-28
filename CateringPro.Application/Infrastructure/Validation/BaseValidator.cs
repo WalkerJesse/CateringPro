@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Services;
+﻿using CleanArchitecture.Mediator;
 using FluentValidation;
 using System.Threading;
 using System.Threading.Tasks;

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CleanArchitecture.Services" Version="2.1.0" />
+    <PackageReference Include="CleanArchitecture.Mediator" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Services;
+﻿using CleanArchitecture.Mediator;
 
 namespace CateringPro.InterfaceAdapters.Controllers
 {

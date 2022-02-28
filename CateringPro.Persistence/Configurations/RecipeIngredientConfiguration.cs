@@ -26,7 +26,7 @@ namespace CateringPro.Persistence.Configurations
                 .IsRequired();
 
             entity.Property(e => e.MeasurementType)
-                .HasConversion(i => i.Value, dbval => dbval)
+                .HasConversion(mt => mt.Value, dbval => dbval)
                 .IsRequired();
 
             entity.Property<long>("RecipeID");

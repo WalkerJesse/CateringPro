@@ -52,7 +52,7 @@ namespace CateringPro.Persistence.Migrations
                     b.Property<long>("IngredientID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("MeasurementType")
+                    b.Property<long>("MeasurementType")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("RecipeID")

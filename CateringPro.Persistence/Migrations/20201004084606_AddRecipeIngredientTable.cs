@@ -11,7 +11,7 @@ namespace CateringPro.Persistence.Migrations
                 columns: table => new
                 {
                     Measurement = table.Column<decimal>(nullable: false),
-                    MeasurementType = table.Column<int>(nullable: false),
+                    MeasurementType = table.Column<long>(nullable: false),
                     IngredientID = table.Column<long>(nullable: false),
                     RecipeID = table.Column<long>(nullable: false)
                 },
