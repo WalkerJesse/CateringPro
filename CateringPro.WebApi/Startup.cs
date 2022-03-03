@@ -30,9 +30,7 @@ namespace CateringPro.WebApi
         #region - - - - - - Constructors - - - - - -
 
         public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-        }
+            => this.Configuration = configuration;
 
         #endregion Constructors
 
@@ -54,6 +52,7 @@ namespace CateringPro.WebApi
             services.AddAutoMapperService();
             services.AddCleanArchitectureServices();
             services.AddCors();
+            services.AdInterfaceAdaptersServices();
             services.AddPersistenceContext(this.Configuration);
             services.AddSwaggerServices();
         }
@@ -152,6 +151,12 @@ namespace CateringPro.WebApi
 
             services.AddScoped<UseCaseServiceResolver>(serviceProvider => serviceProvider.GetService);
         }
+
+        public static void AdInterfaceAdaptersServices(this IServiceCollection services)
+            => _ = services.Scan(s => s.FromAssemblies(InterfaceAdapters.AssemblyUtility.GetAssembly())
+                                        .AddClasses(c => c.Where(type => type.Name.EndsWith("Controller")))
+                                        .AsSelf()
+                                        .WithScopedLifetime());
 
         public static void AddPersistenceContext(this IServiceCollection services, IConfiguration configuration)
             => services.AddDbContext<IPersistenceContext, PersistenceContext>(options =>
