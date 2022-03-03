@@ -1,4 +1,6 @@
-﻿using CateringPro.Application.Services.Persistence;
+﻿using AutoMapper;
+using CateringPro.Application.Dtos;
+using CateringPro.Application.Services.Persistence;
 using CateringPro.Application.UseCases.Ingredients.DeleteIngredient;
 using CateringPro.Domain.Entities;
 using Moq;
@@ -13,10 +15,12 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.DeleteIngredie
 
         #region - - - - - - Fields - - - - - -
 
+        private readonly Mock<IMapper> m_MockMapper = new();
         private readonly Mock<IDeleteIngredientOutputPort> m_MockOutputPort = new();
         private readonly Mock<IPersistenceContext> m_MockPersistenceContext = new();
 
         private readonly Ingredient m_Ingredient = new() { ID = 5 };
+        private readonly IngredientDto m_IngredientDto = new();
         private readonly DeleteIngredientInputPort m_InputPort = new();
         private readonly DeleteIngredientInteractor m_Interactor;
 
@@ -28,7 +32,11 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.DeleteIngredie
         {
             this.m_InputPort.IngredientID = this.m_Ingredient.ID;
 
-            this.m_Interactor = new(this.m_MockPersistenceContext.Object);
+            this.m_Interactor = new(this.m_MockMapper.Object, this.m_MockPersistenceContext.Object);
+
+            this.m_MockMapper
+                .Setup(mock => mock.Map<IngredientDto>(this.m_Ingredient))
+                .Returns(this.m_IngredientDto);
 
             this.m_MockPersistenceContext
                 .Setup(mock => mock.Find<Ingredient>(It.Is<object[]>(k => Equals(k[0], this.m_Ingredient.ID))))
@@ -60,7 +68,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.DeleteIngredie
             await this.m_Interactor.HandleAsync(this.m_InputPort, this.m_MockOutputPort.Object, default);
 
             // Assert
-            this.m_MockOutputPort.Verify(mock => mock.PresentDeletedIngredientAsync(this.m_InputPort.IngredientID, default), Times.Once);
+            this.m_MockOutputPort.Verify(mock => mock.PresentDeletedIngredientAsync(this.m_IngredientDto, default), Times.Once);
 
             this.m_MockOutputPort.VerifyNoOtherCalls();
         }
