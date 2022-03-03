@@ -1,4 +1,8 @@
-﻿using CleanArchitecture.Mediator;
+﻿using CateringPro.Application.UseCases.Ingredients.CreateIngredient;
+using CateringPro.Application.UseCases.Ingredients.DeleteIngredient;
+using CateringPro.Application.UseCases.Ingredients.GetIngredients;
+using CateringPro.Application.UseCases.Ingredients.UpdateIngredient;
+using CleanArchitecture.Mediator;
 
 namespace CateringPro.InterfaceAdapters.Controllers
 {
@@ -21,7 +25,17 @@ namespace CateringPro.InterfaceAdapters.Controllers
 
         #region - - - - - - Methods - - - - - -
 
-        //public Task
+        public Task CreateIngredientAsync(CreateIngredientInputPort inputPort, ICreateIngredientOutputPort outputPort, CancellationToken cancellationToken)
+            => this.m_UseCaseInvoker.InvokeUseCaseAsync(inputPort, outputPort, cancellationToken);
+
+        public Task DeleteIngredientAsync(DeleteIngredientInputPort inputPort, IDeleteIngredientOutputPort outputPort, CancellationToken cancellationToken)
+            => this.m_UseCaseInvoker.InvokeUseCaseAsync(inputPort, outputPort, cancellationToken);
+
+        public Task GetIngredientsAsync(IGetIngredientsOutputPort outputPort, CancellationToken cancellationToken)
+            => this.m_UseCaseInvoker.InvokeUseCaseAsync(new GetIngredientsInputPort(), outputPort, cancellationToken);
+
+        public Task UpdateIngredientAsync(UpdateIngredientInputPort inputPort, IUpdateIngredientOutputPort outputPort, CancellationToken cancellationToken)
+            => this.m_UseCaseInvoker.InvokeUseCaseAsync(inputPort, outputPort, cancellationToken);
 
         #endregion Methods
 
