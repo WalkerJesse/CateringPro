@@ -14,7 +14,7 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         #region - - - - - - Methods - - - - - -
 
-        Task PresentIngredientsAsync(IQueryable<IngredientDto> ingredient, CancellationToken cancellationToken);
+        Task PresentIngredientsAsync(IQueryable<IngredientDto> ingredients, CancellationToken cancellationToken);
 
         #endregion Methods
 

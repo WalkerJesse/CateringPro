@@ -10,7 +10,7 @@ namespace CateringPro.Application.Dtos
 
         public long RecipeID { get; set; }
 
-        public IEnumerable<RecipeIngredientDto> Ingredients { get; set; }
+        public List<RecipeIngredientDto> Ingredients { get; set; }
 
         public string Name { get; set; }
 
