@@ -25,4 +25,8 @@
     <ProjectReference Include="..\CateringPro.WebApi\CateringPro.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Unit\Presentation\Presenters\" />
+  </ItemGroup>
+
 </Project>

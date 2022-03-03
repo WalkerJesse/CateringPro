@@ -5,14 +5,14 @@ using Xunit;
 namespace CateringPro.WebApi.Tests.Unit.Infrastructure.Mappings.Recipes
 {
 
-    public class CreateRecipeProfileTests
+    public class RecipeProfileTests
     {
 
         #region - - - - - - Profile Configuration Tests - - - - - -
 
         [Fact]
-        public void CreateRecipeProfile_ConfigurationValidation_Successful()
-            => new MapperConfiguration(cfg => cfg.AddProfile<CreateRecipeProfile>()).AssertConfigurationIsValid();
+        public void RecipeProfile_ConfigurationValidation_Successful()
+            => new MapperConfiguration(cfg => cfg.AddProfile<RecipeProfile>()).AssertConfigurationIsValid();
 
         #endregion Profile Configuration Tests
 
