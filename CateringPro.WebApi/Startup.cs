@@ -115,16 +115,6 @@ namespace CateringPro.WebApi
         {
             services.AddScoped<IAuthenticatedClaimsPrincipalProvider, AuthenticatedClaimsPrincipalProvider>();
             services.AddHttpContextAccessor();
-
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = "Basic";
-            //    options.DefaultChallengeScheme = "Basic";
-            //})
-            //.AddScheme<BasicAuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", opts => { });
-
-            //services.AddScoped<IAuthorisationHeaderParser, AuthorisationHeaderParser>();
-            //services.AddScoped<IAuthorisationHeaderProvider, AuthorisationHeaderProvider>();
         }
 
         public static void AddAutoMapperService(this IServiceCollection services)
