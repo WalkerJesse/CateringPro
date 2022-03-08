@@ -47,7 +47,6 @@ namespace CateringPro.WebApi
             this.ConfigureAppContextSettings(services);
 
             services.AddApiControllers();
-            //services.AddApplicationServices();
             services.AddAuthenticationServices();
             services.AddAutoMapperService();
             services.AddCleanArchitectureServices();
@@ -111,10 +110,6 @@ namespace CateringPro.WebApi
                             );
                 }
             ).AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-
-        public static void AddApplicationServices(this IServiceCollection services)
-        {
-        }
 
         public static void AddAuthenticationServices(this IServiceCollection services)
         {
