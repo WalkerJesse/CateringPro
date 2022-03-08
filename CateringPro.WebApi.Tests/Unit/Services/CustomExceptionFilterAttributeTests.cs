@@ -2,7 +2,6 @@
 using CateringPro.Domain.Exceptions;
 using CateringPro.WebApi.Services.Attributes;
 using FluentAssertions;
-using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -45,7 +44,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
         }
 
-
         [Fact]
         public void OnException_HandleAutoMapperMappingExceptionWrappingInvalidEnumException_HandlesInvalidEnumException()
         {
@@ -69,7 +67,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             _ExceptionContext.HttpContext.Response.StatusCode.Should().Be(400);
             _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
         }
-
 
         [Fact]
         public void OnException_InvalidEnumException_HandlesAsInvalidEnumException()
@@ -118,31 +115,6 @@ namespace CateringPro.WebApi.Tests.Unit.Services
             _ExceptionContext.HttpContext.Response.StatusCode.Should().Be(500);
             _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
         }
-
-        [Fact]
-        public void OnException_ValidationException_HandlesAsValidationException()
-        {
-            // Arrange
-            var _Exception = new ValidationException("message");
-            var _ExceptionContext = GetExceptionContext(_Exception);
-            var _ProblemDetails = new ValidationProblemDetails() { Detail = "Detail" };
-            var _Expected = new JsonResult(_ProblemDetails);
-
-            var _MockMapper = new Mock<IMapper>();
-            _MockMapper.Setup(mock => mock.Map<ValidationProblemDetails>(_Exception)).Returns(_ProblemDetails);
-
-            var _Filter = new CustomExceptionFilterAttribute(_MockMapper.Object);
-
-            // Act
-            _Filter.OnException(_ExceptionContext);
-
-            // Assert
-            _MockMapper.Verify(mock => mock.Map<ValidationProblemDetails>(_Exception));
-            _ExceptionContext.HttpContext.Response.ContentType.Should().Be("application/json");
-            _ExceptionContext.HttpContext.Response.StatusCode.Should().Be(400);
-            _ExceptionContext.Result.Should().BeEquivalentTo(_Expected);
-        }
-
 
         private static ExceptionContext GetExceptionContext(Exception exception)
         {

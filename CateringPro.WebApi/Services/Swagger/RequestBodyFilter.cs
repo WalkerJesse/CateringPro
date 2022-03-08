@@ -20,10 +20,7 @@ namespace CateringPro.WebApi.Services.Swagger
             if (_SwaggerQueryParameter == null) return;
 
             operation.Parameters.Remove(_SwaggerQueryParameter);
-            operation.RequestBody = new OpenApiRequestBody
-            {
-                Content = { ["application/json"] = new OpenApiMediaType { Schema = _SwaggerQueryParameter.Schema } }
-            };
+            operation.RequestBody = new OpenApiRequestBody { Content = { ["application/json"] = new OpenApiMediaType { Schema = _SwaggerQueryParameter.Schema } } };
         }
 
         #endregion IOperationFilter Implementation

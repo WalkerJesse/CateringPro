@@ -1,13 +1,15 @@
 using AutoMapper;
-using CateringPro.Application.Infrastructure;
-using CateringPro.Application.Services;
+using CateringPro.Application.Infrastructure.Authorisation;
+using CateringPro.Application.Infrastructure.Validation;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Persistence.Persistence;
+using CateringPro.WebApi.Infrastructure.Authentication;
 using CateringPro.WebApi.Infrastructure.Configuration;
 using CateringPro.WebApi.Infrastructure.ModelBinding;
-using CateringPro.WebApi.Services;
 using CateringPro.WebApi.Services.Swagger;
-using FluentValidation;
+using CleanArchitecture.Mediator.Authentication;
+using CleanArchitecture.Mediator.DependencyInjection;
+using CleanArchitecture.Mediator.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
@@ -28,9 +30,7 @@ namespace CateringPro.WebApi
         #region - - - - - - Constructors - - - - - -
 
         public Startup(IConfiguration configuration)
-        {
-            this.Configuration = configuration;
-        }
+            => this.Configuration = configuration;
 
         #endregion Constructors
 
@@ -46,14 +46,14 @@ namespace CateringPro.WebApi
         {
             this.ConfigureAppContextSettings(services);
 
-            //services.AddAuthenticationServices();
             services.AddApiControllers();
-            services.AddApplicationServices();
+            //services.AddApplicationServices();
+            services.AddAuthenticationServices();
             services.AddAutoMapperService();
+            services.AddCleanArchitectureServices();
             services.AddCors();
-            services.AddFrameworkServices();
+            services.AdInterfaceAdaptersServices();
             services.AddPersistenceContext(this.Configuration);
-            services.AddValidationBehaviourServices();
             services.AddSwaggerServices();
         }
 
@@ -99,20 +99,7 @@ namespace CateringPro.WebApi
     internal static class IServiceCollectionExtensions
     {
 
-        //public static void AddAuthenticationServices(this IServiceCollection services)
-        //{
-        //    services.AddAuthentication(options =>
-        //    {
-        //        options.DefaultAuthenticateScheme = "Basic";
-        //        options.DefaultChallengeScheme = "Basic";
-        //    })
-        //    .AddScheme<BasicAuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", opts => { });
-
-        //    services.AddScoped<IAuthorisationHeaderParser, AuthorisationHeaderParser>();
-        //    services.AddScoped<IAuthorisationHeaderProvider, AuthorisationHeaderProvider>();
-        //}
-
-        #region - - - - - - IServiceCollectionExtension Methods - - - - - -
+        #region - - - - - - Methods - - - - - -
 
         public static void AddApiControllers(this IServiceCollection services)
             => services.AddControllers(options =>
@@ -127,46 +114,56 @@ namespace CateringPro.WebApi
 
         public static void AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IUseCaseInvoker, UseCaseInvoker>();
+        }
 
-            services.Scan(s => s.FromAssemblies(GetAssemblies())
-                    .AddClasses(classes => classes.AssignableTo(typeof(IBusinessRuleValidator<>)))
-                    .AsImplementedInterfaces()
-                    .WithScopedLifetime());
+        public static void AddAuthenticationServices(this IServiceCollection services)
+        {
+            services.AddScoped<IAuthenticatedClaimsPrincipalProvider, AuthenticatedClaimsPrincipalProvider>();
+            services.AddHttpContextAccessor();
 
-            services.Scan(s => s.FromAssemblies(GetAssemblies())
-                    .AddClasses(classes => classes.AssignableTo(typeof(IUseCaseInteractor<,>)))
-                    .AsImplementedInterfaces()
-                    .WithScopedLifetime());
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = "Basic";
+            //    options.DefaultChallengeScheme = "Basic";
+            //})
+            //.AddScheme<BasicAuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", opts => { });
 
-            services.Scan(s => s.FromAssemblies(GetAssemblies())
-                    .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-                    .AsImplementedInterfaces()
-                    .WithScopedLifetime());
+            //services.AddScoped<IAuthorisationHeaderParser, AuthorisationHeaderParser>();
+            //services.AddScoped<IAuthorisationHeaderProvider, AuthorisationHeaderProvider>();
         }
 
         public static void AddAutoMapperService(this IServiceCollection services)
             => services.AddAutoMapper(GetAssemblies());
 
-        public static void AddFrameworkServices(this IServiceCollection services)
-            => services.AddScoped<ControllerAction>();
+        public static void AddCleanArchitectureServices(this IServiceCollection services)
+        {
+            CleanArchitectureMediator.Register(opts =>
+                  _ = opts.ConfigurePipeline(pipeline =>
+                              pipeline.AddAuthentication()
+                                  .AddAuthorisation<AuthorisationResult>()
+                                  .AddBusinessRuleValidation<CleanValidationResult>()
+                                  .AddInputPortValidation<CleanValidationResult>()
+                                  .AddInteractorInvocation())
+                          .ScanAssemblies(Assembly.GetExecutingAssembly(), GetAssemblies())
+                          .SetRegistrationAction((serviceType, implementationType) =>
+                              _ = services.AddScoped(serviceType, implementationType))
+                          .Validate());
+
+            services.AddScoped<UseCaseServiceResolver>(serviceProvider => serviceProvider.GetService);
+        }
+
+        public static void AdInterfaceAdaptersServices(this IServiceCollection services)
+            => _ = services.Scan(s => s.FromAssemblies(InterfaceAdapters.AssemblyUtility.GetAssembly())
+                                        .AddClasses(c => c.Where(type => type.Name.EndsWith("Controller")))
+                                        .AsSelf()
+                                        .WithScopedLifetime());
 
         public static void AddPersistenceContext(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddDbContext<IPersistenceContext, PersistenceContext>(options =>
-            {
-                var _DataStorageOptions = configuration.GetSection("DataStorageSettings").Get<DataStorageOptions>();
-                options.UseSqlite(_DataStorageOptions.DatabaseConnectionString);
-            });
-        }
-
-        public static void AddValidationBehaviourServices(this IServiceCollection services)
-        {
-            services.Scan(s => s.FromAssemblies(GetAssemblies())
-                    .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
-                    .AsImplementedInterfaces()
-                    .WithTransientLifetime());
-        }
+            => services.AddDbContext<IPersistenceContext, PersistenceContext>(options =>
+                {
+                    var _DataStorageOptions = configuration.GetSection("DataStorageSettings").Get<DataStorageOptions>();
+                    options.UseSqlite(_DataStorageOptions.DatabaseConnectionString);
+                });
 
         public static void AddSwaggerServices(this IServiceCollection services)
         {
@@ -178,10 +175,9 @@ namespace CateringPro.WebApi
         }
 
         private static Assembly[] GetAssemblies()
-            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), CateringPro.Persistence.AssemblyUtility.GetAssembly() };
+            => new[] { Assembly.GetExecutingAssembly(), Application.Infrastructure.AssemblyUtility.GetAssembly(), Persistence.AssemblyUtility.GetAssembly() };
 
-
-        #endregion IServiceCollectionExtension Methods
+        #endregion Methods
 
     }
 

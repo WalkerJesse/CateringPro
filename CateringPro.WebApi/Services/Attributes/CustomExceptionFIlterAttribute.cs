@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CateringPro.Domain.Exceptions;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -40,7 +39,6 @@ namespace CateringPro.WebApi.Services.Attributes
                 case AggregateException agge: this.HandleAggregateException(agge, context); return;
                 case AutoMapperMappingException amme: this.HandleAutoMapperMappingException(amme, context); return;
                 case InvalidEnumException iee: this.HandleInvalidEnumException(iee, context); return;
-                case ValidationException ve: this.HandleValidationException(ve, context); return;
                 default: this.HandleUncaughtException(context); return;
             }
         }
@@ -75,9 +73,6 @@ namespace CateringPro.WebApi.Services.Attributes
 
             SetResponseAsJsonContentReturn(_Error, HttpStatusCode.InternalServerError, context);
         }
-
-        private void HandleValidationException(ValidationException validationException, ExceptionContext context)
-            => SetResponseAsJsonContentReturn(this.m_Mapper.Map<ValidationProblemDetails>(validationException), HttpStatusCode.BadRequest, context);
 
         #endregion Exception Handlers
 

@@ -8,13 +8,13 @@ namespace CateringPro.Application.Services.Persistence
     public interface IPersistenceContext
     {
 
-        Task AddAsync<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class;
+        void Add<TEntity>(TEntity entity) where TEntity : class;
 
-        Task<TEntity> FindAsync<TEntity>(object[] keyValues, CancellationToken cancellationToken) where TEntity : class;
+        TEntity Find<TEntity>(object[] keyValues) where TEntity : class;
 
-        Task<IQueryable<TEntity>> GetEntitiesAsync<TEntity>() where TEntity : class;
+        IQueryable<TEntity> GetEntities<TEntity>() where TEntity : class;
 
-        Task RemoveAsync<TEntity>(TEntity entity) where TEntity : class;
+        void Remove<TEntity>(TEntity entity) where TEntity : class;
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

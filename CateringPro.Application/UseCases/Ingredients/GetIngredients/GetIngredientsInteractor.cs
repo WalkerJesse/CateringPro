@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Services;
+using AutoMapper.QueryableExtensions;
+using CateringPro.Application.Dtos;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Domain.Entities;
+using CleanArchitecture.Mediator;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 {
 
-    public class GetIngredientsInteractor : IUseCaseInteractor<GetIngredientsRequest, GetIngredientsResponse>
+    public class GetIngredientsInteractor : IUseCaseInteractor<GetIngredientsInputPort, IGetIngredientsOutputPort>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -32,12 +33,12 @@ namespace CateringPro.Application.UseCases.Ingredients.GetIngredients
 
         #region - - - - - - IUseCaseInteractor Implementation - - - - - -
 
-        public async Task HandleAsync(GetIngredientsRequest request, IPresenter<GetIngredientsResponse> presenter, CancellationToken cancellationToken)
-        {
-            var _Ingredients = await this.m_PersistenceContext.GetEntitiesAsync<Ingredient>();
-
-            await presenter.PresentAsync(this.m_Mapper.Map<GetIngredientsResponse>(this.m_Mapper.Map<List<IngredientDto>>(_Ingredients)), cancellationToken);
-        }
+        public Task HandleAsync(GetIngredientsInputPort inputPort, IGetIngredientsOutputPort outputPort, CancellationToken cancellationToken)
+            => outputPort.PresentIngredientsAsync(
+                this.m_PersistenceContext
+                    .GetEntities<Ingredient>()
+                    .ProjectTo<IngredientDto>(this.m_Mapper.ConfigurationProvider),
+                cancellationToken);
 
         #endregion IUseCaseInteractor Implementation
 

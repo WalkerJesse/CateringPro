@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Services;
+using CateringPro.Application.Dtos;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Domain.Entities;
+using CleanArchitecture.Mediator;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 {
 
-    public class DeleteIngredientInteractor : IUseCaseInteractor<DeleteIngredientRequest, DeleteIngredientResponse>
+    public class DeleteIngredientInteractor : IUseCaseInteractor<DeleteIngredientInputPort, IDeleteIngredientOutputPort>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -31,17 +32,16 @@ namespace CateringPro.Application.UseCases.Ingredients.DeleteIngredient
 
         #region - - - - - - IUseCaseInteractor Implementation - - - - - -
 
-        public async Task HandleAsync(DeleteIngredientRequest request, IPresenter<DeleteIngredientResponse> presenter, CancellationToken cancellationToken)
+        public Task HandleAsync(DeleteIngredientInputPort inputPort, IDeleteIngredientOutputPort outputPort, CancellationToken cancellationToken)
         {
-            var _Ingredient = await this.m_PersistenceContext.FindAsync<Ingredient>(new object[] { request.ID }, cancellationToken);
+            var _Ingredient = this.m_PersistenceContext.Find<Ingredient>(new object[] { inputPort.IngredientID });
 
             if (_Ingredient == null)
-                await presenter.PresentNotFoundAsync(EntityRequest.GetEntityRequest(nameof(request.ID), request.ID), cancellationToken);
-            else
-            {
-                await this.m_PersistenceContext.RemoveAsync(_Ingredient);
-                await presenter.PresentAsync(this.m_Mapper.Map<DeleteIngredientResponse>(_Ingredient), cancellationToken);
-            }
+                return outputPort.PresentIngredientNotFound(inputPort.IngredientID, cancellationToken);
+
+            this.m_PersistenceContext.Remove(_Ingredient);
+
+            return outputPort.PresentDeletedIngredientAsync(this.m_Mapper.Map<IngredientDto>(_Ingredient), cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation

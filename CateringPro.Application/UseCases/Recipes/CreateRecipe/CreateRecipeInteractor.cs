@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using CateringPro.Application.Services;
 using CateringPro.Application.Services.Persistence;
 using CateringPro.Domain.Entities;
+using CleanArchitecture.Mediator;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
 {
 
-    public class CreateRecipeInteractor : IUseCaseInteractor<CreateRecipeRequest, CreateRecipeResponse>
+    public class CreateRecipeInteractor : IUseCaseInteractor<CreateRecipeInputPort, ICreateRecipeOutputPort>
     {
 
         #region - - - - - - Fields - - - - - -
@@ -31,13 +31,13 @@ namespace CateringPro.Application.UseCases.Recipes.CreateRecipe
 
         #region - - - - - - IUseCaseInteractor Implementation - - - - - -
 
-        public async Task HandleAsync(CreateRecipeRequest request, IPresenter<CreateRecipeResponse> presenter, CancellationToken cancellationToken)
+        public Task HandleAsync(CreateRecipeInputPort inputPort, ICreateRecipeOutputPort outputPort, CancellationToken cancellationToken)
         {
-            var _Recipe = this.m_Mapper.Map<Recipe>(request);
+            var _Recipe = this.m_Mapper.Map<Recipe>(inputPort);
 
-            await this.m_PersistenceContext.AddAsync(_Recipe, cancellationToken);
+            this.m_PersistenceContext.Add(_Recipe);
 
-            await presenter.PresentAsync(this.m_Mapper.Map<CreateRecipeResponse>(_Recipe), cancellationToken);
+            return outputPort.PresentRecipeAsync(this.m_Mapper.Map<CreatedRecipeDto>(_Recipe), cancellationToken);
         }
 
         #endregion IUseCaseInteractor Implementation
