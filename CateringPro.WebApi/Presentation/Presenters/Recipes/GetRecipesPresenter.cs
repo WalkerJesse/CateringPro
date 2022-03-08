@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CateringPro.Application.Dtos;
 using CateringPro.Application.UseCases.Recipes.GetRecipes;
 using CateringPro.WebApi.Presentation.ViewModels.Recipes;
@@ -27,8 +28,8 @@ namespace CateringPro.WebApi.Presentation.Presenters.Recipes
 
         #region - - - - - - Methods - - - - - -
 
-        public Task PresentRecipesAsync(IQueryable<RecipeDto> Recipes, CancellationToken cancellationToken)
-            => this.OkAsync(this.m_Mapper.ProjectTo<RecipeViewModel>(Recipes));
+        public Task PresentRecipesAsync(IQueryable<RecipeDto> recipes, CancellationToken cancellationToken)
+            => this.OkAsync(recipes.ProjectTo<RecipeViewModel>(this.m_Mapper.ConfigurationProvider));
 
         #endregion Methods
 

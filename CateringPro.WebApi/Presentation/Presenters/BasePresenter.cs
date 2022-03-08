@@ -73,7 +73,7 @@ namespace CateringPro.WebApi.Presentation.Presenters
             this.Result = new NotFoundObjectResult(new ProblemDetails()
             {
                 Detail = $"'{EntityName}' with the ID '{entityID}' was not found.",
-                Status = (int)HttpStatusCode.BadRequest,
+                Status = (int)HttpStatusCode.NotFound,
                 Title = "Entity was not found.",
                 Type = "https://httpstatuses.com/400"
             });
