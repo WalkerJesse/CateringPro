@@ -64,7 +64,6 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.DeleteIngredie
 
             // Assert
             _Actual.Should().BeEquivalentTo(_Expected);
-
         }
 
         #endregion ValidateAsync Tests
