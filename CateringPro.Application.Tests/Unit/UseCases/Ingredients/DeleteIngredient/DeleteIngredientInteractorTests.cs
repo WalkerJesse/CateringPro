@@ -60,7 +60,7 @@ namespace CateringPro.Application.Tests.Unit.UseCases.Ingredients.DeleteIngredie
         }
 
         [Fact]
-        public async Task HandleAsync_IngredientExists_PresentsDeletedIngredientID()
+        public async Task HandleAsync_IngredientExists_PresentsDeletedIngredient()
         {
             // Arrange
 

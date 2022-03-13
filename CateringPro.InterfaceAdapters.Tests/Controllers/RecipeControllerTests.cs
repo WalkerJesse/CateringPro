@@ -1,4 +1,5 @@
 ﻿using CateringPro.Application.UseCases.Recipes.CreateRecipe;
+using CateringPro.Application.UseCases.Recipes.DeleteRecipe;
 using CateringPro.Application.UseCases.Recipes.GetRecipes;
 using CateringPro.InterfaceAdapters.Controllers;
 using CleanArchitecture.Mediator;
@@ -43,6 +44,24 @@ namespace CateringPro.InterfaceAdapters.Tests.Controllers
         }
 
         #endregion CreateRecipeAsync Tests
+
+        #region - - - - - - DeleteRecipeAsync Tests - - - - - -
+
+        [Fact]
+        public void DeleteRecipeAsync_ValidInputPort_InvokesUseCaseWithInputPortAndOutPutPort()
+        {
+            // Arrange
+            var _InputPort = new DeleteRecipeInputPort();
+            var _OutputPort = new Mock<IDeleteRecipeOutputPort>().Object;
+
+            // Act
+            this.m_Controller.DeleteRecipeAsync(_InputPort, _OutputPort, default);
+
+            // Assert
+            this.m_MockUseCaseInvoker.Verify(mock => mock.InvokeUseCaseAsync(_InputPort, _OutputPort, default));
+        }
+
+        #endregion DeleteRecipeAsync Tests
 
         #region - - - - - - GetRecipesAsync Tests - - - - - -
 
